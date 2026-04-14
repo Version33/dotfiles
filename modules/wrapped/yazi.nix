@@ -38,8 +38,10 @@ in
     };
 
   flake.modules.nixos.wrapped-yazi =
-    { pkgs, ... }:
+    { self, pkgs, ... }:
     {
-      environment.systemPackages = [ (mkYazi pkgs) ];
+      environment.systemPackages = [
+        self.packages.${pkgs.stdenv.hostPlatform.system}.yazi
+      ];
     };
 }
