@@ -3,6 +3,14 @@ let
   mkYazi =
     pkgs:
     pkgs.yazi.override {
+      settings.theme = builtins.fromTOML (
+        builtins.readFile (
+          builtins.fetchurl {
+            url = "https://raw.githubusercontent.com/catppuccin/yazi/main/themes/mocha/catppuccin-mocha-blue.toml";
+            sha256 = "1xh5dz9ign99nsw6q7b32j4ql8d90lyyxz9420nh0bw13fb49184";
+          }
+        )
+      );
       plugins = {
         # grappas/wl-clipboard.yazi — copy files to system clipboard via wl-copy
         "wl-clipboard" = pkgs.yaziPlugins.wl-clipboard;
