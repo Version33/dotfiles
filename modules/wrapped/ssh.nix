@@ -51,12 +51,4 @@
       };
     };
 
-  flake.modules.nixos.wrapped-ssh =
-    { self, pkgs, ... }:
-    {
-      environment.systemPackages = [
-        self.packages.${pkgs.stdenv.hostPlatform.system}.ssh
-      ];
-    };
-
 }

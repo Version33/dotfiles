@@ -47,11 +47,4 @@
       };
     };
 
-  flake.modules.nixos.wrapped-opencode =
-    { pkgs, ... }:
-    {
-      environment.systemPackages = [
-        inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.opencode
-      ];
-    };
 }

@@ -7,9 +7,28 @@
         font_family = "JetBrainsMono Nerd Font Mono";
         font_size = 13;
 
+        enable_audio_bell = "no";
+        cursor_text_color = "background";
+        cursor_trail = 3;
+
         allow_remote_control = "yes";
         listen_on = "unix:@mykitty";
         shell_integration = "enabled";
+
+        map = [
+          "alt+1 goto_tab 1"
+          "alt+2 goto_tab 2"
+          "alt+3 goto_tab 3"
+          "alt+4 goto_tab 4"
+          "alt+5 goto_tab 5"
+          "alt+6 goto_tab 6"
+          "alt+7 goto_tab 7"
+          "alt+8 goto_tab 8"
+          "alt+9 goto_tab 9"
+          "ctrl+shift+w close_tab"
+          "ctrl+t new_tab_with_cwd"
+          "ctrl+shift+t new_tab"
+        ];
       };
 
       kittyKeyValueFormat = pkgs.formats.keyValue {
@@ -21,7 +40,12 @@
 
       configFile = pkgs.writeText "kitty.conf" ''
         ${builtins.readFile baseConfig}
-        include ${pkgs.kitty-themes}/share/kitty-themes/themes/Catppuccin-Mocha.conf
+        include ${
+          builtins.fetchurl {
+            url = "https://raw.githubusercontent.com/catppuccin/kitty/main/themes/mocha.conf";
+            sha256 = "1kgr1vi9n083w3xw8ndwqkh03w74ma0ajg5m6pzy9fj2smycjski";
+          }
+        }
       '';
     in
     {
@@ -32,14 +56,6 @@
           "-c" = toString configFile;
         };
       };
-    };
-
-  flake.modules.nixos.wrapped-kitty =
-    { self, pkgs, ... }:
-    {
-      environment.systemPackages = [
-        self.packages.${pkgs.stdenv.hostPlatform.system}.kitty
-      ];
     };
 
 }
