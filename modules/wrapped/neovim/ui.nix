@@ -125,51 +125,49 @@
             enabled = true;
             preset = {
               header = ''
-                 ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
-                 ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
-                ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
-                ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
-                 ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
-                 ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝'';
+                _  _ ___ _____   _____ __  __
+                | \| | __/ _ \ \ / /_ _|  \/  |
+                | .` | _| (_) \ V / | || |\/| |
+                |_|\_|___\___/ \_/ |___|_|  |_|'';
               keys = [
                 {
-                  icon = " ";
+                  icon = " ";
                   key = "f";
                   desc = "Find File";
                   action = ":lua require('fzf-lua').files()";
                 }
                 {
-                  icon = " ";
+                  icon = " ";
                   key = "n";
                   desc = "New File";
                   action = ":ene | startinsert";
                 }
                 {
-                  icon = " ";
+                  icon = " ";
                   key = "g";
                   desc = "Find Text";
                   action = ":lua require('fzf-lua').live_grep()";
                 }
                 {
-                  icon = " ";
+                  icon = " ";
                   key = "r";
                   desc = "Recent Files";
                   action = ":lua require('fzf-lua').oldfiles()";
                 }
                 {
-                  icon = " ";
+                  icon = " ";
                   key = "c";
                   desc = "Config";
                   action = ":lua require('fzf-lua').files({ cwd = vim.fn.stdpath('config') })";
                 }
                 {
-                  icon = " ";
+                  icon = "󰦛 ";
                   key = "s";
                   desc = "Restore Session";
                   action = ":lua require('persistence').load()";
                 }
                 {
-                  icon = "󰒲 ";
+                  icon = "󰈆 ";
                   key = "q";
                   desc = "Quit";
                   action = ":qa";
