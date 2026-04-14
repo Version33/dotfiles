@@ -59,10 +59,10 @@
       };
     };
 
-  flake.modules.nixos.meridian =
+  flake.modules.nixos.meridian = # todo: move to ../services/
     { pkgs, ... }:
     let
-      meridian = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.meridian;
+      inherit (inputs.self.packages.${pkgs.stdenv.hostPlatform.system}) meridian;
     in
     {
       environment.systemPackages = [ pkgs.claude-code ];
