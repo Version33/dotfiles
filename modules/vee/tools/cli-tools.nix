@@ -29,7 +29,6 @@
           lsof
 
           # terminal
-          tmux
           moreutils
 
           # info
@@ -42,6 +41,7 @@
           opencode
           ssh
           btop
+          tmux
         ]);
     };
 }
