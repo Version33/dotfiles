@@ -5,11 +5,11 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  # Standalone: nix run .#wrapped-neovim
+  # Standalone: nix run .#neovim
   perSystem =
     { pkgs, ... }:
     {
-      packages.wrapped-neovim =
+      packages.neovim =
         (inputs.nvf.lib.neovimConfiguration {
           inherit pkgs;
           modules = builtins.attrValues self.modules.neovim;
@@ -17,11 +17,11 @@
     };
 
   # System: auto-imported via flake.modules.nixos
-  flake.modules.nixos.wrapped-neovim =
+  flake.modules.nixos.neovim =
     { self, pkgs, ... }:
     {
       environment.systemPackages = [
-        self.packages.${pkgs.stdenv.hostPlatform.system}.wrapped-neovim
+        self.packages.${pkgs.stdenv.hostPlatform.system}.neovim
       ];
     };
 }
