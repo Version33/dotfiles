@@ -24,8 +24,6 @@
           tre-command
 
           # system monitoring
-          htop
-          btop
           procs
           progress
           lsof
@@ -43,6 +41,7 @@
           yazi
           opencode
           ssh
+          btop
         ]);
     };
 }
