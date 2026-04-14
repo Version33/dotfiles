@@ -7,7 +7,6 @@
         # file management
         p7zip
         ouch
-        yazi
 
         # search & navigation
         fzf
