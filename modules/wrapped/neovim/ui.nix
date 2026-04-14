@@ -116,6 +116,9 @@
           picker = {
             enabled = false;
           }; # using fzf-lua
+          explorer = {
+            enabled = true;
+          };
 
           # Dashboard — explicit sections to avoid lazy.stats reference
           dashboard = {

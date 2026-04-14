@@ -1116,48 +1116,38 @@
         desc = "Todo";
       }
 
-      # ── Neo-tree ──────────────────────────────────────────────────────
-      {
-        key = "<leader>e";
-        mode = "n";
-        action = "<cmd>Neotree toggle<cr>";
-        silent = true;
-        desc = "Explorer (Root Dir)";
-      }
-      {
-        key = "<leader>E";
-        mode = "n";
-        action = "<cmd>Neotree toggle dir=%:p:h<cr>";
-        silent = true;
-        desc = "Explorer (cwd)";
-      }
+      # ── Snacks Explorer ───────────────────────────────────────────────
       {
         key = "<leader>fe";
         mode = "n";
-        action = "<cmd>Neotree toggle<cr>";
+        lua = true;
+        action = "function() Snacks.explorer({ cwd = Snacks.git.get_root() or vim.fn.getcwd() }) end";
         silent = true;
-        desc = "Explorer (Root Dir)";
+        desc = "Explorer Snacks (root dir)";
       }
       {
         key = "<leader>fE";
         mode = "n";
-        action = "<cmd>Neotree toggle dir=%:p:h<cr>";
+        lua = true;
+        action = "function() Snacks.explorer() end";
         silent = true;
-        desc = "Explorer (cwd)";
+        desc = "Explorer Snacks (cwd)";
       }
       {
-        key = "<leader>ge";
+        key = "<leader>e";
         mode = "n";
-        action = "<cmd>Neotree float git_status<cr>";
+        lua = true;
+        action = "function() Snacks.explorer({ cwd = Snacks.git.get_root() or vim.fn.getcwd() }) end";
         silent = true;
-        desc = "Git Explorer";
+        desc = "Explorer Snacks (root dir)";
       }
       {
-        key = "<leader>be";
+        key = "<leader>E";
         mode = "n";
-        action = "<cmd>Neotree float buffers<cr>";
+        lua = true;
+        action = "function() Snacks.explorer() end";
         silent = true;
-        desc = "Buffer Explorer";
+        desc = "Explorer Snacks (cwd)";
       }
 
       # ── Session (persistence.nvim) ────────────────────────────────────
