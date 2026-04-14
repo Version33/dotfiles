@@ -1,5 +1,5 @@
-{ inputs, ... }:
 {
+
   flake-file.inputs.opencode-nix = {
     url = "github:dan-online/opencode-nix";
   };

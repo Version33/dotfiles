@@ -5,14 +5,7 @@
     {
       config.vim.extraPlugins.persistence-nvim = {
         package = pkgs.vimPlugins.persistence-nvim;
-        setup = ''
-          require("persistence").setup({
-            dir = vim.fn.stdpath("state") .. "/sessions/",
-            options = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" },
-            pre_save = nil,
-            save_empty = false,
-          })
-        '';
+        setup = builtins.readFile ./lua/persistence.lua;
       };
     };
 }

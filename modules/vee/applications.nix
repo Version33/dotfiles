@@ -1,4 +1,5 @@
 {
+
   flake.modules.nixos.applications =
     { self, pkgs, ... }:
     {
@@ -33,4 +34,5 @@
 
       nixpkgs.config.allowUnfree = true;
     };
+
 }

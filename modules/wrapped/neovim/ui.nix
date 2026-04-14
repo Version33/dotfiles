@@ -1,4 +1,5 @@
 {
+
   flake.modules.neovim.ui = {
     config.vim = {
       # LazyVim: nvim-mini/mini.icons
@@ -188,4 +189,5 @@
       };
     };
   };
+
 }
