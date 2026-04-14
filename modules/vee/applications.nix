@@ -1,8 +1,11 @@
 {
   flake.modules.nixos.applications =
-    { pkgs, ... }:
+    { self, pkgs, ... }:
     {
-      environment.systemPackages = with pkgs; [
+      environment.systemPackages = [
+        self.packages.${pkgs.stdenv.hostPlatform.system}.kitty
+      ]
+      ++ (with pkgs; [
         # gaming & entertainment
         osu-lazer-bin
         tidal-hifi
@@ -26,7 +29,7 @@
 
         # audio
         lsp-plugins
-      ];
+      ]);
 
       nixpkgs.config.allowUnfree = true;
     };

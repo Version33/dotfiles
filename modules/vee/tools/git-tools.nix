@@ -1,16 +1,20 @@
 {
   flake.modules.nixos.git-tools =
-    { pkgs, ... }:
+    { self, pkgs, ... }:
     {
       # Git ecosystem tools
-      environment.systemPackages = with pkgs; [
-        lazygit
-        delta
-        gh
-        bat
-        git-ignore
-        gitleaks
-        git-secrets
-      ];
+      environment.systemPackages =
+        (with pkgs; [
+          delta
+          gh
+          bat
+          git-ignore
+          gitleaks
+          git-secrets
+        ])
+        ++ (with self.packages.${pkgs.stdenv.hostPlatform.system}; [
+          git
+          lazygit
+        ]);
     };
 }

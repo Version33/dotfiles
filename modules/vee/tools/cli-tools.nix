@@ -1,42 +1,48 @@
 {
   flake.modules.nixos.cli-tools =
-    { pkgs, ... }:
+    { self, pkgs, ... }:
     {
       # Essential CLI utilities for everyday use
-      environment.systemPackages = with pkgs; [
-        # file management
-        p7zip
-        ouch
+      environment.systemPackages =
+        (with pkgs; [
+          # file management
+          p7zip
+          ouch
 
-        # search & navigation
-        fzf
-        skim
-        zoxide
-        fd
-        ripgrep
+          # search & navigation
+          fzf
+          skim
+          zoxide
+          fd
+          ripgrep
 
-        # file operations
-        eza
-        dust
-        duf
-        ncdu
-        tre-command
+          # file operations
+          eza
+          dust
+          duf
+          ncdu
+          tre-command
 
-        # system monitoring
-        htop
-        btop
-        procs
-        progress
-        lsof
+          # system monitoring
+          htop
+          btop
+          procs
+          progress
+          lsof
 
-        # terminal
-        tmux
-        moreutils
+          # terminal
+          tmux
+          moreutils
 
-        # info
-        tealdeer
-        macchina
-        tokei
-      ];
+          # info
+          tealdeer
+          macchina
+          tokei
+        ])
+        ++ (with self.packages.${pkgs.stdenv.hostPlatform.system}; [
+          yazi
+          opencode
+          ssh
+        ]);
     };
 }
