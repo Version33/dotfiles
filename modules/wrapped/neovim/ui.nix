@@ -131,7 +131,7 @@
                 |_|\_|___\___/ \_/ |___|_|  |_|'';
               keys = [
                 {
-                  icon = " ";
+                  icon = " ";
                   key = "f";
                   desc = "Find File";
                   action = ":lua require('fzf-lua').files()";
@@ -155,7 +155,7 @@
                   action = ":lua require('fzf-lua').oldfiles()";
                 }
                 {
-                  icon = " ";
+                  icon = " ";
                   key = "c";
                   desc = "Config";
                   action = ":lua require('fzf-lua').files({ cwd = vim.fn.stdpath('config') })";
@@ -167,7 +167,7 @@
                   action = ":lua require('persistence').load()";
                 }
                 {
-                  icon = "󰈆 ";
+                  icon = " ";
                   key = "q";
                   desc = "Quit";
                   action = ":qa";
