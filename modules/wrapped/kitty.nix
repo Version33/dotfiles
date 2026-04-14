@@ -5,7 +5,7 @@
     let
       settings = {
         font_family = "JetBrainsMono Nerd Font Mono";
-        font_size = 13;
+        font_size = 11;
 
         enable_audio_bell = "no";
         cursor_text_color = "background";
