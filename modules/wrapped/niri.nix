@@ -79,12 +79,12 @@
             "Mod+C".center-column = _: { };
 
             # Focus movement
-            "Mod+Left".focus-column-left = _: { };
-            "Mod+Right".focus-column-right = _: { };
+            "Mod+Left".focus-column-or-monitor-left = _: { };
+            "Mod+Right".focus-column-or-monitor-right = _: { };
             "Mod+Up".focus-window-up = _: { };
             "Mod+Down".focus-window-down = _: { };
-            "Mod+H".focus-column-left = _: { };
-            "Mod+L".focus-column-right = _: { };
+            "Mod+H".focus-column-or-monitor-left = _: { };
+            "Mod+L".focus-column-or-monitor-right = _: { };
             "Mod+K".focus-window-up = _: { };
             "Mod+J".focus-window-down = _: { };
 
@@ -107,6 +107,17 @@
             "Mod+Shift+Equal".set-window-height = "+10%";
 
             # Workspaces
+            "Mod+Ctrl+K".focus-workspace-up = _: { };
+            "Mod+Ctrl+J".focus-workspace-down = _: { };
+            "Mod+Ctrl+Shift+K".move-column-to-workspace-up = _: { };
+            "Mod+Ctrl+Shift+J".move-column-to-workspace-down = _: { };
+
+            # Monitors
+            "Mod+Ctrl+H".focus-monitor-left = _: { };
+            "Mod+Ctrl+L".focus-monitor-right = _: { };
+            "Mod+Ctrl+Shift+H".move-column-to-monitor-left = _: { };
+            "Mod+Ctrl+Shift+L".move-column-to-monitor-right = _: { };
+
             "Mod+1".focus-workspace = 1;
             "Mod+2".focus-workspace = 2;
             "Mod+3".focus-workspace = 3;
