@@ -1,4 +1,3 @@
-{ ... }:
 let
   mkYazi =
     pkgs:
@@ -11,11 +10,14 @@ let
           }
         )
       );
-      plugins = {
-        # grappas/wl-clipboard.yazi — copy files to system clipboard via wl-copy
-        "wl-clipboard" = pkgs.yaziPlugins.wl-clipboard;
+      plugins = with pkgs; {
+        "wl-clipboard" = yaziPlugins.wl-clipboard;
+        "starship" = yaziPlugins.starship;
+        "full-border" = yaziPlugins.full-border;
       };
       extraPackages = with pkgs; [
+        starship # fancy shell prompt
+        sox # spectrogram previews
         ffmpeg # video thumbnails
         _7zz # archive extraction and preview
         jq # JSON preview
