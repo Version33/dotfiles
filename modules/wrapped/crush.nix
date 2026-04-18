@@ -1,11 +1,21 @@
-{ pkgs, self, ... }:
+{
+  self,
+  inputs,
+  ...
+}:
 {
   # Charm's agentic coding tool - available via NUR (Nix User Repository)
   flake-file.inputs.nur.url = "github:nix-community/NUR";
 
-  perSystem = { pkgs, ... }: {
-    packages.crush = pkgs.nur.repos.charmbracelet.crush;
-  };
+  perSystem =
+    { pkgs, ... }:
+    {
+      packages.crush =
+        (import inputs.nur {
+          inherit pkgs;
+          nurpkgs = pkgs;
+        }).repos.charmbracelet.crush;
+    };
 
   flake.modules.nixos.crush =
     { pkgs, ... }:
@@ -25,8 +35,8 @@
                 {
                   id = "gemma-4-26b";
                   name = "Gemma 4 26B MoE (local)";
-                  context_window = 32768;
-                  default_max_tokens = 32768;
+                  context_window = 65536;
+                  default_max_tokens = 65536;
                   cost_per_1m_in = 0;
                   cost_per_1m_out = 0;
                   cost_per_1m_in_cached = 0;
