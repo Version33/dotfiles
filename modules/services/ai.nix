@@ -12,8 +12,6 @@ let
   #   OPENAI_BASE_URL=http://127.0.0.1:8000/v1
   port = 8000;
 
-  # Context window (tokens). 32K is a good default for coding; bump to 65536 if
-  # you need larger files in context and VRAM allows.
   ctxSize = 65536;
 in
 {
@@ -21,9 +19,6 @@ in
     { pkgs, ... }:
     {
       environment.systemPackages = [
-        # Built with Vulkan — recommended backend for RDNA 4 (RX 9070 XT).
-        # ROCm HIP has active hanging bugs on gfx1201 as of 2026; Vulkan also
-        # benchmarks faster (~62 tok/s vs ~48 tok/s on the same hardware).
         (pkgs.llama-cpp.override { vulkanSupport = true; })
       ];
 
