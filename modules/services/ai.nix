@@ -14,7 +14,7 @@ let
 
   # Context window (tokens). 32K is a good default for coding; bump to 65536 if
   # you need larger files in context and VRAM allows.
-  ctxSize = 32768;
+  ctxSize = 65536;
 in
 {
   flake.modules.nixos.ai-service =
