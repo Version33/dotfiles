@@ -8,4 +8,14 @@
     nixpkgs.overlays = [ inputs.nur.overlays.default ];
   };
 
+  # Configure perSystem pkgs (separate from NixOS module system pkgs)
+  perSystem =
+    { system, ... }:
+    {
+      _module.args.pkgs = import inputs.nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+    };
+
 }
