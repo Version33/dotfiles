@@ -35,10 +35,12 @@
           tealdeer
           macchina
           tokei
+
+          # subscription
+          claude-code
         ])
         ++ (with self.packages.${pkgs.stdenv.hostPlatform.system}; [
           yazi
-          opencode
           ssh
           btop
           tmux
