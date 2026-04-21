@@ -33,7 +33,7 @@
       # Write the provider config to ~/forge/.forge.toml
       systemd.user.tmpfiles.rules = [
         "d %h/forge 0755 - - -"
-        "L+ %h/forge/.forge.toml - - - - ${forgeConfig}"
+        "C %h/forge/.forge.toml 0644 - - - ${forgeConfig}"
       ];
     };
 }
