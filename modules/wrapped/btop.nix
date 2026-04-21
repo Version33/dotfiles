@@ -18,7 +18,7 @@
     {
       packages.btop = inputs.wrapper-modules.lib.wrapPackage {
         inherit pkgs;
-        package = pkgs.btop;
+        package = pkgs.btop-rocm;
         flags = {
           "--themes-dir" = toString themesDir;
           "-c" = toString configFile;
