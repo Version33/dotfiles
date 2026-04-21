@@ -6,8 +6,13 @@
   inputs = {
     flake-file.url = "github:vic/flake-file";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    forgecode = {
+      url = "github:tailcallhq/forgecode";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     import-tree.url = "github:vic/import-tree";
     lanzaboote.url = "github:nix-community/lanzaboote/v1.0.0";
+    meridian.url = "github:rynfar/meridian";
     nix-auto-follow.url = "github:fzakaria/nix-auto-follow";
     nixmate.url = "github:daskladas/nixmate";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";

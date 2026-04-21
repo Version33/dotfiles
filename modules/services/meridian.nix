@@ -1,25 +1,28 @@
 { inputs, ... }:
 {
+  flake-file.inputs.meridian.url = "github:rynfar/meridian";
 
   flake.modules.nixos.meridian-service =
     { pkgs, ... }:
     let
-      inherit (inputs.self.packages.${pkgs.stdenv.hostPlatform.system}) meridian;
+      meridian = inputs.meridian.packages.${pkgs.stdenv.hostPlatform.system}.meridian;
     in
     {
       environment.systemPackages = [ pkgs.claude-code ];
 
       systemd.user.services.meridian = {
-        description = "meridian Claude Max proxy";
+        description = "Meridian — local Anthropic API proxy";
+        wantedBy = [ "default.target" ];
         path = [
           pkgs.claude-code
           pkgs.which
         ];
         serviceConfig = {
+          Type = "simple";
           ExecStart = "${meridian}/bin/meridian";
           Restart = "on-failure";
+          RestartSec = 5;
         };
       };
     };
-
 }
