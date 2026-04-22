@@ -9,7 +9,7 @@
         # nerd-fonts._0xproto
         nerd-fonts.jetbrains-mono
         # nerd-font-patcher
-        noto-fonts-monochrome-emoji
+        # noto-fonts-monochrome-emoji
       ];
 
       # Set default fonts

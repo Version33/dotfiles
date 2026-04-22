@@ -7,6 +7,7 @@
   perSystem =
     { pkgs, ... }:
     let
+      starshipConf = ./starship.toml;
       fishConf =
         pkgs.writeText "config.fish" # fish
           ''
@@ -15,6 +16,7 @@
             fish_vi_key_bindings
 
             # starship prompt
+            set -gx STARSHIP_CONFIG ${starshipConf}
             ${lib.getExe pkgs.starship} init fish | source
 
             # direnv hook
