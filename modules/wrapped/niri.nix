@@ -24,7 +24,7 @@
           };
 
           input = {
-            keyboard.xkb.layout = "us,ua";
+            keyboard.xkb.layout = "us";
             mouse = {
               accel-profile = "flat";
             };
