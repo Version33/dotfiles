@@ -28,6 +28,10 @@
             ${lib.getExe pkgs.zoxide} init fish | source
 
             # aliases
+            alias ls "eza --icons=auto --color=auto --group-directories-first"
+            alias ll "eza -la --icons=auto --git --header --time-style=relative --group-directories-first"
+            alias la "eza -a --icons=auto --group-directories-first"
+            alias lt "eza --tree --icons=auto --level=2"
             alias v "nvim"
             alias oc "opencode"
             alias g "git"
