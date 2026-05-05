@@ -13,7 +13,7 @@
     { system, ... }:
     {
       _module.args.pkgs = import inputs.nixpkgs {
-        inherit system;
+        localSystem = system;
         config.allowUnfree = true;
       };
     };

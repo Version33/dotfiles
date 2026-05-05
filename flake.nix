@@ -7,7 +7,6 @@
     audio-nix.url = "github:polygon/audio.nix";
     flake-file.url = "github:vic/flake-file";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    forgecode.url = "github:tailcallhq/forgecode";
     import-tree.url = "github:vic/import-tree";
     lanzaboote.url = "github:nix-community/lanzaboote/v1.0.0";
     meridian.url = "github:rynfar/meridian";

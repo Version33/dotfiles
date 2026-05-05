@@ -16,7 +16,7 @@
         lua.enable = true;
         bash.enable = true;
 
-        ts.enable = true;
+        typescript.enable = true;
         css.enable = true;
         html.enable = true;
 
