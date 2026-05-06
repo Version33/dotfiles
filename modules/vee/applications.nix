@@ -12,6 +12,7 @@
         tidal-hifi
         prismlauncher
         obs-studio
+        synthesia
 
         # communication
         vesktop

@@ -25,9 +25,11 @@
             end
 
             # zoxide
+            fish_add_path ${pkgs.zoxide}/bin
             ${lib.getExe pkgs.zoxide} init fish | source
 
             # aliases
+            fish_add_path ${pkgs.eza}/bin
             alias ls "eza --icons=auto --color=auto --group-directories-first"
             alias ll "eza -la --icons=auto --git --header --time-style=relative --group-directories-first"
             alias la "eza -a --icons=auto --group-directories-first"
@@ -64,6 +66,7 @@
           extraPackages = [
             pkgs.starship
             pkgs.zoxide
+            pkgs.eza
           ];
           flags = {
             "-C" = "source ${fishConf}";
