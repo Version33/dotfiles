@@ -312,11 +312,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1778029193,
-        "narHash": "sha256-95B25vTCCGI8OCQKXFrUnGTD4abwSqFWq2CZ2q2qL3I=",
+        "lastModified": 1778089529,
+        "narHash": "sha256-pxEVE2JCqJTP7JKbja9UkCYScbi5XNsy8qb/bqP5OHc=",
         "owner": "rynfar",
         "repo": "meridian",
-        "rev": "d116e31d4eb5d9a9a614c8fb3c6325894103d477",
+        "rev": "0a7ec3a3668042b817e0af2904f41c2e5a55fbef",
         "type": "github"
       },
       "original": {
@@ -648,11 +648,11 @@
         "nixpkgs": "nixpkgs_7"
       },
       "locked": {
-        "lastModified": 1778035073,
-        "narHash": "sha256-kH9OrgkhWVOXnKnpKh3nA46m19YOv57EtF6RhyUJxWQ=",
+        "lastModified": 1778139261,
+        "narHash": "sha256-aUkaLgEAmcS11XeKZ/SudQVs92XFMZ02k3+7sEm758Q=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "41b64a84193dfcfdd49215385c1528ec36acfbef",
+        "rev": "4ac80e46b2e5be55c9ea694236f0cbd7b4109f3c",
         "type": "github"
       },
       "original": {
@@ -673,11 +673,11 @@
         "systems": "systems_3"
       },
       "locked": {
-        "lastModified": 1777963724,
-        "narHash": "sha256-DM3sF8ikMrqPGapSOpYYtwqfYMU/xDaP/UzmmdC0lgI=",
+        "lastModified": 1778049651,
+        "narHash": "sha256-EC5pBiLcP/EVmYWldJRNfkChCqF9rkeTnTs8t9Cs+ZY=",
         "owner": "NotAShelf",
         "repo": "nvf",
-        "rev": "5dc8f3a34cf46d98f6a0073368adc2746b854cf6",
+        "rev": "88dbbad1f44efe3d2c18903e2c7542452f7bdfd6",
         "type": "github"
       },
       "original": {
