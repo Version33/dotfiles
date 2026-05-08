@@ -12,6 +12,12 @@
         inherit pkgs;
         v2-settings = true;
         settings = {
+          environment = {
+            DISPLAY = ":0";
+            WAYLAND_DISPLAY = "wayland-1";
+            XCURSOR_PATH = "${pkgs.catppuccin-cursors.mochaDark}/share/icons";
+          };
+
           spawn-at-startup = [
             (lib.getExe self'.packages.myNoctalia)
           ];
