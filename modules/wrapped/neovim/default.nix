@@ -1,10 +1,5 @@
 { inputs, self, ... }:
 {
-  flake-file.inputs.nvf = {
-    url = "github:NotAShelf/nvf";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
-
   # Standalone: nix run .#neovim
   perSystem =
     { pkgs, ... }:

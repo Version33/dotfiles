@@ -15,10 +15,6 @@
         # If you want to use JACK applications, uncomment this
         jack.enable = true;
 
-        # use the example session manager (no others are packaged yet so this is enabled by default,
-        # no need to redefine it in your config for now)
-        # media-session.enable = true;
-
         # Low-latency configuration for gaming
         # This reduces audio stuttering in games like CS2
         # With a high-end CPU, we can use very low buffer sizes

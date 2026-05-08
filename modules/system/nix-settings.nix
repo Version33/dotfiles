@@ -60,8 +60,14 @@
     # ============================================================================
     # Garbage Collection
     # ============================================================================
-    # For automatic GC configuration, see modules/services/gc.nix (optional)
-    # That module configures nix.gc and nix.optimise settings
+    nix.gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 14d";
+    };
+
+    nix.optimise.automatic = true;
+    nix.optimise.dates = [ "03:45" ];
   };
 
 }

@@ -21,6 +21,24 @@
     flake-file.url = "github:vic/flake-file"; # Generates flake.nix from modules
     nix-auto-follow.url = "github:fzakaria/nix-auto-follow"; # Fixes input version duplications
     treefmt-nix.url = "github:numtide/treefmt-nix"; # Project-wide formatting (used by dev.nix)
+
+    # Security
+    lanzaboote.url = "github:nix-community/lanzaboote/v1.0.0"; # Secure Boot
+
+    # Desktop / WM
+    nur.url = "github:nix-community/NUR"; # NUR (crush, other packages)
+
+    # Development
+    nvf = {
+      url = "github:NotAShelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Tools
+    nixmate.url = "github:daskladas/nixmate"; # NixOS TUI manager
+
+    # Audio
+    audio-nix.url = "github:polygon/audio.nix"; # Bitwig Studio
   };
 
   # System architectures this flake supports

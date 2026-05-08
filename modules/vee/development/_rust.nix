@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   # Rust toolchain overlay (for optional rust.nix module)
   flake-file.inputs.rust-overlay.url = "github:oxalica/rust-overlay";

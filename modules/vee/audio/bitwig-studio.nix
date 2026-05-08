@@ -1,7 +1,5 @@
 { inputs, ... }:
 {
-  flake-file.inputs.audio-nix.url = "github:polygon/audio.nix";
-
   flake.modules.nixos.bitwig-studio =
     { pkgs, ... }:
     {

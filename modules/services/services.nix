@@ -45,7 +45,6 @@
         psmisc # Set of small useful utilities that use the proc filesystem (such as fuser, killall and pstree)
         grim # Grab images from a Wayland compositor.
         slurp # Select a region in a Wayland compositor.
-        imagemagick # Software suite to create, edit, compose, or convert bitmap images.
         swappy # Wayland native snapshot editing tool, inspired by Snappy on macOS.
         ffmpeg_6-full # Complete, cross-platform solution to record, convert and stream audio and video.
         wl-screenrec # High performance wlroots screen recording, featuring hardware encoding.
@@ -58,7 +57,6 @@
         dunst # Lightweight and customizable notification daemon.
         avizo # Neat notification daemon for Wayland.
         gifsicle # Command-line tool for creating, editing, and getting information about GIF images and animations.
-        hyprshot # Utility to easily take screenshots in Hyprland using your mouse.
       ];
     };
 

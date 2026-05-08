@@ -1,8 +1,6 @@
 { inputs, ... }:
 {
   # Secure boot support
-  flake-file.inputs.lanzaboote.url = "github:nix-community/lanzaboote/v1.0.0";
-
   flake.modules.nixos.secure-boot =
     { pkgs, lib, ... }:
     {

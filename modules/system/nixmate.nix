@@ -1,7 +1,5 @@
 { inputs, ... }:
 {
-  flake-file.inputs.nixmate.url = "github:daskladas/nixmate";
-
   flake.modules.nixos.nixmate =
     { pkgs, ... }:
     {
