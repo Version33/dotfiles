@@ -648,11 +648,11 @@
         "nixpkgs": "nixpkgs_7"
       },
       "locked": {
-        "lastModified": 1778139261,
-        "narHash": "sha256-aUkaLgEAmcS11XeKZ/SudQVs92XFMZ02k3+7sEm758Q=",
+        "lastModified": 1778198574,
+        "narHash": "sha256-oxgljjXptuwD2N7n1Z3/QDZFSZEvrKOyeYcxPUovEWI=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "4ac80e46b2e5be55c9ea694236f0cbd7b4109f3c",
+        "rev": "8186143506a9251e2fd46f8fa732ce62cf84e284",
         "type": "github"
       },
       "original": {
