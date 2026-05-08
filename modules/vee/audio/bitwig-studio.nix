@@ -6,7 +6,7 @@
     { pkgs, ... }:
     {
       environment.systemPackages = [
-        inputs.audio-nix.packages.${pkgs.system}.bitwig-studio6-latest
+        inputs.audio-nix.packages.${pkgs.stdenv.hostPlatform.system}.bitwig-studio6-latest
       ];
     };
 }
