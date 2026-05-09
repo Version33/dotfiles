@@ -120,6 +120,15 @@
           explorer = {
             enabled = true;
           };
+          scope = {
+            enabled = true;
+          };
+          scroll = {
+            enabled = true;
+          };
+          rename = {
+            enabled = true;
+          };
 
           # Dashboard — explicit sections to avoid lazy.stats reference
           dashboard = {

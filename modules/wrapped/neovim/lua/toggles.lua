@@ -1,4 +1,6 @@
--- UI toggles (Snacks.toggle)
+-- Runtime keymaps: Snacks toggles + utility keymaps that require
+-- runtime objects (Snacks.*, vim.lsp.*) and can't be expressed as
+-- static Nix keymap entries.
 Snacks.toggle.option("spell",          { name = "Spelling" }):map("<leader>us")
 Snacks.toggle.option("wrap",           { name = "Wrap" }):map("<leader>uw")
 Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
@@ -23,30 +25,33 @@ Snacks.toggle.scroll():map("<leader>uS")
 Snacks.toggle.zoom():map("<leader>wm"):map("<leader>uZ")
 Snacks.toggle.zen():map("<leader>uz")
 
--- Inlay hints toggle
+-- ── Inlay hints toggle ───────────────────────────────────────────
 if vim.lsp.inlay_hint then
   Snacks.toggle.inlay_hints():map("<leader>uh")
 end
 
--- Lazygit (only if installed)
-if vim.fn.executable("lazygit") == 1 then
-  vim.keymap.set("n", "<leader>gg", function() Snacks.lazygit() end,
-    { desc = "Lazygit", silent = true })
-  vim.keymap.set("n", "<leader>gG", function() Snacks.lazygit({ cwd = vim.uv.cwd() }) end,
-    { desc = "Lazygit (cwd)", silent = true })
-end
+-- ── Auto-format toggles ──────────────────────────────────────────
+Snacks.toggle.new({
+  name = "Auto Format",
+  get = function() return vim.g.autoformat end,
+  set = function(state) vim.g.autoformat = state end,
+}):map("<leader>uf")
 
--- Git browse / log via snacks
-vim.keymap.set("n", "<leader>gb", function() Snacks.picker.git_log_line() end,
-  { desc = "Git Blame Line", silent = true })
-vim.keymap.set("n", "<leader>gf", function() Snacks.picker.git_log_file() end,
-  { desc = "Git Current File History", silent = true })
-vim.keymap.set("n", "<leader>gl", function() Snacks.picker.git_log() end,
-  { desc = "Git Log", silent = true })
-vim.keymap.set({ "n", "x" }, "<leader>gB", function() Snacks.gitbrowse() end,
-  { desc = "Git Browse", silent = true })
+Snacks.toggle.new({
+  name = "Auto Format (Buffer)",
+  get = function() return vim.b.autoformat end,
+  set = function(state) vim.b.autoformat = state end,
+}):map("<leader>uF")
 
--- Floating terminal
+-- ── Colourscheme picker ──────────────────────────────────────────
+vim.keymap.set("n", "<leader>uC", function() Snacks.picker.colorschemes() end,
+  { desc = "Colorscheme", silent = true })
+
+-- ── Snacks rename (LSP-integrated file rename) ───────────────────
+vim.keymap.set("n", "<leader>cR", function() Snacks.rename.rename_file() end,
+  { desc = "Rename File", silent = true })
+
+-- ── Floating terminal ────────────────────────────────────────────
 vim.keymap.set("n", "<leader>ft", function() Snacks.terminal() end,
   { desc = "Terminal (cwd)", silent = true })
 vim.keymap.set({ "n", "t" }, "<c-/>", function() Snacks.terminal.toggle() end,
@@ -54,7 +59,7 @@ vim.keymap.set({ "n", "t" }, "<c-/>", function() Snacks.terminal.toggle() end,
 vim.keymap.set({ "n", "t" }, "<c-_>", function() Snacks.terminal.toggle() end,
   { desc = "which_key_ignore", silent = true })
 
--- Scratch buffers
+-- ── Scratch buffers ──────────────────────────────────────────────
 vim.keymap.set("n", "<leader>.", function() Snacks.scratch() end,
   { desc = "Toggle Scratch Buffer", silent = true })
 vim.keymap.set("n", "<leader>S", function() Snacks.scratch.select() end,

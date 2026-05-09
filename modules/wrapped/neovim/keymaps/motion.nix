@@ -139,6 +139,19 @@
         silent = true;
         desc = "Toggle Flash Search";
       }
+
+      # ── Flash treesitter incremental selection ─────────────────────────
+      {
+        key = "<c-space>";
+        mode = [
+          "n"
+          "x"
+        ];
+        lua = true;
+        action = "function() require('flash').treesitter_search() end";
+        silent = true;
+        desc = "Flash Treesitter Selection";
+      }
     ];
   };
 }

@@ -86,6 +86,11 @@
         deprecation_warnings = false;
         trouble_lualine = true;
         markdown_recommended_style = 0;
+        lazyvim_cmp = "blink.cmp";
+        lazyvim_picker = "fzf-lua";
+        root_spec = ''{ "lsp", { ".git", "lua" }, "cwd" }'';
+        root_lsp_ignore = "{}";
+        ai_cmp = false;
         # Disable unused providers
         loaded_node_provider = 0;
         loaded_perl_provider = 0;
