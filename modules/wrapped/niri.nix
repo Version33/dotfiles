@@ -80,6 +80,15 @@
             };
           };
 
+          # Steam notification toasts appear as regular tiled windows in Niri's
+          # center column. Float them so they render at Steam's intended position.
+          window-rules = [
+            {
+              matches = [{ app-id = "steam"; title = "notificationtoasts"; }];
+              open-floating = true;
+            }
+          ];
+
           binds = {
             # Apps
             "Mod+Return".spawn-sh = lib.getExe self'.packages.kitty;
