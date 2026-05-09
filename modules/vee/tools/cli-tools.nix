@@ -42,6 +42,7 @@
         ++ (with self.packages.${pkgs.stdenv.hostPlatform.system}; [
           yazi
           ssh
+          opencode
           btop
           tmux
         ]);
