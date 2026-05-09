@@ -71,7 +71,14 @@
             };
           };
 
-          layout.gaps = 5;
+          layout = {
+            gaps = 5;
+            focus-ring = {
+              width = 4;
+              active-color = "#cba6f7";
+              inactive-color = "#45475a";
+            };
+          };
 
           binds = {
             # Apps
