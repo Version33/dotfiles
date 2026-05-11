@@ -3,7 +3,7 @@
   flake.modules.nixos.vee =
     { self, pkgs, ... }:
     let
-      system = pkgs.stdenv.hostPlatform.system;
+      inherit (pkgs.stdenv.hostPlatform) system;
     in
     {
       environment.systemPackages = [
@@ -11,19 +11,19 @@
         self.packages.${system}.steam-desktop-item
       ];
 
-      # Ensure the correct Steam desktop entry exists for noctalia's launcher.
-      # The user-local file takes priority over the system one, and Steam
-      # itself may regenerate it. This service overwrites it on every login.
+      # Overwrite Steam desktop entry with noctalia's launcher on every login
       systemd.user.services.steam-desktop-fix = {
         description = "Ensure Steam desktop entry uses the keepalive launcher";
         wantedBy = [ "default.target" ];
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = toString (pkgs.writeShellScript "steam-desktop-fix" ''
-            mkdir -p "$HOME/.local/share/applications"
-            cp -f ${self.packages.${system}.steam-desktop-item}/share/applications/steam.desktop \
-              "$HOME/.local/share/applications/steam.desktop"
-          '');
+          ExecStart = toString (
+            pkgs.writeShellScript "steam-desktop-fix" ''
+              mkdir -p "$HOME/.local/share/applications"
+              cp -f ${self.packages.${system}.steam-desktop-item}/share/applications/steam.desktop \
+                "$HOME/.local/share/applications/steam.desktop"
+            ''
+          );
         };
       };
       environment.shells = [

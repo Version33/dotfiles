@@ -19,29 +19,28 @@
         };
 
         # LazyVim: nvim-mini/mini.pairs — full options from LazyVim source
-        mini.pairs = {
-          enable = true;
-          setupOpts = {
-            modes = {
-              insert = true;
-              command = true;
-              terminal = false;
+        # nvim-mini/mini.ai — custom textobjects, setup is in luaConfigRC below
+        # nvim-mini/mini.surround — gsa=add, gsd=delete, gsr=replace, gsf=find, gsF=find_left, gsh=highlight
+        mini = {
+          pairs = {
+            enable = true;
+            setupOpts = {
+              modes = {
+                insert = true;
+                command = true;
+                terminal = false;
+              };
+              skip_next = ''[=[[%w%%%'%[%"%.%`%$]]=]'';
+              skip_ts = [ "string" ];
+              skip_unbalanced = true;
+              markdown = true;
             };
-            skip_next = ''[=[[%w%%%'%[%"%.%`%$]]=]'';
-            skip_ts = [ "string" ];
-            skip_unbalanced = true;
-            markdown = true;
           };
+
+          ai.enable = true;
+
+          surround.enable = true;
         };
-
-        # LazyVim: nvim-mini/mini.ai — full custom textobjects from LazyVim source
-        # Note: setup is handled entirely in luaConfigRC.mini-ai-textobjects below
-        # (custom textobjects require Lua function calls that Nix can't express)
-        mini.ai.enable = true;
-
-        # LazyVim: nvim-mini/mini.surround
-        # Mappings: gsa=add, gsd=delete, gsr=replace, gsf=find, gsF=find_left, gsh=highlight
-        mini.surround.enable = true;
 
         # mini.ai custom textobjects need Lua — wire them via luaConfigRC
         luaConfigRC.mini-ai-textobjects = builtins.readFile ./lua/mini-ai.lua;
@@ -56,8 +55,7 @@
         extraPlugins.lazydev-nvim = {
           package = pkgs.vimPlugins.lazydev-nvim;
           setup = ''require("lazydev").setup({})'';
-          # Note: the ${3rd}/luv/library path from LazyVim is lazy.nvim-specific;
-          # nvf puts plugins on the rtp directly so lazydev finds luv automatically.
+          # nvf puts plugins on the rtp directly so lazydev finds luv automatically
         };
       };
     };
