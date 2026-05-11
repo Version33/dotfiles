@@ -84,7 +84,12 @@
           # center column. Float them so they render at Steam's intended position.
           window-rules = [
             {
-              matches = [{ app-id = "steam"; title = "notificationtoasts"; }];
+              matches = [
+                {
+                  app-id = "steam";
+                  title = "notificationtoasts";
+                }
+              ];
               open-floating = true;
             }
           ];

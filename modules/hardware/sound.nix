@@ -26,6 +26,23 @@
             "default.clock.max-quantum" = 256;
           };
         };
+
+        # Steam's bundled libaudio.so crashes with SIGSEGV in a PulseAudio
+        # callback on PipeWire's pulse server. The force-s16-info quirk
+        # tells PipeWire to always report S16 sample format, avoiding the
+        # crash path in Steam's old audio stack.
+        extraConfig.pipewire-pulse."93-steam-compat" = {
+          "pulse.rules" = [
+            {
+              matches = [
+                { "application.process.binary" = "steam"; }
+              ];
+              actions = {
+                quirks = [ "force-s16-info" ];
+              };
+            }
+          ];
+        };
       };
 
       environment.systemPackages = with pkgs; [

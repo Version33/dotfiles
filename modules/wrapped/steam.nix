@@ -18,7 +18,11 @@
         comment = "Application for managing and playing games on Steam";
         exec = "${steam-launcher}/bin/steam-launcher";
         icon = "steam";
-        categories = [ "Network" "FileTransfer" "Game" ];
+        categories = [
+          "Network"
+          "FileTransfer"
+          "Game"
+        ];
         mimeTypes = [
           "x-scheme-handler/steam"
           "x-scheme-handler/steamlink"
