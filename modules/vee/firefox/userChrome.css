@@ -1,0 +1,35 @@
+#main-window[tabsintitlebar="true"]:not([extradragspace="true"])
+  #TabsToolbar
+  > .toolbar-items {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#main-window:not([tabsintitlebar="true"]) #TabsToolbar {
+  visibility: collapse !important;
+}
+
+#sidebar-panel-header,
+#sidebar-header,
+.buttons-wrapper {
+  display: none !important;
+}
+
+/* TST panel */
+#sidebar-box,
+#sidebar {
+  outline: none !important;
+  border-radius: 0 8px 0 0 !important;
+}
+#sidebar-box {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+#sidebar {
+  height: 100% !important;
+}
+
+#sidebar-splitter {
+  width: 4px !important;
+}
+
