@@ -26,7 +26,6 @@
     lanzaboote.url = "github:nix-community/lanzaboote/v1.0.0"; # Secure Boot
 
     # Desktop / WM
-    nur.url = "github:nix-community/NUR"; # NUR (crush, other packages)
 
     # Development
     nvf = {

@@ -8,7 +8,7 @@ let
   modelDir = "/home/vee/models";
   modelFile = "gemma-4-26B-A4B-it-UD-Q4_K_M.gguf";
 
-  # OpenAI-compatible API endpoint — point opencode/crush here:
+  # OpenAI-compatible API endpoint — point opencode here:
   #   OPENAI_BASE_URL=http://127.0.0.1:8000/v1
   port = 8000;
 

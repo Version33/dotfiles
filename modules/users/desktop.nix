@@ -1,6 +1,11 @@
 {
   flake.modules.nixos.users-desktop =
-    { self, pkgs, lib, ... }:
+    {
+      self,
+      pkgs,
+      lib,
+      ...
+    }:
     let
       inherit (pkgs.stdenv.hostPlatform) system;
     in

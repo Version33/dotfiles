@@ -6,10 +6,15 @@
         enable = true;
         preferences = {
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+          "extensions.activeThemeID" = "{76aabc99-c1a8-4c1e-832b-d4f2941d5a7a}";
         };
 
         policies = {
           ExtensionSettings = {
+            "{76aabc99-c1a8-4c1e-832b-d4f2941d5a7a}" = {
+              installation_mode = "normal_installed";
+              install_url = "https://addons.mozilla.org/firefox/downloads/file/3990325/catppuccin_mocha_mauve_git-2.0.xpi";
+            };
             "uBlock0@raymondhill.net" = {
               installation_mode = "normal_installed";
               install_url = "https://addons.mozilla.org/firefox/downloads/file/4721638/ublock_origin-1.70.0.xpi";

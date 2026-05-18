@@ -1,6 +1,11 @@
 {
   flake.modules.nixos.users-packages =
-    { self, pkgs, inputs, ... }:
+    {
+      self,
+      pkgs,
+      inputs,
+      ...
+    }:
     let
       inherit (pkgs.stdenv.hostPlatform) system;
     in
@@ -13,7 +18,6 @@
           btop
           tmux
           lazygit
-          crush
           opencode
           steam-launcher
           steam-desktop-item
