@@ -1,4 +1,8 @@
-{ inputs, lib, ... }:
+{
+  inputs,
+  lib,
+  ...
+}:
 {
   perSystem =
     { pkgs, ... }:
@@ -7,16 +11,10 @@
         "*" = {
           addKeysToAgent = "yes";
         };
-        homeserver = {
-          hostname = "192.168.1.250";
-          user = "vee";
-          identityFile = "~/.ssh/homeserver";
-          identitiesOnly = true;
-        };
         "github.com" = {
           hostname = "github.com";
           user = "git";
-          identityFile = "~/.ssh/github.com-v33";
+          identityFile = "~/.ssh/github.com-angel";
         };
       };
 
@@ -42,7 +40,7 @@
       configFile = pkgs.writeText "ssh_config" (toSshConfig matchBlocks);
     in
     {
-      packages.ssh = inputs.wrapper-modules.lib.wrapPackage {
+      packages.ssh-angel = inputs.wrapper-modules.lib.wrapPackage {
         inherit pkgs;
         package = pkgs.openssh;
         flags = {
@@ -50,5 +48,4 @@
         };
       };
     };
-
 }

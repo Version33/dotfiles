@@ -1,8 +1,9 @@
 {
-  flake.modules.nixos.vee-firefox =
-    { self, pkgs, ... }:
+  flake.modules.nixos.users-firefox =
+    { pkgs, ... }:
     {
       programs.firefox = {
+        enable = true;
         preferences = {
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         };

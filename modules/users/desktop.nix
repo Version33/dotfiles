@@ -1,12 +1,13 @@
-{ self, ... }:
 {
-
-  flake.modules.nixos.niri =
-    { pkgs, lib, ... }:
+  flake.modules.nixos.users-desktop =
+    { self, pkgs, lib, ... }:
+    let
+      inherit (pkgs.stdenv.hostPlatform) system;
+    in
     {
       programs.niri = {
         enable = true;
-        package = self.packages.${pkgs.stdenv.hostPlatform.system}.myNiri;
+        package = self.packages.${system}.myNiri;
       };
 
       environment = {
@@ -15,7 +16,6 @@
           adw-gtk3
         ];
 
-        # XWayland needs XCURSOR_* env vars + niri compositor cursor setting
         sessionVariables = {
           XCURSOR_THEME = "catppuccin-mocha-dark-cursors";
           XCURSOR_SIZE = "24";
@@ -23,7 +23,6 @@
           GTK_THEME = "adw-gtk3-dark";
         };
 
-        # Force dark theme for Electron/Wayland and XWayland titlebars
         etc = {
           "gtk-3.0/settings.ini".text = ''
             [Settings]
@@ -60,5 +59,4 @@
         };
       };
     };
-
 }

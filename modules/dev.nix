@@ -28,7 +28,7 @@
           nix-direnv # Fast direnv integration for Nix
 
           # Useful utilities
-          self'.packages.git # Wrapped git with author identity baked in
+          pkgs.git
           just # Command runner (for justfile)
         ];
       };
