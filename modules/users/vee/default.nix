@@ -19,7 +19,6 @@
           "audio"
           "tss"
           "plugdev"
-          "games"
         ];
         packages = with self.packages.${system}; [
           git-vee
