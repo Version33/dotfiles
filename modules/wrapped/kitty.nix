@@ -11,6 +11,7 @@
         cursor_text_color = "background";
         cursor_trail = 3;
 
+        copy_on_select = "clipboard";
         allow_remote_control = "yes";
         listen_on = "unix:@mykitty";
         shell_integration = "enabled";

@@ -102,6 +102,10 @@ tree:
 search PACKAGE:
     nix search nixpkgs {{PACKAGE}}
 
+# Copy config to /etc/nixos
+rsync:
+    sudo rsync -av --delete ./ /etc/nixos/ --exclude .git --exclude justfile
+
 # Enter development shell
 dev:
     nix develop

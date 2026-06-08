@@ -15,6 +15,15 @@
         package = self.packages.${system}.myNiri;
       };
 
+      xdg.portal = {
+        enable = true;
+        wlr.enable = true;
+        extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+        config.niri = {
+          "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+        };
+      };
+
       environment = {
         systemPackages = with pkgs; [
           catppuccin-cursors.mochaDark
@@ -26,6 +35,7 @@
           XCURSOR_SIZE = "24";
           XCURSOR_PATH = lib.mkForce "${pkgs.catppuccin-cursors.mochaDark}/share/icons:~/.icons:~/.local/share/icons";
           GTK_THEME = "adw-gtk3-dark";
+          NIXOS_OZONE_WL = "1";
         };
 
         etc = {
