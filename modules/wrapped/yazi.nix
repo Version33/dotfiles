@@ -6,7 +6,7 @@ let
         builtins.readFile (
           builtins.fetchurl {
             url = "https://raw.githubusercontent.com/catppuccin/yazi/main/themes/mocha/catppuccin-mocha-blue.toml";
-            sha256 = "1xh5dz9ign99nsw6q7b32j4ql8d90lyyxz9420nh0bw13fb49184";
+            sha256 = "137c4z3i27hrq5h3ff7cmnz4bkbxxrq9jixv2kl0c7b10cqmpibv";
           }
         )
       );
