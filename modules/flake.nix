@@ -23,7 +23,7 @@
     treefmt-nix.url = "github:numtide/treefmt-nix"; # Project-wide formatting (used by dev.nix)
 
     # Security
-    lanzaboote.url = "github:nix-community/lanzaboote/v1.0.0"; # Secure Boot
+    lanzaboote.url = "github:nix-community/lanzaboote/001e560fffc8f0235e9db20ebeb4ccde0ade1caf"; # Secure Boot
 
     # Desktop / WM
 
