@@ -19,6 +19,7 @@
           "audio"
           "tss"
           "plugdev"
+          "dialout"
         ];
         packages = with self.packages.${system}; [
           git-vee
