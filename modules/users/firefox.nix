@@ -139,7 +139,7 @@
           ExecStart = toString (
             pkgs.writeShellScript "firefox-userchrome" ''
               export PATH="${pkgs.coreutils}/bin"
-              PROFILE_DIR=$(ls -d "$HOME"/.mozilla/firefox/*.default 2>/dev/null | head -1)
+              PROFILE_DIR=$(ls -d "$HOME"/.config/mozilla/firefox/*.default 2>/dev/null | head -1)
               if [ -n "$PROFILE_DIR" ]; then
                 mkdir -p "$PROFILE_DIR/chrome"
                 cp -f ${./userChrome.css} "$PROFILE_DIR/chrome/userChrome.css"

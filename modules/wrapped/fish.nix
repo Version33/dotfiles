@@ -63,7 +63,7 @@
         (inputs.wrapper-modules.lib.wrapPackage {
           inherit pkgs;
           package = pkgs.fish;
-          extraPackages = [
+          runtimePkgs = [
             pkgs.starship
             pkgs.zoxide
             pkgs.eza
