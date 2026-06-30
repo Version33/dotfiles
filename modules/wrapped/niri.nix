@@ -78,8 +78,8 @@
             };
           };
 
-          # Steam notification toasts appear as regular tiled windows in Niri's
-          # center column. Float them so they render at Steam's intended position.
+          # Steam notification toasts are XWayland windows that bypass
+          # D-Bus. Float them and anchor to bottom-right.
           window-rules = [
             {
               matches = [
@@ -89,6 +89,13 @@
                 }
               ];
               open-floating = true;
+              default-floating-position = _: {
+                props = {
+                  x = 10;
+                  y = 10;
+                  relative-to = "bottom-right";
+                };
+              };
             }
           ];
 

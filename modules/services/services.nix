@@ -54,8 +54,6 @@
         xdg-utils # Set of command line tools that assist applications with a variety of desktop integration tasks.
         wtype # xdotool type for wayland.
         wlrctl # Command line utility for miscellaneous wlroots Wayland extensions.
-        dunst # Lightweight and customizable notification daemon.
-        avizo # Neat notification daemon for Wayland.
         gifsicle # Command-line tool for creating, editing, and getting information about GIF images and animations.
       ];
     };
