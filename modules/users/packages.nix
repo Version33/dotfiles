@@ -29,7 +29,7 @@
           prismlauncher
           obs-studio
           synthesia
-          vesktop
+           goofcord
           element-desktop
           proton-pass
           kdePackages.filelight
