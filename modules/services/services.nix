@@ -17,6 +17,7 @@
       };
 
       services = {
+        gnome.gnome-keyring.enable = true;
         # upower.enable = true; # D-Bus service for power management.
         dbus = {
           enable = true;
