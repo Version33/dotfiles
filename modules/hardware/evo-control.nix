@@ -140,12 +140,22 @@
 
       services.udev.extraRules = ''
         # evo-control: grant audio group access to /dev/evo8
-        ACTION=="add", SUBSYSTEM=="misc", KERNEL=="evo8", MODE="0660", GROUP="audio"
+        ACTION=="add", SUBSYSTEM=="misc", KERNEL=="evo8", MODE="0660", GROUP="audio", TAG+="systemd", ENV{SYSTEMD_USER_WANTS}="evo-control-preset.service"
       '';
 
       environment.etc."wireplumber/wireplumber.conf.d/50-evo-routing.conf" = {
         source = "${evo-wireplumber-config}/50-evo-routing.conf";
         user = "root";
       };
+
+      environment.etc."evo-control/presets/main.toml".text = ''
+        schema = 1
+        output_volume_db = [-12.0, -96.0]
+        input_gain_db = [25.0, -8.0, -8.0, -8.0]
+        phantom = [true, false, false, false]
+        input_mute = [false, false, false, false]
+        output_mute = false
+        mixer = [[-20.0, -20.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-10.0, -128.0, -128.0, -128.0], [-128.0, -10.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0]]
+      '';
     };
 }
