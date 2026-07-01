@@ -5,6 +5,10 @@
 
   inputs = {
     audio-nix.url = "github:polygon/audio.nix";
+    evo-control = {
+      url = "github:briannadon/evo-control";
+      flake = false;
+    };
     flake-file.url = "github:vic/flake-file";
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";

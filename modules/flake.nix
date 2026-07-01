@@ -38,6 +38,12 @@
 
     # Audio
     audio-nix.url = "github:polygon/audio.nix"; # Bitwig Studio
+
+    # EVO 8 audio interface control
+    evo-control = {
+      url = "github:briannadon/evo-control";
+      flake = false;
+    };
   };
 
   # System architectures this flake supports

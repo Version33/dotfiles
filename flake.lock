@@ -35,6 +35,22 @@
         "type": "github"
       }
     },
+    "evo-control": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1780250790,
+        "narHash": "sha256-VOwC6OLAm5iJ5K+Yeyu3wqnY+l8rkKQbzfB+nYuU4KY=",
+        "owner": "briannadon",
+        "repo": "evo-control",
+        "rev": "17043c73fa48378d130f9d85b14d687f886f2881",
+        "type": "github"
+      },
+      "original": {
+        "owner": "briannadon",
+        "repo": "evo-control",
+        "type": "github"
+      }
+    },
     "fenix": {
       "inputs": {
         "nixpkgs": [
@@ -481,11 +497,11 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1782660650,
-        "narHash": "sha256-d4Ndt82q9bhL+iKFr1reufZyE/MTdULzN3kEkXsNG88=",
+        "lastModified": 1782841360,
+        "narHash": "sha256-S1f/S5Vv7wURVUtzPkmAFlKPVciaPLXxoeg7/GCnl28=",
         "owner": "NotAShelf",
         "repo": "nvf",
-        "rev": "18d2d23191250c7f597d85da07d860eb05f9e1be",
+        "rev": "6fad9e9a998dd3a7783c839ce2928877d3e5a883",
         "type": "github"
       },
       "original": {
@@ -520,6 +536,7 @@
     "root": {
       "inputs": {
         "audio-nix": "audio-nix",
+        "evo-control": "evo-control",
         "flake-file": "flake-file",
         "flake-parts": "flake-parts",
         "import-tree": "import-tree",
