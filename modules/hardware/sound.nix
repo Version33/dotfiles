@@ -20,8 +20,7 @@
         # With a high-end CPU, we can use very low buffer sizes
         extraConfig.pipewire."92-low-latency" = {
           "context.properties" = {
-            "default.clock.rate" = 48000;
-            "default.clock.quantum" = 128; # Very low buffer for high-end CPU (was 1024)
+            "default.clock.quantum" = 128;
             "default.clock.min-quantum" = 128;
             "default.clock.max-quantum" = 256;
           };

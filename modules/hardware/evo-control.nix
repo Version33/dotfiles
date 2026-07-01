@@ -105,25 +105,18 @@
         }
       ) { kernel = config.boot.kernelPackages.kernel; };
 
+      # NOTE: No device profile is forced here so you can toggle between
+      # stereo and pro-audio mode on the fly. To switch profiles:
+      #   pavucontrol → Configuration tab → pick a profile
+      #   or: pactl set-card-profile <card> output:analog-stereo
+      #   or: pactl set-card-profile <card> pro-audio
       evo-wireplumber-config = pkgs.writeTextDir "50-evo-routing.conf" ''
         monitor.alsa.rules = [
-          {
-            matches = [{ "device.name" = "alsa_card.usb-Audient_EVO8-*" }]
-            actions = {
-              update-props = {
-                api.alsa.udev-tagged = true
-                device.profile-set = "pro-audio.conf"
-                device.profile = "pro-audio-4out-4in"
-              }
-            }
-          }
           {
             matches = [{ "node.name" = "alsa_output.usb-Audient_EVO8-*" }]
             actions = {
               update-props = {
                 session.suspend-timeout-seconds = 0
-                audio.channels = 6
-                audio.position = ["FL", "FR", "AUX2", "AUX3", "AUX4", "AUX5"]
               }
             }
           }
@@ -132,8 +125,6 @@
             actions = {
               update-props = {
                 session.suspend-timeout-seconds = 0
-                audio.channels = 6
-                audio.position = ["FL", "FR", "RL", "RR", "AUX4", "AUX5"]
               }
             }
           }
