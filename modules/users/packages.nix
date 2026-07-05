@@ -16,9 +16,11 @@
           kitty
           yazi
           btop
-          tmux
+          tmux # TODO: Remove - replaced by herdr
           lazygit
-          opencode
+          opencode # TODO: Remove - replaced by pi
+          herdr
+          pi
           steam-launcher
           steam-desktop-item
         ])
