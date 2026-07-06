@@ -545,6 +545,7 @@
         "nixmate": "nixmate",
         "nixpkgs": "nixpkgs_5",
         "nvf": "nvf",
+        "tobiifree": "tobiifree",
         "treefmt-nix": "treefmt-nix",
         "wrapper-modules": "wrapper-modules"
       }
@@ -657,6 +658,26 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "tobiifree": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1775682306,
+        "narHash": "sha256-0PeUSD64Bowvic2a8dVvozUKFTSuqYkBeHkXtP/7rPE=",
+        "owner": "Aetherall",
+        "repo": "tobiifree",
+        "rev": "d303e47fa1a6cac452eedd157d3efb0dd08e3732",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Aetherall",
+        "repo": "tobiifree",
         "type": "github"
       }
     },

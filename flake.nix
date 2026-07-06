@@ -20,6 +20,10 @@
       url = "github:NotAShelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    tobiifree = {
+      url = "github:Aetherall/tobiifree";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     treefmt-nix.url = "github:numtide/treefmt-nix";
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
   };

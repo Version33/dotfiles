@@ -36,6 +36,12 @@
     # Tools
     nixmate.url = "github:daskladas/nixmate"; # NixOS TUI manager
 
+    # Eye tracking
+    tobiifree = {
+      url = "github:Aetherall/tobiifree";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Audio
     audio-nix.url = "github:polygon/audio.nix"; # Bitwig Studio
 
