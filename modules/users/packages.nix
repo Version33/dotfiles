@@ -37,7 +37,7 @@
           kdePackages.filelight
           qimgv
           qbittorrent-enhanced
-          godotPackages_4_6.godot
+          godotPackages_4_7.godot
           blender
           bambu-studio
           lsp-plugins

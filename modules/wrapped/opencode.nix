@@ -20,11 +20,6 @@
               type = "remote";
               url = "https://mcp.grep.app";
             };
-            sentry = {
-              type = "remote";
-              url = "https://mcp.sentry.dev/mcp";
-              oauth = { };
-            };
           };
         }
       );
