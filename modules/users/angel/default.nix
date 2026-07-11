@@ -8,7 +8,7 @@
       users.users.angel = {
         isNormalUser = true;
         description = "angel";
-        initialPassword = "";
+        initialHashedPassword = "!";
         shell = self.packages.${system}.fish;
         extraGroups = [
           "networkmanager"

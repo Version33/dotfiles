@@ -8,7 +8,7 @@
       users.users.vee = {
         isNormalUser = true;
         description = "vee";
-        initialPassword = "";
+        initialHashedPassword = "!";
         shell = self.packages.${system}.fish;
         extraGroups = [
           "networkmanager"
