@@ -4,7 +4,7 @@
     { pkgs, ... }:
     let
       themeFile = builtins.fetchurl {
-        url = "https://raw.githubusercontent.com/catppuccin/btop/main/themes/catppuccin_mocha.theme";
+        url = "https://raw.githubusercontent.com/catppuccin/btop/cf50077d8d50e009b5f58aad4bb32603db895f17/themes/catppuccin_mocha.theme";
         sha256 = "0i263xwkkv8zgr71w13dnq6cv10bkiya7b06yqgjqa6skfmnjx2c";
       };
       themesDir = pkgs.runCommand "btop-catppuccin-themes" { } ''
