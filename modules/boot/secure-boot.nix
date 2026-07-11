@@ -19,6 +19,9 @@
       boot.lanzaboote = {
         enable = true;
         pkiBundle = "/var/lib/sbctl";
+        # systemd-boot's configurationLimit is dead once lanzaboote takes over;
+        # without this, every retained generation's kernel+initrd is copied to the ESP.
+        configurationLimit = 10;
       };
     };
 
