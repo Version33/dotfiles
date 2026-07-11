@@ -6,7 +6,7 @@ default:
 
 # Build and switch to the new configuration (with nom for better output)
 switch:
-    sudo nom build '.#nixosConfigurations.k0or.config.system.build.toplevel' && sudo nixos-rebuild switch --flake .#k0or
+    nom build '.#nixosConfigurations.k0or.config.system.build.toplevel' && sudo nixos-rebuild switch --flake .#k0or
 
 # Build and switch (plain output, fallback option)
 switch-plain:
@@ -30,7 +30,7 @@ update-input INPUT:
 
 # Build and test the new configuration without making it default (with nom for better output)
 test:
-    sudo nom build '.#nixosConfigurations.k0or.config.system.build.toplevel' && sudo nixos-rebuild test --flake .#k0or
+    nom build '.#nixosConfigurations.k0or.config.system.build.toplevel' && sudo nixos-rebuild test --flake .#k0or
 
 # Build and test (plain output, fallback option)
 test-plain:
@@ -64,7 +64,7 @@ flake-info:
 dry-run:
     nixos-rebuild dry-build --flake .#k0or
 
-# Clean up old generations (keeps last 5)
+# Clean up generations older than 30 days, then rebuild boot entries
 clean:
     sudo nix-collect-garbage --delete-older-than 30d
     sudo nixos-rebuild switch --flake .#k0or
