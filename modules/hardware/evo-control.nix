@@ -143,10 +143,27 @@
         ACTION=="add", SUBSYSTEM=="misc", KERNEL=="evo8", MODE="0660", GROUP="audio", TAG+="systemd", ENV{SYSTEMD_USER_WANTS}="evo-control-preset.service"
       '';
 
-      environment.etc."wireplumber/wireplumber.conf.d/50-evo-routing.conf" = {
-        source = "${evo-wireplumber-config}/50-evo-routing.conf";
-        user = "root";
+      # Copies the system preset into the user config dir and loads it — pulled
+      # in on login (default.target) and when the device node appears (via
+      # SYSTEMD_USER_WANTS on the udev rule above).
+      systemd.user.services.evo-control-preset = {
+        description = "Load EVO 8 mixer preset on login";
+        wantedBy = [ "default.target" ];
+        serviceConfig = {
+          Type = "oneshot";
+          TimeoutStartSec = 5;
+          ExecStart = toString (
+            pkgs.writeShellScript "evo-control-preset" ''
+              mkdir -p "$HOME/.config/evo-control/presets"
+              cp -f /etc/evo-control/presets/main.toml "$HOME/.config/evo-control/presets/main.toml"
+              ${evo-control-pkg}/bin/evo-control preset load main || true
+            ''
+          );
+        };
       };
+
+      environment.etc."wireplumber/wireplumber.conf.d/50-evo-routing.conf".source =
+        "${evo-wireplumber-config}/50-evo-routing.conf";
 
       environment.etc."evo-control/presets/main.toml".text = ''
         schema = 1

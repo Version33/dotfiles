@@ -45,20 +45,5 @@
         };
       };
 
-      systemd.user.services.evo-control-preset = {
-        description = "Load EVO 8 mixer preset on login";
-        wantedBy = [ "default.target" ];
-        serviceConfig = {
-          Type = "oneshot";
-          TimeoutStartSec = 5;
-          ExecStart = toString (
-            pkgs.writeShellScript "evo-control-preset" ''
-              mkdir -p "$HOME/.config/evo-control/presets"
-              cp -f /etc/evo-control/presets/main.toml "$HOME/.config/evo-control/presets/main.toml"
-              evo-control preset load main || true
-            ''
-          );
-        };
-      };
     };
 }
