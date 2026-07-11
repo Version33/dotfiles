@@ -3,7 +3,7 @@ let
   # Path where you store model files (downloaded manually, not managed by Nix)
   # Download with:
   #   huggingface-cli download unsloth/gemma-4-26B-A4B-it-GGUF \
-  #     --include "gemma-4-26B-A4B-it-Q4_K_M.gguf" \
+  #     --include "gemma-4-26B-A4B-it-UD-Q4_K_M.gguf" \
   #     --local-dir ~/models
   modelDir = "/home/vee/models";
   modelFile = "gemma-4-26B-A4B-it-UD-Q4_K_M.gguf";
@@ -24,9 +24,8 @@ in
 
       systemd.user.services.llama-server = {
         description = "llama.cpp inference server — Gemma 4 26B MoE (Vulkan)";
-
-        # Wait for the graphical session so the Vulkan/DRI device is available
-        after = [ "graphical-session.target" ];
+        # No wantedBy on purpose: loads the whole model into VRAM, so start it
+        # on demand with `systemctl --user start llama-server`.
 
         serviceConfig = {
           ExecStart = lib.escapeShellArgs [
