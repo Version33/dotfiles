@@ -15,15 +15,27 @@
     import-tree.url = "github:vic/import-tree"; # Automatic module discovery
 
     # Program wrappers
-    wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
+    wrapper-modules = {
+      url = "github:BirdeeHub/nix-wrapper-modules";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Boilerplate reduction tools
     flake-file.url = "github:vic/flake-file"; # Generates flake.nix from modules
-    nix-auto-follow.url = "github:fzakaria/nix-auto-follow"; # Fixes input version duplications
-    treefmt-nix.url = "github:numtide/treefmt-nix"; # Project-wide formatting (used by dev.nix)
+    nix-auto-follow = {
+      url = "github:fzakaria/nix-auto-follow";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Security
-    lanzaboote.url = "github:nix-community/lanzaboote/001e560fffc8f0235e9db20ebeb4ccde0ade1caf"; # Secure Boot
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/001e560fffc8f0235e9db20ebeb4ccde0ade1caf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Desktop / WM
 
@@ -34,7 +46,10 @@
     };
 
     # Tools
-    nixmate.url = "github:daskladas/nixmate"; # NixOS TUI manager
+    nixmate = {
+      url = "github:daskladas/nixmate";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Eye tracking
     tobiifree = {
@@ -43,7 +58,10 @@
     };
 
     # Audio
-    audio-nix.url = "github:polygon/audio.nix"; # Bitwig Studio
+    audio-nix = {
+      url = "github:polygon/audio.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # EVO 8 audio interface control
     evo-control = {
