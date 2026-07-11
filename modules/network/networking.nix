@@ -23,6 +23,12 @@
       };
     };
 
+    # iwd already runs its own DHCP client on wireless
+    # (General.EnableNetworkConfiguration above); keep dhcpcd (enabled by the
+    # networking.useDHCP default for ethernet) off wl* so two clients don't
+    # race for the same interface.
+    networking.dhcpcd.denyInterfaces = [ "wl*" ];
+
     # Configure network proxy if necessary
     # networking.proxy.default = "http://user:password@proxy:port/";
     # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
