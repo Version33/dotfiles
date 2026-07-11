@@ -35,7 +35,7 @@
             alias la "eza -a --icons=auto --group-directories-first"
             alias lt "eza --tree --icons=auto --level=2"
             alias v "nvim"
-            alias oc "opencode"
+            alias yz "yazi"
             alias g "git"
             alias lg "lazygit"
             alias conf "z ~/.config"

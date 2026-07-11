@@ -18,9 +18,8 @@
           btop
           tmux # TODO: Remove - replaced by herdr
           lazygit
-          opencode # TODO: Remove - replaced by pi
           herdr
-          pi
+          oh-my-pi
           steam-launcher
           steam-desktop-item
         ])
