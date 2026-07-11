@@ -8,7 +8,6 @@
         kernel.sysctl."kernel.sysrq" = 1; # Enable all SysRq functions
         kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
         kernelParams = [
-          "quiet"
           "loglevel=5"
           # "usbcore.autosuspend=-1"
           # Shorten USB enumeration timeout to reduce boot delay from broken internal port (usb3-7)
