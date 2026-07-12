@@ -15,6 +15,7 @@
             # The wrapper passes this file via -C for *every* fish invocation,
             # including scripts — keep prompt/alias setup interactive-only.
             if status is-interactive
+              set -g fish_greeting
               fish_vi_key_bindings
 
               # starship prompt
