@@ -20,6 +20,7 @@ let
         sox # spectrogram previews
         ffmpeg # video thumbnails
         _7zz # archive extraction and preview
+        ouch # painless archive handling
         jq # JSON preview
         poppler-utils # PDF preview
         fd # file searching
@@ -31,6 +32,15 @@ let
         chafa # image preview in terminal
         wl-clipboard # clipboard support on Wayland
       ];
+      settings.opener = {
+        archive = [
+          {
+            run = "ouch list \"$1\"";
+            block = true;
+            desc = "List archive contents";
+          }
+        ];
+      };
       settings.keymap.mgr.prepend_keymap = [
         {
           on = "<C-y>";
@@ -47,4 +57,22 @@ in
       packages.yazi = mkYazi pkgs;
     };
 
+  flake.modules.nixos.yazi-file-explorer =
+    { pkgs, ... }:
+    {
+      environment.systemPackages = [
+        (pkgs.makeDesktopItem {
+          name = "yazi";
+          exec = "kitty --class yazi yazi";
+          desktopName = "Yazi";
+          mimeTypes = [ "inode/directory" ];
+          categories = [ "System" "FileTools" "FileManager" ];
+          terminal = false;
+        })
+      ];
+      environment.etc."xdg/mimeapps.list".text = ''
+        [Default Applications]
+        inode/directory=yazi.desktop
+      '';
+    };
 }
