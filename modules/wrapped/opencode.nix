@@ -1,4 +1,5 @@
-# TODO: Remove - replaced by pi
+# TODO: Remove - replaced by oh-my-pi; package is no longer installed
+# (dropped from users/packages.nix), kept only as a fallback.
 { inputs, ... }:
 {
   perSystem =

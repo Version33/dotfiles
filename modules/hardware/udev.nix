@@ -11,7 +11,6 @@
       # NuPhy Air75 HE - WebHID access
       SUBSYSTEM=="usb", ENV{ID_VENDOR_ID}=="19f5", ENV{ID_MODEL_ID}=="6120", MODE="0660", GROUP="plugdev", TAG+="uaccess"
       KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="19f5", ATTRS{idProduct}=="6120", MODE="0660", GROUP="plugdev", TAG+="uaccess"
-
     '';
 
     # Create plugdev group for WebUSB access

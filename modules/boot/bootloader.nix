@@ -15,6 +15,12 @@
         };
         timeout = 2;
       };
+
+      # Quiet boot: suppress stage-1 chatter and emit the loglevel=5 kernel
+      # param (an explicit consoleLogLevel wins over the default's loglevel=4,
+      # which would otherwise override a hand-written param).
+      initrd.verbose = false;
+      consoleLogLevel = 5;
     };
   };
 
