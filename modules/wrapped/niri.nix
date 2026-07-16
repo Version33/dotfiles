@@ -70,7 +70,7 @@
           };
 
           layout = {
-            gaps = 5;
+            gaps = 10;
             focus-ring = {
               width = 4;
               active-color = "#cba6f7";
@@ -81,6 +81,10 @@
           # Steam notification toasts are XWayland windows that bypass
           # D-Bus. Float them and anchor to bottom-right.
           window-rules = [
+            {
+              geometry-corner-radius = 8;
+              clip-to-geometry = true;
+            }
             {
               matches = [
                 {
