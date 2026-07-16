@@ -143,9 +143,9 @@
         ACTION=="add", SUBSYSTEM=="misc", KERNEL=="evo8", MODE="0660", GROUP="audio", TAG+="systemd", ENV{SYSTEMD_USER_WANTS}="evo-control-preset.service"
       '';
 
-      # Copies the system preset into the user config dir and loads it — pulled
-      # in on login (default.target) and when the device node appears (via
-      # SYSTEMD_USER_WANTS on the udev rule above).
+      # On first run (or if the user deletes their saved preset), seed from the
+      # system defaults. After that, the user's own "main" preset — saved via
+      # evo-control's GUI or `evo-control preset save main` — is left alone.
       systemd.user.services.evo-control-preset = {
         description = "Load EVO 8 mixer preset on login";
         wantedBy = [ "default.target" ];
@@ -154,8 +154,12 @@
           TimeoutStartSec = 5;
           ExecStart = toString (
             pkgs.writeShellScript "evo-control-preset" ''
-              mkdir -p "$HOME/.config/evo-control/presets"
-              cp -f /etc/evo-control/presets/main.toml "$HOME/.config/evo-control/presets/main.toml"
+              dir="$HOME/.config/evo-control/presets"
+              file="$dir/main.toml"
+              mkdir -p "$dir"
+              if [ ! -f "$file" ]; then
+                cp /etc/evo-control/presets/main.toml "$file"
+              fi
               ${evo-control-pkg}/bin/evo-control preset load main || true
             ''
           );
@@ -172,7 +176,7 @@
         phantom = [true, false, false, false]
         input_mute = [false, false, false, false]
         output_mute = false
-        mixer = [[-25.0, -25.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-10.0, -128.0, -128.0, -128.0], [-128.0, -10.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0]]
+        mixer = [[-30.0, -30.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-10.0, -128.0, -128.0, -128.0], [-128.0, -10.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0]]
       '';
     };
 }
