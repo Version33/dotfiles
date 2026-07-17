@@ -3,7 +3,6 @@
     {
       self,
       pkgs,
-      inputs,
       ...
     }:
     let
@@ -21,6 +20,7 @@
           herdr
           oh-my-pi
           steam-launcher
+          bitwig-studio
           steam-desktop-item
         ])
         ++ (with pkgs; [
@@ -127,11 +127,7 @@
         ++ (with pkgs; [
           # Language servers
           markdown-oxide
-        ])
-        ++ [
-          # Audio
-          inputs.audio-nix.packages.${system}.bitwig-studio6-latest
-        ];
+        ]);
 
       programs.steam.enable = true;
 
