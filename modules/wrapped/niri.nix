@@ -7,6 +7,19 @@
       self',
       ...
     }:
+    let
+      # xwayland-satellite's X11 -> logical -> X11 popup coordinate
+      # round-trip truncates twice at fractional output scales; the
+      # resulting off-by-one ConfigureNotify makes strict clients (JUCE
+      # popup menus in wine/yabridge plugins, e.g. ShaperBox 3) dismiss
+      # instantly. The patch remembers the exact pixel values a popup
+      # requested and reuses them when the compositor echoes the request
+      # back unchanged. Verified against upstream's full test suite.
+      # Drop once merged upstream (see the issue draft in ~/Downloads).
+      xwayland-satellite-patched = pkgs.xwayland-satellite.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [ ./xwayland-satellite-popup-exact.patch ];
+      });
+    in
     {
       packages.myNiri = inputs.wrapper-modules.wrappers.niri.wrap {
         inherit pkgs;
@@ -20,7 +33,7 @@
             (lib.getExe self'.packages.myNoctalia)
           ];
 
-          xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
+          xwayland-satellite.path = lib.getExe xwayland-satellite-patched;
 
           cursor = {
             xcursor-theme = "catppuccin-mocha-dark-cursors";

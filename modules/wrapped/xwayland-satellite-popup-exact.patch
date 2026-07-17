@@ -1,0 +1,208 @@
+diff --git a/src/server/event.rs b/src/server/event.rs
+index 3725178..69476ec 100644
+--- a/src/server/event.rs
++++ b/src/server/event.rs
+@@ -300,17 +300,37 @@ impl SurfaceEvents {
+             let (scale_factor, window, window_data, role) = query.get().unwrap();
+ 
+             let window = *window;
+-            let x = (pending.x.max(0) as f64 * scale_factor.0) as i32 + window_data.output_offset.x;
+-            let y = (pending.y.max(0) as f64 * scale_factor.0) as i32 + window_data.output_offset.y;
+-            let width = if pending.width > 0 {
+-                (pending.width as f64 * scale_factor.0) as u16
++
++            // A configure exactly echoing a popup's positioner request resolves
++            // from its exact X11 pixel values (see PopupData::requested).
++            let exact = if let SurfaceRole::Popup(Some(p)) = &*role {
++                p.requested.filter(|requested| requested.logical == pending)
+             } else {
+-                window_data.attrs.dims.width
++                None
+             };
+-            let mut height = if pending.height > 0 {
+-                (pending.height as f64 * scale_factor.0) as u16
++
++            let (x, y, width, mut height) = if let Some(requested) = exact {
++                (
++                    requested.native_offset.0 + window_data.output_offset.x,
++                    requested.native_offset.1 + window_data.output_offset.y,
++                    requested.native_size.0,
++                    requested.native_size.1,
++                )
+             } else {
+-                window_data.attrs.dims.height
++                (
++                    (pending.x.max(0) as f64 * scale_factor.0) as i32 + window_data.output_offset.x,
++                    (pending.y.max(0) as f64 * scale_factor.0) as i32 + window_data.output_offset.y,
++                    if pending.width > 0 {
++                        (pending.width as f64 * scale_factor.0) as u16
++                    } else {
++                        window_data.attrs.dims.width
++                    },
++                    if pending.height > 0 {
++                        (pending.height as f64 * scale_factor.0) as u16
++                    } else {
++                        window_data.attrs.dims.height
++                    },
++                )
+             };
+             debug!(
+                 "configuring {} ({window:?}): {x}x{y}, {width}x{height}",
+diff --git a/src/server/mod.rs b/src/server/mod.rs
+index f62203b..f2206c0 100644
+--- a/src/server/mod.rs
++++ b/src/server/mod.rs
+@@ -245,6 +245,36 @@ struct PopupData {
+     popup: XdgPopup,
+     positioner: XdgPositioner,
+     xdg: XdgSurfaceData,
++    /// The last positioner request, for resolving an exactly echoed configure
++    /// without the lossy X11 -> logical -> X11 pixel round-trip.
++    requested: Option<PopupRequest>,
++}
++
++#[derive(Copy, Clone, Debug)]
++struct PopupRequest {
++    logical: PendingSurfaceState,
++    native_offset: (i32, i32),
++    native_size: (u16, u16),
++}
++
++impl PopupRequest {
++    fn new(native_offset: (i32, i32), native_size: (u16, u16), scale: f64) -> Self {
++        Self {
++            logical: PendingSurfaceState {
++                x: (native_offset.0 as f64 / scale) as i32,
++                y: (native_offset.1 as f64 / scale) as i32,
++                width: 1.max((native_size.0 as f64 / scale) as i32),
++                height: 1.max((native_size.1 as f64 / scale) as i32),
++            },
++            native_offset,
++            native_size,
++        }
++    }
++
++    fn apply(&self, positioner: &XdgPositioner) {
++        positioner.set_offset(self.logical.x, self.logical.y);
++        positioner.set_size(self.logical.width, self.logical.height);
++    }
+ }
+ 
+ trait Event {
+@@ -1115,14 +1145,16 @@ impl<S: X11Selection + 'static> InnerServerState<S> {
+ 
+         match role {
+             SurfaceRole::Popup(Some(popup)) => {
+-                popup.positioner.set_offset(
+-                    ((event.x() as i32 - win.output_offset.x) as f64 / scale_factor.0) as i32,
+-                    ((event.y() as i32 - win.output_offset.y) as f64 / scale_factor.0) as i32,
+-                );
+-                popup.positioner.set_size(
+-                    1.max((event.width() as f64 / scale_factor.0) as i32),
+-                    1.max((event.height() as f64 / scale_factor.0) as i32),
++                let request = PopupRequest::new(
++                    (
++                        event.x() as i32 - win.output_offset.x,
++                        event.y() as i32 - win.output_offset.y,
++                    ),
++                    (event.width(), event.height()),
++                    scale_factor.0,
+                 );
++                request.apply(&popup.positioner);
++                popup.requested = Some(request);
+                 popup.popup.reposition(&popup.positioner, 0);
+             }
+             SurfaceRole::Toplevel(Some(_)) => {
+@@ -1603,13 +1635,15 @@ impl<S: X11Selection + 'static> InnerServerState<S> {
+         );
+ 
+         let positioner = self.xdg_wm_base.create_positioner(&self.qh, ());
+-        positioner.set_size(
+-            1.max((window.attrs.dims.width as f64 / initial_scale) as i32),
+-            1.max((window.attrs.dims.height as f64 / initial_scale) as i32),
++        let request = PopupRequest::new(
++            (
++                (window.attrs.dims.x - parent_dims.x) as i32,
++                (window.attrs.dims.y - parent_dims.y) as i32,
++            ),
++            (window.attrs.dims.width, window.attrs.dims.height),
++            initial_scale,
+         );
+-        let x = ((window.attrs.dims.x - parent_dims.x) as f64 / initial_scale) as i32;
+-        let y = ((window.attrs.dims.y - parent_dims.y) as f64 / initial_scale) as i32;
+-        positioner.set_offset(x, y);
++        request.apply(&positioner);
+         positioner.set_anchor(Anchor::TopLeft);
+         positioner.set_gravity(Gravity::BottomRight);
+         positioner.set_anchor_rect(
+@@ -1630,6 +1664,7 @@ impl<S: X11Selection + 'static> InnerServerState<S> {
+         PopupData {
+             popup,
+             positioner,
++            requested: Some(request),
+             xdg: XdgSurfaceData {
+                 surface: xdg,
+                 configured: false,
+@@ -1639,7 +1674,7 @@ impl<S: X11Selection + 'static> InnerServerState<S> {
+     }
+ }
+ 
+-#[derive(Default, Debug, Copy, Clone)]
++#[derive(Default, Debug, Copy, Clone, PartialEq, Eq)]
+ pub struct PendingSurfaceState {
+     pub x: i32,
+     pub y: i32,
+diff --git a/src/server/tests.rs b/src/server/tests.rs
+index 3ad2b2d..2893ebb 100644
+--- a/src/server/tests.rs
++++ b/src/server/tests.rs
+@@ -2460,6 +2460,49 @@ fn fractional_scale_popup() {
+     );
+ }
+ 
++#[test]
++fn fractional_scale_popup_inexact_size() {
++    let mut f = TestFixture::new_pre_connect(|testwl| {
++        testwl.enable_fractional_scale();
++    });
++    let comp = f.compositor();
++    let (_, output) = f.new_output(0, 0);
++
++    let toplevel = Window::new(1);
++    let (_, toplevel_id) = f.create_toplevel(&comp, toplevel);
++    let surface_data = f
++        .testwl
++        .get_surface_data(toplevel_id)
++        .expect("No surface data");
++    let fractional = surface_data
++        .fractional
++        .as_ref()
++        .expect("No fractional scale for surface");
++
++    fractional.preferred_scale(180); // 1.5 scale
++    f.testwl.move_surface_to_output(toplevel_id, &output);
++    f.run();
++    f.run();
++
++    // 61 is not divisible by 1.5: floor(61 / 1.5) = 40, but floor(40 * 1.5) = 60,
++    // so a naive logical -> native round-trip loses a pixel.
++    let popup = Window::new(2);
++    let builder = PopupBuilder::new(popup, toplevel, toplevel_id)
++        .x(61)
++        .y(61)
++        .width(61)
++        .height(61)
++        .scale(1.5);
++    let initial_dims = builder.dims;
++    f.create_popup(&comp, builder);
++    f.run();
++    assert_eq!(
++        initial_dims,
++        f.connection().window(popup).dims,
++        "X11 dimensions changed after configure round-trip"
++    );
++}
++
+ #[test]
+ fn scaled_output_small_popup() {
+     let (mut f, comp) = TestFixture::new_with_compositor();
