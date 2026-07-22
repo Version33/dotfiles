@@ -56,23 +56,4 @@ in
     {
       packages.yazi = mkYazi pkgs;
     };
-
-  flake.modules.nixos.yazi-file-explorer =
-    { pkgs, ... }:
-    {
-      environment.systemPackages = [
-        (pkgs.makeDesktopItem {
-          name = "yazi";
-          exec = "kitty --class yazi yazi";
-          desktopName = "Yazi";
-          mimeTypes = [ "inode/directory" ];
-          categories = [ "System" "FileTools" "FileManager" ];
-          terminal = false;
-        })
-      ];
-      environment.etc."xdg/mimeapps.list".text = ''
-        [Default Applications]
-        inode/directory=yazi.desktop
-      '';
-    };
 }
