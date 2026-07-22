@@ -28,6 +28,7 @@
           osu-lazer-bin
           tidal-hifi
           prismlauncher
+          deadlock-mod-manager
           obs-studio
           synthesia
           goofcord
