@@ -15,6 +15,23 @@
         package = self.packages.${system}.myNiri;
       };
 
+      # Run noctalia under systemd so `nixos-rebuild switch` restarts it in
+      # lockstep with the niri.service config reload. Quickshell IPC targets
+      # instances by config store path; a daemon left over from an older
+      # generation is unreachable from the rebuilt Mod+S bind (launcher dead
+      # until relogin).
+      systemd.user.services.noctalia = {
+        description = "Noctalia desktop shell";
+        wantedBy = [ "graphical-session.target" ];
+        partOf = [ "graphical-session.target" ];
+        after = [ "graphical-session.target" ];
+        serviceConfig = {
+          ExecStart = lib.getExe self.packages.${system}.myNoctalia;
+          Restart = "on-failure";
+          RestartSec = 1;
+        };
+      };
+
       xdg.portal = {
         enable = true;
         wlr.enable = true;

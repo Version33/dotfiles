@@ -15,7 +15,6 @@
           kitty
           yazi
           btop
-          tmux # TODO: Remove - replaced by herdr
           lazygit
           herdr
           oh-my-pi

@@ -29,10 +29,6 @@
             XCURSOR_PATH = "${pkgs.catppuccin-cursors.mochaDark}/share/icons";
           };
 
-          spawn-at-startup = [
-            (lib.getExe self'.packages.myNoctalia)
-          ];
-
           xwayland-satellite.path = lib.getExe xwayland-satellite-patched;
 
           cursor = {
