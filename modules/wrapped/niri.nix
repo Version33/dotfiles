@@ -92,7 +92,7 @@
           };
 
           # Steam notification toasts are XWayland windows that bypass
-          # D-Bus. Float them and anchor to bottom-right.
+          # D-Bus. Float them, anchor to bottom-right, never focus them.
           window-rules = [
             {
               geometry-corner-radius = 8;
@@ -106,6 +106,7 @@
                 }
               ];
               open-floating = true;
+              open-focused = false;
                default-floating-position = _: {
                 props = {
                   x = 0;

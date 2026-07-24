@@ -24,6 +24,15 @@
         })
       ];
 
+      # plasma-integration platform theme makes Qt/KDE apps apply the palette
+      # from kdeglobals; Breeze draws the widgets with it. Without this, Qt
+      # falls back to its default (light) palette outside Plasma.
+      qt = {
+        enable = true;
+        platformTheme = "kde";
+        style = "breeze";
+      };
+
       # Inline the full color scheme so Dolphin gets the palette without Plasma
       # applying it; the [Colors:*] groups are what Plasma would copy in.
       environment.etc."xdg/kdeglobals".text = ''
