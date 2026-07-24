@@ -8,6 +8,23 @@
     { pkgs, ... }:
     let
       starshipConf = ./starship.toml;
+      # Compact greeting: small distro logo, one-line separator, few modules.
+      fastfetchConf = pkgs.writeText "fastfetch.jsonc" ''
+        {
+          "logo": { "type": "small", "padding": { "top": 1 } },
+          "display": { "separator": " " },
+          "modules": [
+            "os",
+            "kernel",
+            "wm",
+            "shell",
+            "uptime",
+            "memory",
+            "break",
+            "colors"
+          ]
+        }
+      '';
       fishConf =
         pkgs.writeText "config.fish" # fish
           ''
@@ -15,7 +32,10 @@
             # The wrapper passes this file via -C for *every* fish invocation,
             # including scripts — keep prompt/alias setup interactive-only.
             if status is-interactive
-              set -g fish_greeting
+              # fastfetch greeting (function overrides the default $fish_greeting)
+              function fish_greeting
+                ${lib.getExe pkgs.fastfetch} --config ${fastfetchConf}
+              end
               fish_vi_key_bindings
 
               # starship prompt
@@ -71,6 +91,7 @@
             pkgs.starship
             pkgs.zoxide
             pkgs.eza
+            pkgs.fastfetch
           ];
           flags = {
             "-C" = "source ${fishConf}";
