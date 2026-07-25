@@ -25,7 +25,43 @@
         wantedBy = [ "graphical-session.target" ];
         partOf = [ "graphical-session.target" ];
         after = [ "graphical-session.target" ];
+        # spawn-at-startup inherited the full session PATH; systemd units get
+        # only the minimal default. Noctalia shells out at runtime (sh, magick,
+        # etc.) — without this the wallpaper pipeline silently dies.
+        path = [ "/run/current-system/sw" ];
         serviceConfig = {
+          # Quickshell never GCs $XDG_RUNTIME_DIR/quickshell/by-id/* — every
+          # restart leaks a run dir, and a crash-looping instance leaks its
+          # log.log unbounded (a broken-PATH loop once filled the 6G tmpfs;
+          # the next instance then got ENOSPC on instance.lock, so `ipc call`
+          # found no instance and Mod+S went dead). Prune dead instances
+          # before each start. Live ones are identified via by-pid/<pid>
+          # symlinks against /proc; quickshell's comm is ".quickshell-wra*".
+          ExecStartPre = pkgs.writeShellScript "quickshell-runtime-gc" ''
+            base="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/quickshell"
+            [ -d "$base" ] || exit 0
+            for link in "$base"/by-pid/*; do
+              [ -L "$link" ] || continue
+              pid="''${link##*/}"
+              target="$(readlink "$link")"
+              if ! grep -q quickshell "/proc/$pid/comm" 2>/dev/null; then
+                case "$target" in
+                  "$base"/by-id/*) rm -rf "$target" ;;
+                esac
+                rm -f "$link"
+              fi
+            done
+            for dir in "$base"/by-id/*; do
+              [ -d "$dir" ] || continue
+              live=0
+              for link in "$base"/by-pid/*; do
+                [ "$(readlink "$link" 2>/dev/null)" = "$dir" ] && live=1 && break
+              done
+              [ "$live" -eq 1 ] || rm -rf "$dir"
+            done
+            find "$base"/by-path "$base"/by-shell -xtype l -delete 2>/dev/null
+            exit 0
+          '';
           ExecStart = lib.getExe self.packages.${system}.myNoctalia;
           Restart = "on-failure";
           RestartSec = 1;

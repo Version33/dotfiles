@@ -57,6 +57,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Freenet peer (freenet.org). Deliberately does NOT follow our nixpkgs:
+    # the freenet build needs a newer rustc than nixos-unstable may carry.
+    freenet.url = "github:freenet/freenet-core";
+
     # Audio
     audio-nix = {
       url = "github:polygon/audio.nix";
