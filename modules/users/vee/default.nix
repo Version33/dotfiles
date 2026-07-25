@@ -9,6 +9,7 @@
         isNormalUser = true;
         description = "vee";
         initialHashedPassword = "!";
+        openssh.authorizedKeys.keyFiles = [ ./keys/phone.pub ];
         shell = self.packages.${system}.fish;
         extraGroups = [
           "networkmanager"
