@@ -12,6 +12,10 @@
       url = "github:briannadon/evo-control";
       flake = false;
     };
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     flake-file.url = "github:vic/flake-file";
     flake-parts.url = "github:hercules-ci/flake-parts";
     freenet = {
