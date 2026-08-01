@@ -1,6 +1,6 @@
 {
   perSystem =
-    { pkgs, ... }:
+    { pkgs, inputs', ... }:
     let
       # Default clippy policy. Shared by scaffolded crates and `rust-init --lints`,
       # so there is exactly one copy of this table in the config.
@@ -165,138 +165,204 @@
       gitignore = pkgs.writeText "gitignore" ''
         /target
       '';
+
+      # Test carve-out for the panic lints above. `cargo clippy --all-targets`
+      # compiles #[cfg(test)] code, so without this the deny list would also ban
+      # `.unwrap()` in unit tests — the one place the article says to prototype.
+      clippyToml = pkgs.writeText "clippy.toml" ''
+        allow-unwrap-in-tests = true
+        allow-expect-in-tests = true
+        allow-panic-in-tests = true
+        allow-indexing-slicing-in-tests = true
+      '';
+
+      # Only the default job is overridden here; check, test, nextest, doc, run
+      # and the rest come from bacon's built-in defaults.
+      baconToml = pkgs.writeText "bacon.toml" ''
+        #:schema https://dystroy.org/bacon/.bacon.schema.json
+        # bacon configuration — https://dystroy.org/bacon/config/
+
+        # The strict [lints.clippy] table is the point of this crate, so a bare
+        # `bacon` watches clippy across every target, tests included.
+        default_job = "clippy-all"
+      '';
     in
     {
-      # Scaffolds a crate that already carries the default clippy policy,
-      # dependency set and nextest configuration.
-      packages.rust-init = pkgs.writeShellApplication {
-        name = "rust-init";
-        runtimeInputs = with pkgs; [
-          coreutils
-          gnugrep
-          gnused
-          git
-        ];
-        text = ''
-          usage() {
-            cat <<'USAGE'
-          rust-init — scaffold a Rust crate with the default lints, deps and nextest setup
+      packages = {
+        # Scaffolds a crate that already carries the default clippy policy,
+        # dependency set and nextest configuration.
+        rust-init = pkgs.writeShellApplication {
+          name = "rust-init";
+          runtimeInputs = with pkgs; [
+            coreutils
+            gnugrep
+            gnused
+            git
+          ];
+          text = ''
+            usage() {
+              cat <<'USAGE'
+            rust-init — scaffold a Rust crate with the default lints, deps, bacon and nextest setup
 
-            rust-init <name>         new binary crate in ./<name>
-            rust-init --lib <name>   new library crate in ./<name>
-            rust-init --lints [dir]  append the default [lints.clippy] table to an existing crate
-          USAGE
-          }
+              rust-init <name>         new binary crate in ./<name>
+              rust-init --lib <name>   new library crate in ./<name>
+              rust-init --lints [dir]  add the default [lints.clippy] table and clippy.toml to an existing crate
+            USAGE
+            }
 
-          if [ "$#" -eq 0 ]; then
-            usage >&2
-            exit 2
-          fi
+            if [ "$#" -eq 0 ]; then
+              usage >&2
+              exit 2
+            fi
 
-          kind=bin
+            kind=bin
 
-          case "$1" in
-          -h | --help)
-            usage
-            exit 0
-            ;;
-          --lints)
-            shift
-            dir=.
+            case "$1" in
+            -h | --help)
+              usage
+              exit 0
+              ;;
+            --lints)
+              shift
+              dir=.
+              if [ "$#" -gt 0 ]; then
+                dir=$1
+              fi
+              manifest=$dir/Cargo.toml
+              if [ ! -f "$manifest" ]; then
+                echo "rust-init: no Cargo.toml in $dir" >&2
+                exit 1
+              fi
+              if grep -q '^\[lints' "$manifest"; then
+                echo "rust-init: $manifest already has a [lints] table" >&2
+                exit 1
+              fi
+              printf '\n' >>"$manifest"
+              cat ${lintsToml} >>"$manifest"
+              echo "rust-init: appended [lints.clippy] to $manifest"
+              if [ -e "$dir/clippy.toml" ]; then
+                echo "rust-init: kept existing $dir/clippy.toml"
+              else
+                install -m 644 ${clippyToml} "$dir/clippy.toml"
+                echo "rust-init: wrote $dir/clippy.toml"
+              fi
+              exit 0
+              ;;
+            --lib)
+              kind=lib
+              shift
+              ;;
+            esac
+
+            if [ "$#" -ne 1 ]; then
+              usage >&2
+              exit 2
+            fi
+
+            name=$1
+            case "$name" in
+            [0-9]* | *[!A-Za-z0-9_-]*)
+              echo "rust-init: invalid crate name: $name" >&2
+              exit 1
+              ;;
+            esac
+
+            if [ -e "$name" ]; then
+              echo "rust-init: ./$name already exists" >&2
+              exit 1
+            fi
+
+            mkdir -p "$name/src" "$name/benches" "$name/.config"
+            cat ${cargoToml} ${lintsToml} >"$name/Cargo.toml"
+            cp ${clippyToml} "$name/clippy.toml"
+            cp ${baconToml} "$name/bacon.toml"
+            cp ${nextestToml} "$name/.config/nextest.toml"
+            cp ${benchRs} "$name/benches/bench.rs"
+            cp ${gitignore} "$name/.gitignore"
+            if [ "$kind" = lib ]; then
+              cp ${libRs} "$name/src/lib.rs"
+            else
+              cp ${mainRs} "$name/src/main.rs"
+            fi
+
+            chmod -R u+w "$name"
+            sed -i "s/__CRATE_NAME__/$name/g" "$name/Cargo.toml" "$name"/src/*.rs "$name"/benches/*.rs
+
+            if ! git -C "$name" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+              git -C "$name" init --quiet --initial-branch=main
+            fi
+
+            echo "rust-init: created $kind crate ./$name"
+            echo "  cd $name"
+            echo "  bacon                                            # watch the strict lints"
+            echo "  cargo clippy --all-targets && cargo nextest run"
+          '';
+        };
+
+        # The article's devenv `watcher` script, as a system command: rebuild and
+        # re-run on every .rs change with warnings muted, so only errors show up.
+        rust-watch = pkgs.writeShellApplication {
+          name = "rust-watch";
+          runtimeInputs = [ pkgs.watchexec ];
+          text = ''
+            cmd="cargo run -q"
             if [ "$#" -gt 0 ]; then
-              dir=$1
+              cmd="$*"
             fi
-            manifest=$dir/Cargo.toml
-            if [ ! -f "$manifest" ]; then
-              echo "rust-init: no Cargo.toml in $dir" >&2
-              exit 1
-            fi
-            if grep -q '^\[lints' "$manifest"; then
-              echo "rust-init: $manifest already has a [lints] table" >&2
-              exit 1
-            fi
-            printf '\n' >>"$manifest"
-            cat ${lintsToml} >>"$manifest"
-            echo "rust-init: appended [lints.clippy] to $manifest"
-            exit 0
-            ;;
-          --lib)
-            kind=lib
-            shift
-            ;;
-          esac
 
-          if [ "$#" -ne 1 ]; then
-            usage >&2
-            exit 2
-          fi
+            export RUSTFLAGS=-Awarnings
+            exec watchexec -r --clear=reset -e rs --wrap-process=none "$cmd"
+          '';
+        };
 
-          name=$1
-          case "$name" in
-          [0-9]* | *[!A-Za-z0-9_-]*)
-            echo "rust-init: invalid crate name: $name" >&2
-            exit 1
-            ;;
-          esac
-
-          if [ -e "$name" ]; then
-            echo "rust-init: ./$name already exists" >&2
-            exit 1
-          fi
-
-          mkdir -p "$name/src" "$name/benches" "$name/.config"
-          cat ${cargoToml} ${lintsToml} >"$name/Cargo.toml"
-          cp ${nextestToml} "$name/.config/nextest.toml"
-          cp ${benchRs} "$name/benches/bench.rs"
-          cp ${gitignore} "$name/.gitignore"
-          if [ "$kind" = lib ]; then
-            cp ${libRs} "$name/src/lib.rs"
-          else
-            cp ${mainRs} "$name/src/main.rs"
-          fi
-
-          chmod -R u+w "$name"
-          sed -i "s/__CRATE_NAME__/$name/g" "$name/Cargo.toml" "$name"/src/*.rs "$name"/benches/*.rs
-
-          if ! git -C "$name" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-            git -C "$name" init --quiet --initial-branch=main
-          fi
-
-          echo "rust-init: created $kind crate ./$name"
-          echo "  cd $name && cargo clippy --all-targets && cargo nextest run"
-        '';
+        # One nightly toolchain, shared by the system and by neovim's
+        # rust-analyzer, so the editor can never drift off the compiler.
+        rust-toolchain =
+          let
+            fenix = inputs'.fenix.packages;
+          in
+          fenix.combine [
+            # Nightly, per the article. `latest` rather than `complete` is
+            # deliberate: `latest` is the only nightly profile fenix also
+            # publishes for cross targets, so rustc and the wasm rust-std below
+            # can never drift onto different nightly dates.
+            fenix.latest.rustc
+            fenix.latest.cargo
+            fenix.latest.rustfmt
+            fenix.latest.clippy
+            # Matches the compiler's proc-macro ABI, unlike nixpkgs' stable build.
+            fenix.latest.rust-analyzer
+            # Lets rust-analyzer resolve std sources.
+            fenix.latest.rust-src
+            fenix.targets.wasm32-unknown-unknown.latest.rust-std
+          ];
       };
     };
 
   flake.modules.nixos.dev-rust =
     {
-      inputs,
       pkgs,
       self,
       ...
     }:
     let
       inherit (pkgs.stdenv.hostPlatform) system;
-      fenix = inputs.fenix.packages.${system};
-      rust-toolchain = fenix.combine [
-        fenix.stable.rustc
-        fenix.stable.cargo
-        fenix.stable.rustfmt
-        fenix.stable.clippy
-        fenix.targets.wasm32-unknown-unknown.stable.rust-std
-      ];
     in
     {
       environment.systemPackages = [
-        # Declarative Rust toolchain with wasm32-unknown-unknown target
-        rust-toolchain
+        # Declarative nightly toolchain: rustc, cargo, clippy, rustfmt,
+        # rust-analyzer, rust-src and the wasm32-unknown-unknown target
+        self.packages.${system}.rust-toolchain
 
-        # Scaffold crates with the default lints, deps and nextest config
+        # Scaffold crates with the default lints, deps, bacon and nextest config
         self.packages.${system}.rust-init
+
+        # `rust-watch [cmd]` — re-run on .rs changes, warnings muted
+        self.packages.${system}.rust-watch
       ]
       ++ (with pkgs; [
-        # Language server
-        rust-analyzer
+        # Watch runner for the strict lints — `bacon`, `bacon nextest`
+        bacon
 
         # Dioxus (Rust UI framework)
         dioxus-cli

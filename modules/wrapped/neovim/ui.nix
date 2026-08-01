@@ -23,33 +23,150 @@
         # validates the theme name before catppuccin has had a chance to register it.
         theme = "auto";
         globalStatus = true;
-        # Override the default x section — nvf's default references vim_lsp and coc
-        # which don't exist and cause LualineNotices warnings.
-        activeSection.x = [
-          ''
-            {
-              function()
-                local clients = vim.lsp.get_clients({ bufnr = 0 })
-                if vim.tbl_isempty(clients) then return "" end
-                local names = {}
-                for _, c in ipairs(clients) do table.insert(names, c.name) end
-                return table.concat(names, ", ")
-              end,
-              icon = " ",
-              color = { fg = "#ffffff", gui = "bold" },
-            }
-          ''
-          ''
-            {
-              "diagnostics",
-              sources = { "nvim_lsp", "nvim_diagnostic" },
-              symbols = { error = " ", warn = " ", info = " ", hint = " " },
-              colored = true,
-              update_in_insert = false,
-              always_visible = false,
-            }
-          ''
-        ];
+
+        # Separator style. nvf's default components hardcode powerline slants
+        # (U+E0BA/U+E0BC on the left half, U+E0BE/U+E0B8 on the right), so the
+        # only way to change them is to restate the sections. These are those
+        # defaults with the slants swapped for codicon triangles:  (U+EB70)
+        # pointing right on the left half,  (U+EB6F) pointing left on the right.
+        activeSection = {
+          a = [
+            ''
+              {
+                "mode",
+                icons_enabled = true,
+                separator = {
+                  left = '▎',
+                  right = ''
+                },
+              }
+            ''
+            ''
+              {
+                "",
+                draw_empty = true,
+                separator = { left = '', right = '' }
+              }
+            ''
+          ];
+          b = [
+            ''
+              {
+                "filetype",
+                colored = true,
+                icon_only = true,
+                icon = { align = 'left' }
+              }
+            ''
+            ''
+              {
+                "filename",
+                symbols = {modified = ' ', readonly = ' '},
+                separator = {right = ''}
+              }
+            ''
+            ''
+              {
+                "",
+                draw_empty = true,
+                separator = { left = '', right = '' }
+              }
+            ''
+          ];
+          c = [
+            ''
+              {
+                "diff",
+                colored = false,
+                diff_color = {
+                  added    = 'DiffAdd',
+                  modified = 'DiffChange',
+                  removed  = 'DiffDelete',
+                },
+                symbols = {added = '+', modified = '~', removed = '-'},
+                separator = {right = ''}
+              }
+            ''
+          ];
+          x = [
+            ''
+              {
+                function()
+                  local clients = vim.lsp.get_clients({ bufnr = 0 })
+                  if vim.tbl_isempty(clients) then return "" end
+                  local names = {}
+                  for _, c in ipairs(clients) do table.insert(names, c.name) end
+                  return table.concat(names, ", ")
+                end,
+                icon = " ",
+                color = { fg = "#ffffff", gui = "bold" },
+              }
+            ''
+            ''
+              {
+                "diagnostics",
+                sources = { "nvim_lsp", "nvim_diagnostic" },
+                symbols = { error = " ", warn = " ", info = " ", hint = " " },
+                colored = true,
+                update_in_insert = false,
+                always_visible = false,
+              }
+            ''
+          ];
+          y = [
+            ''
+              {
+                "",
+                draw_empty = true,
+                separator = { left = '', right = '' }
+              }
+            ''
+            ''
+              {
+                'searchcount',
+                maxcount = 999,
+                timeout = 120,
+                separator = {left = ''}
+              }
+            ''
+            ''
+              {
+                "branch",
+                icon = ' •',
+                separator = {left = ''}
+              }
+            ''
+          ];
+          z = [
+            ''
+              {
+                "",
+                draw_empty = true,
+                separator = { left = '', right = '' }
+              }
+            ''
+            ''
+              {
+                "progress",
+                separator = {left = ''}
+              }
+            ''
+            ''
+              {"location"}
+            ''
+            ''
+              {
+                "fileformat",
+                color = {fg='black'},
+                symbols = {
+                  unix = '',
+                  dos = '',
+                  mac = '',
+                }
+              }
+            ''
+          ];
+        };
       };
 
       # LazyVim: folke/noice.nvim
