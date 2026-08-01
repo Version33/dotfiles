@@ -21,6 +21,7 @@
           steam-launcher
           bitwig-studio
           steam-desktop-item
+          goofcord
         ])
         ++ (with pkgs; [
           # Applications
@@ -30,7 +31,6 @@
           deadlock-mod-manager
           obs-studio
           synthesia
-          goofcord
           element-desktop
           proton-pass
           kdePackages.filelight
