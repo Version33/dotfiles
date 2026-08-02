@@ -21,7 +21,7 @@
       });
     in
     {
-      packages.myNiri = inputs.wrapper-modules.wrappers.niri.wrap {
+      packages.niri = inputs.wrapper-modules.wrappers.niri.wrap {
         inherit pkgs;
         v2-settings = true;
         settings = {
@@ -116,7 +116,7 @@
           binds = {
             # Apps
             "Mod+Return".spawn-sh = lib.getExe self'.packages.kitty;
-            "Mod+S".spawn-sh = "${lib.getExe self'.packages.myNoctalia} ipc call launcher toggle";
+            "Mod+S".spawn-sh = "${lib.getExe self'.packages.noctalia} ipc call launcher toggle";
 
             # Window management
             "Mod+Q".close-window = _: { };

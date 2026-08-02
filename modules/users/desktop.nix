@@ -12,7 +12,7 @@
     {
       programs.niri = {
         enable = true;
-        package = self.packages.${system}.myNiri;
+        package = self.packages.${system}.niri;
       };
 
       # Run noctalia under systemd so `nixos-rebuild switch` restarts it in
@@ -62,7 +62,7 @@
             find "$base"/by-path "$base"/by-shell -xtype l -delete 2>/dev/null
             exit 0
           '';
-          ExecStart = lib.getExe self.packages.${system}.myNoctalia;
+          ExecStart = lib.getExe self.packages.${system}.noctalia;
           Restart = "on-failure";
           RestartSec = 1;
         };
