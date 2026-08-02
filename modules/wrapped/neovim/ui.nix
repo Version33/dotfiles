@@ -27,8 +27,8 @@
         # Separator style. nvf's default components hardcode powerline slants
         # (U+E0BA/U+E0BC on the left half, U+E0BE/U+E0B8 on the right), so the
         # only way to change them is to restate the sections. These are those
-        # defaults with the slants swapped for codicon triangles:  (U+EB70)
-        # pointing right on the left half,  (U+EB6F) pointing left on the right.
+        # defaults with the slants swapped for powerline arrows:  (U+E0B0)
+        # pointing right on the left half,  (U+E0B2) pointing left on the right.
         activeSection = {
           a = [
             ''
@@ -37,7 +37,7 @@
                 icons_enabled = true,
                 separator = {
                   left = '▎',
-                  right = ''
+                  right = ''
                 },
               }
             ''
@@ -45,7 +45,7 @@
               {
                 "",
                 draw_empty = true,
-                separator = { left = '', right = '' }
+                separator = { left = '', right = '' }
               }
             ''
           ];
@@ -62,14 +62,14 @@
               {
                 "filename",
                 symbols = {modified = ' ', readonly = ' '},
-                separator = {right = ''}
+                separator = {right = ''}
               }
             ''
             ''
               {
                 "",
                 draw_empty = true,
-                separator = { left = '', right = '' }
+                separator = { left = '', right = '' }
               }
             ''
           ];
@@ -84,7 +84,7 @@
                   removed  = 'DiffDelete',
                 },
                 symbols = {added = '+', modified = '~', removed = '-'},
-                separator = {right = ''}
+                separator = {right = ''}
               }
             ''
           ];
@@ -118,7 +118,7 @@
               {
                 "",
                 draw_empty = true,
-                separator = { left = '', right = '' }
+                separator = { left = '', right = '' }
               }
             ''
             ''
@@ -126,14 +126,14 @@
                 'searchcount',
                 maxcount = 999,
                 timeout = 120,
-                separator = {left = ''}
+                separator = {left = ''}
               }
             ''
             ''
               {
                 "branch",
                 icon = ' •',
-                separator = {left = ''}
+                separator = {left = ''}
               }
             ''
           ];
@@ -142,13 +142,13 @@
               {
                 "",
                 draw_empty = true,
-                separator = { left = '', right = '' }
+                separator = { left = '', right = '' }
               }
             ''
             ''
               {
                 "progress",
-                separator = {left = ''}
+                separator = {left = ''}
               }
             ''
             ''
