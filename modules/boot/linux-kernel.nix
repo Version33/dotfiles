@@ -7,6 +7,7 @@
       boot = {
         kernel.sysctl."kernel.sysrq" = 1; # Enable all SysRq functions
         kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
+        kernelModules = [ "ntsync" ]; # stops Ableton from sounding bad
         kernelParams = [
           "quiet"
           # "usbcore.autosuspend=-1"
