@@ -32,15 +32,27 @@ let
         chafa # image preview in terminal
         wl-clipboard # clipboard support on Wayland
       ];
-      settings.opener = {
-        archive = [
-          {
-            run = "ouch list \"$1\"";
-            block = true;
-            desc = "List archive contents";
-          }
-        ];
-      };
+      settings.yazi.opener.archive = [
+        {
+          run = "ouch list \"$1\"";
+          block = true;
+          desc = "List archive contents";
+        }
+      ];
+      # Without this rule, yazi's `[open].rules` never selects the "archive"
+      # opener above for archive files — prepend so it wins over (and is
+      # offered alongside) the default extract/reveal rule for the same
+      # mime-types.
+      settings.yazi.open.prepend_rules = [
+        {
+          mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}";
+          use = [
+            "archive"
+            "extract"
+            "reveal"
+          ];
+        }
+      ];
       settings.keymap.mgr.prepend_keymap = [
         {
           on = "<C-y>";

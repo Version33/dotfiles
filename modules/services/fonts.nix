@@ -14,7 +14,7 @@
 
       # Set default fonts
       fonts.fontconfig.defaultFonts = {
-        monospace = [ "JetBrains Mono" ];
+        monospace = [ "JetBrainsMono Nerd Font" ];
       };
     };
 

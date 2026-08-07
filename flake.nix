@@ -9,7 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     evo-control = {
-      url = "github:briannadon/evo-control";
+      url = "github:briannadon/evo-control?rev=17043c73fa48378d130f9d85b14d687f886f2881";
       flake = false;
     };
     fenix = {
@@ -17,7 +17,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-file.url = "github:vic/flake-file";
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
     freenet = {
       url = "github:freenet/freenet-core";
       inputs.nixpkgs.follows = "nixpkgs";

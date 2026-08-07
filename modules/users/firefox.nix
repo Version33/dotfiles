@@ -8,16 +8,16 @@
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
           "extensions.activeThemeID" = "{76aabc99-c1a8-4c1e-832b-d4f2941d5a7a}";
         };
+        # Preferences default to "locked" upstream, which silently reverts any
+        # in-browser change (e.g. switching themes). Let them act as normal
+        # user-changeable defaults instead.
+        preferencesStatus = "default";
 
         policies = {
           ExtensionSettings = {
             "{76aabc99-c1a8-4c1e-832b-d4f2941d5a7a}" = {
               installation_mode = "normal_installed";
               install_url = "https://addons.mozilla.org/firefox/downloads/file/3990325/catppuccin_mocha_mauve_git-2.0.xpi";
-            };
-            "uBlock0@raymondhill.net" = {
-              installation_mode = "normal_installed";
-              install_url = "https://addons.mozilla.org/firefox/downloads/file/4721638/ublock_origin-1.70.0.xpi";
             };
             "addon@darkreader.org" = {
               installation_mode = "normal_installed";
@@ -134,6 +134,9 @@
       systemd.user.services.firefox-userchrome = {
         description = "Deploy userChrome.css to Firefox profile";
         wantedBy = [ "default.target" ];
+        # Skip for system users (e.g. greetd's greeter, home = /var/empty);
+        # this unit only ever does anything for real login users anyway.
+        unitConfig.ConditionUser = "!@system";
         serviceConfig = {
           Type = "oneshot";
           ExecStart = toString (

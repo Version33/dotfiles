@@ -48,11 +48,9 @@
               end
 
               # zoxide
-              fish_add_path ${pkgs.zoxide}/bin
               ${lib.getExe pkgs.zoxide} init fish | source
 
               # aliases
-              fish_add_path ${pkgs.eza}/bin
               alias ls "eza --icons=auto --color=auto --group-directories-first"
               alias ll "eza -la --icons=auto --git --header --time-style=relative --group-directories-first"
               alias la "eza -a --icons=auto --group-directories-first"
@@ -71,12 +69,17 @@
 
               function format-nix
                 for f in *.nix
-                  sudo nixfmt $f
+                  nixfmt $f
                 end
               end
 
               function reboot-to-windows
-                sudo efibootmgr --bootnext 0000
+                set -l id (sudo efibootmgr | string match -rg '^Boot([0-9A-Fa-f]{4})\*?\s+Windows Boot Manager')[1]
+                if test -z "$id"
+                  echo "reboot-to-windows: no \"Windows Boot Manager\" entry found in efibootmgr output" >&2
+                  return 1
+                end
+                sudo efibootmgr --bootnext $id
                 sudo systemctl reboot
               end
             end

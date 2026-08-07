@@ -5,7 +5,7 @@ let
   #   huggingface-cli download unsloth/gemma-4-26B-A4B-it-GGUF \
   #     --include "gemma-4-26B-A4B-it-UD-Q4_K_M.gguf" \
   #     --local-dir ~/models
-  modelDir = "/home/vee/models";
+  modelDir = "%h/models";
   modelFile = "gemma-4-26B-A4B-it-UD-Q4_K_M.gguf";
 
   # OpenAI-compatible API endpoint — point opencode here:
@@ -17,9 +17,12 @@ in
 {
   flake.modules.nixos.ai-service =
     { pkgs, ... }:
+    let
+      llama = pkgs.llama-cpp.override { vulkanSupport = true; };
+    in
     {
       environment.systemPackages = [
-        (pkgs.llama-cpp.override { vulkanSupport = true; })
+        llama
       ];
 
       systemd.user.services.llama-server = {
@@ -29,7 +32,7 @@ in
 
         serviceConfig = {
           ExecStart = lib.escapeShellArgs [
-            "${pkgs.llama-cpp.override { vulkanSupport = true; }}/bin/llama-server"
+            "${llama}/bin/llama-server"
             "--model"
             "${modelDir}/${modelFile}"
             "--port"

@@ -40,14 +40,16 @@
         chrono = "0.4.42"
         # SIMPLE PRETTY ERROR HANDLING
         color-eyre = "0.6.5"
-        # BENCHMARKING
-        criterion = "0.8.1"
         # SUPERPOWERED ITERATORS
         itertools = "0.14.0"
         # PARALELL ITERATORS
         rayon = "1.11.0"
         # SERIALISATION / DESERIALISATION
-        serde = { version = "*", features = ["derive"] }
+        serde = { version = "1.0", features = ["derive"] }
+
+        [dev-dependencies]
+        # BENCHMARKING
+        criterion = "0.8.1"
 
         [[bench]]
         name = "bench"
@@ -311,6 +313,10 @@
             fi
 
             export RUSTFLAGS=-Awarnings
+            # Isolate from other cargo invocations (plain `cargo run`, clippy, bacon):
+            # RUSTFLAGS is part of cargo's fingerprint, so sharing target/ would force
+            # a full recompile every time you switch between rust-watch and those.
+            export CARGO_TARGET_DIR=target/watch
             exec watchexec -r --clear=reset -e rs --wrap-process=none "$cmd"
           '';
         };

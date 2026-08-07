@@ -23,7 +23,6 @@
     {
       packages.niri = inputs.wrapper-modules.wrappers.niri.wrap {
         inherit pkgs;
-        v2-settings = true;
         settings = {
           environment = {
             XCURSOR_PATH = "${pkgs.catppuccin-cursors.mochaDark}/share/icons";
@@ -103,7 +102,7 @@
               ];
               open-floating = true;
               open-focused = false;
-               default-floating-position = _: {
+              default-floating-position = _: {
                 props = {
                   x = 0;
                   y = 0;

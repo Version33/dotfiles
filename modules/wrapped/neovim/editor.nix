@@ -1,6 +1,6 @@
 {
   flake.modules.neovim.editor =
-    { pkgs, ... }:
+    { lib, pkgs, ... }:
     let
       # IogaMaster/tuxedo.nvim — floating-window wrapper around the tuxedo
       # todo.txt TUI. Not packaged in nixpkgs' vimPlugins, so build it here.
@@ -45,7 +45,9 @@
         # which-key group spec with icons — must be Lua because the format
         # { "<leader>s", group = "search", icon = "…" } is a mixed array/dict
         # that Nix attrsets cannot produce via toLuaObject.
-        luaConfigRC.whichkey-groups = builtins.readFile ./lua/whichkey-groups.lua;
+        luaConfigRC.whichkey-groups = lib.nvim.dag.entryAfter [ "pluginConfigs" ] (
+          builtins.readFile ./lua/whichkey-groups.lua
+        );
 
         # webstonehq/tuxedo — the TUI the plugin drives. It calls a bare
         # `tuxedo` through termopen, and nvf appends extraPackages to nvim's

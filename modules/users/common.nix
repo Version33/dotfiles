@@ -33,6 +33,9 @@
       systemd.user.services.steam-desktop-fix = {
         description = "Ensure Steam desktop entry uses the keepalive launcher";
         wantedBy = [ "default.target" ];
+        # Skip for system users (e.g. greetd's greeter, home = /var/empty);
+        # mkdir there fails with "Operation not permitted" every boot.
+        unitConfig.ConditionUser = "!@system";
         serviceConfig = {
           Type = "oneshot";
           ExecStart = toString (

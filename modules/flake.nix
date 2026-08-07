@@ -11,7 +11,10 @@
   # Define core flake inputs here
   flake-file.inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # Core system packages
-    flake-parts.url = "github:hercules-ci/flake-parts"; # Module system for flakes
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    }; # Module system for flakes
     import-tree.url = "github:vic/import-tree"; # Automatic module discovery
 
     # Program wrappers
@@ -75,8 +78,11 @@
     };
 
     # EVO 8 audio interface control
+    # Pinned to a specific rev: this builds an out-of-tree kernel module
+    # (evo_raw) via a brittle Makefile patch — bump deliberately, not via
+    # an unpinned `nix flake update`.
     evo-control = {
-      url = "github:briannadon/evo-control";
+      url = "github:briannadon/evo-control?rev=17043c73fa48378d130f9d85b14d687f886f2881";
       flake = false;
     };
   };

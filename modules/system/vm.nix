@@ -18,7 +18,7 @@
 
         # Optional: enable graphics acceleration in VM
         qemu.options = [
-          "-vga virtio"
+          "-device virtio-vga-gl"
           "-display gtk,gl=on"
         ];
       };

@@ -60,6 +60,8 @@
           ExecStart = "${freenet}/bin/freenet network";
           Restart = "on-failure";
           RestartSec = 10;
+          # Don't restart-loop when the daemon exits asking for a flake update.
+          RestartPreventExitStatus = 42;
         };
       };
     };

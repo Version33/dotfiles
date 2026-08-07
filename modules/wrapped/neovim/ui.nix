@@ -200,10 +200,19 @@
       };
 
       # LazyVim: folke/trouble.nvim
-      lsp.trouble.enable = true;
-
-      # Notifications
-      notify.nvim-notify.enable = true;
+      lsp.trouble = {
+        enable = true;
+        # keymaps/tools.nix defines the single LazyVim-style Trouble scheme;
+        # null nvf's defaults so there is only one scheme, not two.
+        mappings = {
+          workspaceDiagnostics = null;
+          documentDiagnostics = null;
+          lspReferences = null;
+          quickfix = null;
+          locList = null;
+          symbols = null;
+        };
+      };
 
       # fzf-lua: primary fuzzy finder (preferred over telescope)
       fzf-lua = {
@@ -291,7 +300,7 @@
                   icon = " ";
                   key = "c";
                   desc = "Config";
-                  action = ":lua require('fzf-lua').files({ cwd = vim.fn.stdpath('config') })";
+                  action = ":lua require('fzf-lua').files({ cwd = vim.fs.normalize('~/nixos/modules/wrapped/neovim') })";
                 }
                 {
                   icon = "󰦛 ";

@@ -20,9 +20,9 @@
           oh-my-pi
           steam-launcher
           bitwig-studio
-          steam-desktop-item
           goofcord
           proton-drive
+          feedback
         ])
         ++ (with pkgs; [
           # Applications
@@ -87,6 +87,7 @@
           gparted
           ntfs3g
           efibootmgr
+          pciutils
         ])
         ++ (with pkgs; [
           # Media tools
@@ -106,13 +107,12 @@
           gping
           rewrk
           sshfs
-          upx
         ])
         ++ (with pkgs; [
           # Wine
           wineWow64Packages.staging
           winetricks
-          wine64Packages.fonts
+          wineWow64Packages.fonts
         ])
         ++ (with pkgs; [
           # Compilers & build tools
@@ -124,6 +124,7 @@
           lldb
           musl
           trunk
+          upx
         ])
         ++ (with pkgs; [
           # Language servers

@@ -22,13 +22,24 @@
       });
     in
     {
-      # USB permissions for the Tobii Eye Tracker 5
-      services.udev.extraRules = ''
-        # Tobii Eye Tracker 5 (EyeChip) - bootloader mode
-        SUBSYSTEM=="usb", ATTR{idVendor}=="2104", ATTR{idProduct}=="0102", MODE="0660", TAG+="uaccess"
-        # Tobii Eye Tracker 5 (EyeChip) - runtime mode
-        SUBSYSTEM=="usb", ATTR{idVendor}=="2104", ATTR{idProduct}=="0313", MODE="0660", TAG+="uaccess"
-      '';
+      # USB permissions for the Tobii Eye Tracker 5. Shipped via
+      # services.udev.packages instead of extraRules: extraRules lands in
+      # 99-local.rules, which is read after 73-seat-late.rules where
+      # systemd's uaccess builtin runs, so a uaccess tag added there is
+      # recorded in the udev db but never actually grants an ACL. A rule
+      # file below 73 fixes that.
+      services.udev.packages = [
+        (pkgs.writeTextFile {
+          name = "70-tobii-rules";
+          destination = "/etc/udev/rules.d/70-tobii.rules";
+          text = ''
+            # Tobii Eye Tracker 5 (EyeChip) - bootloader mode
+            SUBSYSTEM=="usb", ATTR{idVendor}=="2104", ATTR{idProduct}=="0102", MODE="0660", TAG+="uaccess"
+            # Tobii Eye Tracker 5 (EyeChip) - runtime mode
+            SUBSYSTEM=="usb", ATTR{idVendor}=="2104", ATTR{idProduct}=="0313", MODE="0660", TAG+="uaccess"
+          '';
+        })
+      ];
 
       # Install the daemon and overlay
       environment.systemPackages = [

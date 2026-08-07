@@ -87,59 +87,6 @@
         desc = "Prev Search Result";
       }
 
-      # ── Flash ─────────────────────────────────────────────────────────
-      {
-        key = "s";
-        mode = [
-          "n"
-          "o"
-          "x"
-        ];
-        lua = true;
-        action = "function() require('flash').jump() end";
-        silent = true;
-        desc = "Flash";
-      }
-      {
-        key = "S";
-        mode = [
-          "n"
-          "o"
-          "x"
-        ];
-        lua = true;
-        action = "function() require('flash').treesitter() end";
-        silent = true;
-        desc = "Flash Treesitter";
-      }
-      {
-        key = "r";
-        mode = "o";
-        lua = true;
-        action = "function() require('flash').remote() end";
-        silent = true;
-        desc = "Remote Flash";
-      }
-      {
-        key = "R";
-        mode = [
-          "o"
-          "x"
-        ];
-        lua = true;
-        action = "function() require('flash').treesitter_search() end";
-        silent = true;
-        desc = "Treesitter Search";
-      }
-      {
-        key = "<c-s>";
-        mode = "c";
-        lua = true;
-        action = "function() require('flash').toggle() end";
-        silent = true;
-        desc = "Toggle Flash Search";
-      }
-
       # ── Flash treesitter incremental selection ─────────────────────────
       {
         key = "<c-space>";
@@ -148,7 +95,7 @@
           "x"
         ];
         lua = true;
-        action = "function() require('flash').treesitter_search() end";
+        action = "function() require('flash').treesitter() end";
         silent = true;
         desc = "Flash Treesitter Selection";
       }

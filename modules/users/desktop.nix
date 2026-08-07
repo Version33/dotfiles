@@ -68,15 +68,6 @@
         };
       };
 
-      xdg.portal = {
-        enable = true;
-        wlr.enable = true;
-        extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-        config.niri = {
-          "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
-        };
-      };
-
       environment = {
         systemPackages = with pkgs; [
           catppuccin-cursors.mochaDark
@@ -91,28 +82,21 @@
           NIXOS_OZONE_WL = "1";
         };
 
+        # GTK reads system settings.ini from $XDG_CONFIG_DIRS/gtk-{3,4}.0/,
+        # which starts with /etc/xdg — bare /etc is never on that path, so
+        # these must live under etc/xdg to actually be read. gtk.css is
+        # only ever read from $XDG_CONFIG_HOME (per-user), never from /etc,
+        # so there is no system-wide equivalent to ship here.
         etc = {
-          "gtk-3.0/settings.ini".text = ''
+          "xdg/gtk-3.0/settings.ini".text = ''
             [Settings]
             gtk-theme-name=adw-gtk3-dark
             gtk-application-prefer-dark-theme=1
           '';
-          "gtk-3.0/gtk.css".text = ''
-            headerbar {
-              background-color: #1e1e2e;
-              color: #cdd6f4;
-            }
-          '';
-          "gtk-4.0/settings.ini".text = ''
+          "xdg/gtk-4.0/settings.ini".text = ''
             [Settings]
             gtk-theme-name=adw-gtk3-dark
             gtk-application-prefer-dark-theme=1
-          '';
-          "gtk-4.0/gtk.css".text = ''
-            headerbar {
-              background-color: #1e1e2e;
-              color: #cdd6f4;
-            }
           '';
         };
       };

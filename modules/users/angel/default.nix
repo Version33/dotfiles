@@ -11,13 +11,9 @@
         initialHashedPassword = "!";
         shell = self.packages.${system}.fish;
         extraGroups = [
-          "networkmanager"
           "input"
-          "wheel"
           "video"
-          "realtime"
           "audio"
-          "tss"
           "plugdev"
         ];
         packages = with self.packages.${system}; [

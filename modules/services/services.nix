@@ -10,8 +10,6 @@
 
       # Enable Services
       programs = {
-        direnv.enable = true; # Shell extension that manages your environment.
-        fish.enable = true;
         dconf.enable = true;
         xfconf.enable = true; # Xfce configuration storage system
       };
@@ -21,18 +19,16 @@
         dbus = {
           enable = true;
           implementation = "broker";
-          packages = with pkgs; [
-            xfconf
-            gnome2.GConf
-          ];
         };
-        mpd.enable = true; # Flexible, powerful daemon for playing music.
         tumbler.enable = true; # D-Bus thumbnailer service
         fwupd.enable = true; # DBus service that allows applications to update firmware.
         # auto-cpufreq.enable = true;
         # gnome.core-shell.enable = true;
         # udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
       };
+
+      systemd.packages = [ pkgs.psi-notify ];
+      systemd.user.services.psi-notify.wantedBy = [ "default.target" ];
 
       hardware.opentabletdriver.enable = true;
 
@@ -46,7 +42,7 @@
         grim # Grab images from a Wayland compositor.
         slurp # Select a region in a Wayland compositor.
         swappy # Wayland native snapshot editing tool, inspired by Snappy on macOS.
-        ffmpeg_6-full # Complete, cross-platform solution to record, convert and stream audio and video.
+        ffmpeg-full # Complete, cross-platform solution to record, convert and stream audio and video.
         wl-screenrec # High performance wlroots screen recording, featuring hardware encoding.
         wl-clipboard # Command-line copy/paste utilities for Wayland.
         wl-clip-persist # Keep Wayland clipboard even after programs close.

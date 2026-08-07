@@ -30,7 +30,7 @@
         key = "<leader>fc";
         mode = "n";
         lua = true;
-        action = "function() require('fzf-lua').files({ cwd = vim.fn.stdpath('config') }) end";
+        action = "function() require('fzf-lua').files({ cwd = vim.fs.normalize('~/nixos/modules/wrapped/neovim') }) end";
         silent = true;
         desc = "Find Config File";
       }
@@ -38,7 +38,7 @@
         key = "<leader>fp";
         mode = "n";
         lua = true;
-        action = "function() require('fzf-lua').projects() end";
+        action = "function() Snacks.picker.projects() end";
         silent = true;
         desc = "Projects";
       }
@@ -163,7 +163,7 @@
         key = "<leader>sB";
         mode = "n";
         lua = true;
-        action = "function() require('fzf-lua').grep_project() end";
+        action = "function() require('fzf-lua').lines() end";
         silent = true;
         desc = "Grep Open Buffers";
       }
@@ -235,7 +235,7 @@
         key = "<leader>su";
         mode = "n";
         lua = true;
-        action = "function() require('fzf-lua').undo() end";
+        action = "function() Snacks.picker.undo() end";
         silent = true;
         desc = "Undo History";
       }

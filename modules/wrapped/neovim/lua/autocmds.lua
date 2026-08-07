@@ -98,7 +98,7 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("WinEnter", {
   group = augroup("no_line_numbers"),
   callback = function()
-    if vim.bo.filetype == "neo-tree" then
+    if vim.bo.filetype == "snacks_picker_list" then
       vim.wo.number = false
       vim.wo.relativenumber = false
       vim.wo.statuscolumn = ""

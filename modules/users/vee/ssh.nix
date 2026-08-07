@@ -52,6 +52,12 @@
         flags = {
           "-F" = toString configFile;
         };
+        # scp/sftp are separate binaries in openssh; wrap them too so they
+        # read the same generated ssh_config (flags mirror from above).
+        wrapperVariants = {
+          scp = { };
+          sftp = { };
+        };
       };
     };
 }

@@ -12,7 +12,7 @@
         cursor_trail = 3;
 
         copy_on_select = "clipboard";
-        allow_remote_control = "yes";
+        allow_remote_control = "socket-only";
         listen_on = "unix:@mykitty";
         shell_integration = "enabled";
 

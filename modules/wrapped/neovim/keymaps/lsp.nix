@@ -104,7 +104,7 @@
       {
         key = "<leader>cl";
         mode = "n";
-        action = "<cmd>LspInfo<cr>";
+        action = "<cmd>checkhealth vim.lsp<cr>";
         silent = true;
         desc = "Lsp Info";
       }
@@ -157,6 +157,7 @@
         lua = true;
         action = "function() require('fzf-lua').lsp_references() end";
         silent = true;
+        nowait = true;
         desc = "References";
       }
       {
@@ -201,22 +202,6 @@
       }
 
       # ── Quickfix / Location list ──────────────────────────────────────
-      {
-        key = "<leader>xl";
-        mode = "n";
-        lua = true;
-        action = "function() local l=vim.fn.getloclist(0,{winid=0}); if l.winid~=0 then vim.cmd.lclose() else vim.cmd.lopen() end end";
-        silent = true;
-        desc = "Location List";
-      }
-      {
-        key = "<leader>xq";
-        mode = "n";
-        lua = true;
-        action = "function() local q=vim.fn.getqflist({winid=0}); if q.winid~=0 then vim.cmd.cclose() else vim.cmd.copen() end end";
-        silent = true;
-        desc = "Quickfix List";
-      }
       {
         key = "[q";
         mode = "n";

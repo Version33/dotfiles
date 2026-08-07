@@ -12,17 +12,13 @@ switch:
 switch-plain:
     sudo nixos-rebuild switch --flake .#k0or
 
-# Build without switching (with nom for better output)
-# build:
-# nom build '.#nixosConfigurations.k0or.config.system.build.toplevel'
-
-# Build (plain output, fallback option)
+# Build without switching
 build:
     nixos-rebuild build --flake .#k0or
 
 # Update flake inputs, switch to new config, and commit flake.lock
 update:
-    nix flake update && if git diff --quiet flake.lock; then echo "No updates."; else just switch && git add flake.lock && git commit -m "update"; fi
+    nix flake update && if git diff --quiet flake.lock; then echo "No updates."; else just switch && git commit flake.lock -m "chore(lock): $(date -I) input bump"; fi
 
 # Update specific input (e.g., just update-input nixpkgs)
 update-input INPUT:
@@ -38,7 +34,7 @@ test-plain:
 
 # Format all nix files
 fmt:
-    @find . -name '*.nix' -not -name 'hardware-configuration.nix' -type f -exec nixfmt {} +
+    nix fmt
 
 # Check for issues with statix
 check:
@@ -73,9 +69,10 @@ clean:
 generations:
     sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
 
-# Show disk usage of nix store
+# Show disk usage of /nix, plus the current system's closure size
 disk-usage:
-    du -sh /nix/store
+    df -h /nix
+    nix path-info -Sh /run/current-system
 
 # Optimize nix store
 optimize:
@@ -89,10 +86,10 @@ diff:
 # Git commit with conventional message
 commit MESSAGE:
     git add .
-    git commit -m "{{MESSAGE}}"
+    git commit -m '{{MESSAGE}}'
 
 # Quick commit and switch
-quick MESSAGE: (commit MESSAGE) switch
+quick MESSAGE: switch (commit MESSAGE)
 
 # Show dependency tree (requires nix-tree)
 tree:
@@ -102,25 +99,6 @@ tree:
 search PACKAGE:
     nix search nixpkgs {{PACKAGE}}
 
-# Copy config to /etc/nixos
-rsync:
-    sudo rsync -av --delete ./ /etc/nixos/ --exclude .git --exclude justfile
-
 # Enter development shell
 dev:
     nix develop
-
-# Setup direnv hooks for automatic environment loading
-setup-direnv:
-    @echo "Setting up direnv hooks..."
-    @if ! grep -q 'eval "$(direnv hook' ~/.bashrc ~/.zshrc ~/.config/fish/config.fish 2>/dev/null; then \
-        echo "Add one of these to your shell config:"; \
-        echo "  Bash: echo 'eval \"\$(direnv hook bash)\"' >> ~/.bashrc"; \
-        echo "  Zsh:  echo 'eval \"\$(direnv hook zsh)\"' >> ~/.zshrc"; \
-        echo "  Fish: echo 'direnv hook fish | source' >> ~/.config/fish/config.fish"; \
-        echo "  Nushell: see https://direnv.net/docs/hook.html#nushell"; \
-    else \
-        echo "direnv hooks already configured!"; \
-    fi
-    @echo ""
-    @echo "After setting up hooks, run: direnv allow"

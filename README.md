@@ -9,9 +9,9 @@ just switch
 # Or manually (plain output)
 sudo nixos-rebuild switch --flake .#k0or
 
-# Test build without applying (uses nom for better output)
+# Build without switching (plain output)
 just build
 
-# Update all inputs
+# Update flake inputs, switch to new config, and commit flake.lock
 just update
 ```

@@ -1,6 +1,6 @@
 {
   flake.modules.neovim.coding =
-    { pkgs, ... }:
+    { lib, pkgs, ... }:
     {
       config.vim = {
         # LazyVim: Saghen/blink.cmp
@@ -20,7 +20,7 @@
 
         # LazyVim: nvim-mini/mini.pairs — full options from LazyVim source
         # nvim-mini/mini.ai — custom textobjects, setup is in luaConfigRC below
-        # nvim-mini/mini.surround — gsa=add, gsd=delete, gsr=replace, gsf=find, gsF=find_left, gsh=highlight
+        # nvim-mini/mini.surround — gsa=add, gsd=delete, gsr=replace, gsf=find, gsF=find_left, gsh=highlight, gsn=update_n_lines
         mini = {
           pairs = {
             enable = true;
@@ -39,11 +39,24 @@
 
           ai.enable = true;
 
-          surround.enable = true;
+          surround = {
+            enable = true;
+            setupOpts.mappings = {
+              add = "gsa";
+              delete = "gsd";
+              find = "gsf";
+              find_left = "gsF";
+              highlight = "gsh";
+              replace = "gsr";
+              update_n_lines = "gsn";
+            };
+          };
         };
 
         # mini.ai custom textobjects need Lua — wire them via luaConfigRC
-        luaConfigRC.mini-ai-textobjects = builtins.readFile ./lua/mini-ai.lua;
+        luaConfigRC.mini-ai-textobjects = lib.nvim.dag.entryAfter [ "pluginConfigs" ] (
+          builtins.readFile ./lua/mini-ai.lua
+        );
 
         # LazyVim: folke/ts-comments.nvim
         extraPlugins.ts-comments-nvim = {

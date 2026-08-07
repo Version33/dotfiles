@@ -12,13 +12,10 @@
         openssh.authorizedKeys.keyFiles = [ ./keys/phone.pub ];
         shell = self.packages.${system}.fish;
         extraGroups = [
-          "networkmanager"
           "input"
           "wheel"
           "video"
-          "realtime"
           "audio"
-          "tss"
           "plugdev"
           "dialout"
         ];

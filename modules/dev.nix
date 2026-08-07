@@ -11,6 +11,7 @@
         projectRootFile = "flake.nix";
         programs.nixfmt.enable = true;
         programs.nixfmt.package = pkgs.nixfmt;
+        settings.excludes = [ "hardware-configuration.nix" ];
       };
 
       devShells.default = pkgs.mkShell {
@@ -23,12 +24,7 @@
           nix-tree # Visualize dependency tree
           nix-output-monitor # Better build output (alias: nom)
 
-          # Development environment tools
-          direnv # Automatic environment activation
-          nix-direnv # Fast direnv integration for Nix
-
           # Useful utilities
-          git
           just # Command runner (for justfile)
         ];
       };
