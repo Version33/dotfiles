@@ -22,6 +22,7 @@
           bitwig-studio
           steam-desktop-item
           goofcord
+          proton-drive
         ])
         ++ (with pkgs; [
           # Applications
