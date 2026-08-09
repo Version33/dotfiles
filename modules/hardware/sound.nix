@@ -27,6 +27,26 @@
         };
       };
 
+      # Steam's bundled libaudio.so derefs each PulseAudio card's active profile
+      # without a NULL check, and these GPU HDMI cards sometimes come up with no
+      # profile at all, segfaulting Steam on launch. Unused here — audio goes out
+      # the EVO 8. Drop this block to get monitor audio back in pavucontrol.
+      environment.etc."wireplumber/wireplumber.conf.d/50-disable-gpu-hdmi-audio.conf".text = ''
+        monitor.alsa.rules = [
+          {
+            matches = [
+              { device.name = "alsa_card.pci-0000_03_00.1" }
+              { device.name = "alsa_card.pci-0000_7b_00.1" }
+            ]
+            actions = {
+              update-props = {
+                device.disabled = true
+              }
+            }
+          }
+        ]
+      '';
+
       environment.systemPackages = with pkgs; [
         pamixer
         pavucontrol
