@@ -40,6 +40,7 @@
           blender
           bambu-studio
           lsp-plugins
+          renoise # demo build; pass releasePath after purchase for full version
         ])
         ++ (with pkgs; [
           # CLI tools
