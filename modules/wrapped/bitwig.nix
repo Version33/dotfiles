@@ -3,7 +3,23 @@
   perSystem =
     { pkgs, system, ... }:
     let
-      bitwig = inputs.audio-nix.packages.${system}.bitwig-studio6-latest;
+      # 6-latest tracks betas, which carry an expiry time bomb; use stable.
+      # audio-nix's stable is behind upstream (6.0.6), so bump the source to
+      # the current stable release and re-wrap with its bubblewrap wrapper.
+      # Drop this override once audio-nix catches up.
+      version = "6.0.11";
+      unwrapped =
+        inputs.audio-nix.packages.${system}.bitwig-studio6-0-unwrapped.overrideAttrs
+          (old: {
+            inherit version;
+            src = pkgs.fetchurl {
+              url = "https://downloads-secure.bitwig.com/${version}/bitwig-studio-${version}.deb?source_url=/dl/Bitwig%20Studio/${version}/installer_linux/";
+              sha256 = "sha256-rnr/Z8y6klKrU2gT5/XT+sRryl/HZZZ04n565L0HPEw=";
+            };
+          });
+      bitwig = pkgs.callPackage (inputs.audio-nix + "/bitwig/bitwig-bubblewrap.nix") {
+        bitwig-studio = unwrapped;
+      };
 
       # Third-party plugin binaries (e.g. Serum 2) are dlopen'd by Bitwig's
       # plugin host and resolve their dependencies through the process's
