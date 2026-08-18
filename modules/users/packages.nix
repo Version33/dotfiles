@@ -22,6 +22,7 @@
           goofcord
           proton-drive
           feedback
+          godot
         ])
         ++ (with pkgs; [
           # Applications
@@ -36,7 +37,6 @@
           kdePackages.filelight
           qimgv
           qbittorrent-enhanced
-          godotPackages_4_7.godot
           blender
           bambu-studio
           lsp-plugins
