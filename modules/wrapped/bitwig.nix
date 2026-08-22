@@ -8,15 +8,13 @@
       # the current stable release and re-wrap with its bubblewrap wrapper.
       # Drop this override once audio-nix catches up.
       version = "6.0.11";
-      unwrapped =
-        inputs.audio-nix.packages.${system}.bitwig-studio6-0-unwrapped.overrideAttrs
-          (old: {
-            inherit version;
-            src = pkgs.fetchurl {
-              url = "https://downloads-secure.bitwig.com/${version}/bitwig-studio-${version}.deb?source_url=/dl/Bitwig%20Studio/${version}/installer_linux/";
-              sha256 = "sha256-rnr/Z8y6klKrU2gT5/XT+sRryl/HZZZ04n565L0HPEw=";
-            };
-          });
+      unwrapped = inputs.audio-nix.packages.${system}.bitwig-studio6-0-unwrapped.overrideAttrs (old: {
+        inherit version;
+        src = pkgs.fetchurl {
+          url = "https://downloads-secure.bitwig.com/${version}/bitwig-studio-${version}.deb?source_url=/dl/Bitwig%20Studio/${version}/installer_linux/";
+          sha256 = "sha256-rnr/Z8y6klKrU2gT5/XT+sRryl/HZZZ04n565L0HPEw=";
+        };
+      });
       bitwig = pkgs.callPackage (inputs.audio-nix + "/bitwig/bitwig-bubblewrap.nix") {
         bitwig-studio = unwrapped;
       };
