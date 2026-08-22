@@ -31,6 +31,7 @@
             markdown = [ "prettier" ];
             go = [ "gofmt" ];
             rust = [ "rustfmt" ];
+            gdscript = [ "gdformat" ];
           };
           formatters.injected = {
             options.ignore_errors = true;
@@ -44,6 +45,7 @@
         pkgs.ruff
         pkgs.go
         pkgs.nixfmt
+        pkgs.gdtoolkit_4 # gdformat + gdlint for GDScript
       ];
     };
 }

@@ -16,6 +16,9 @@
           bash
           css
           diff
+          gdscript
+          gdshader
+          godot_resource
           html
           javascript
           jsdoc

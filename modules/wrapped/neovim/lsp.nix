@@ -24,6 +24,22 @@
             # `check.allTargets` already defaults to true, so tests are linted too.
             settings.rust-analyzer.check.command = "clippy";
           };
+
+          # Godot ships its own language server inside the editor; connect over
+          # TCP instead of spawning a binary. Requires the Godot editor to be
+          # running (Editor Settings > Network > Language Server, default port).
+          servers.gdscript = {
+            cmd = lib.generators.mkLuaInline ''vim.lsp.rpc.connect("127.0.0.1", 6005)'';
+            filetypes = [
+              "gd"
+              "gdscript"
+              "gdscript3"
+            ];
+            root_markers = [
+              "project.godot"
+              ".git"
+            ];
+          };
         };
 
         languages = {
