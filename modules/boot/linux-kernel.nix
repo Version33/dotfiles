@@ -15,11 +15,6 @@
           "r8169.aspm=0"
         ];
       };
-
-      security = {
-        unprivilegedUsernsClone = true;
-      };
-
     };
 
 }
