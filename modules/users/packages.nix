@@ -23,6 +23,7 @@
           proton-drive
           feedback
           godot
+          orca-slicer # nightly build for Bambu H2C support; bump via `nix run .#orca-nightly-update`
         ])
         ++ (with pkgs; [
           # Applications
@@ -38,7 +39,6 @@
           qimgv
           qbittorrent-enhanced
           blender
-          bambu-studio
           lsp-plugins
           renoise # demo build; pass releasePath after purchase for full version
         ])
