@@ -19,6 +19,7 @@
           herdr
           oh-my-pi
           bitwig-studio
+          ableton-live
           goofcord
           proton-drive
           feedback

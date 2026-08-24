@@ -77,6 +77,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Ableton Live runtime (patched Wine + PipeASIO + Link). Tracks main.
+    # Deliberately NOT following our nixpkgs: the input carries a heavy
+    # patched-Wine build, so keep upstream's pinned nixpkgs and only rebuild
+    # when the project itself updates.
+    ableton-linux.url = "github:shibco/ableton-linux";
+
     # EVO 8 audio interface control
     # Pinned to a specific rev: this builds an out-of-tree kernel module
     # (evo_raw) via a brittle Makefile patch — bump deliberately, not via

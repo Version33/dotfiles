@@ -4,6 +4,7 @@
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 
   inputs = {
+    ableton-linux.url = "github:shibco/ableton-linux";
     audio-nix = {
       url = "github:polygon/audio.nix";
       inputs.nixpkgs.follows = "nixpkgs";
