@@ -30,6 +30,21 @@
 
           xwayland-satellite.path = lib.getExe xwayland-satellite-patched;
 
+          # Wait for Tidal's window before starting GoofCord so Tidal
+          # always ends up on the left.
+          spawn-at-startup = [
+            (toString (
+              pkgs.writeShellScript "startup-apps" ''
+                ${lib.getExe pkgs.tidal-hifi} &
+                for _ in $(seq 100); do
+                  ${lib.getExe' pkgs.niri "niri"} msg windows | grep -q '"tidal-hifi"' && break
+                  sleep 0.2
+                done
+                exec ${lib.getExe self'.packages.goofcord}
+              ''
+            ))
+          ];
+
           cursor = {
             xcursor-theme = "catppuccin-mocha-dark-cursors";
             xcursor-size = 24;
@@ -109,6 +124,13 @@
                   relative-to = "bottom-right";
                 };
               };
+            }
+            {
+              matches = [
+                { app-id = "tidal-hifi"; }
+                { app-id = "goofcord"; }
+              ];
+              open-on-output = "DP-2";
             }
           ];
 
