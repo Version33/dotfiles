@@ -7,9 +7,29 @@
   # Prefix maintenance stays on the flake apps, e.g.
   # `nix run github:shibco/ableton-linux#setup-prefix`.
   perSystem =
-    { system, ... }:
+    { pkgs, system, ... }:
+    let
+      ableton-wine = inputs.ableton-linux.packages.${system}.ableton-wine;
+    in
     {
-      packages.ableton-live = inputs.ableton-linux.packages.${system}.ableton-wine;
+      # Upstream ships a generic "Ableton Live" menu entry for every edition;
+      # rebrand the visible one to the installed edition (Suite). The shipped
+      # live-suite icon is already the Suite artwork. NoDisplay MIME/protocol
+      # entries keep their generic name. StartupWMClass groups Live's Wine
+      # windows under this entry.
+      packages.ableton-live = pkgs.symlinkJoin {
+        name = ableton-wine.name;
+        paths = [ ableton-wine ];
+        postBuild = ''
+          entry=$out/share/applications
+          for f in $entry/*.desktop; do
+            if grep -q '^Comment=Music production and performance' "$f"; then
+              sed -i -e 's/^Name=Ableton Live$/Name=Ableton Live 12 Suite/' \
+                     -e '$a StartupWMClass=ableton live 12 suite.exe' "$f"
+            fi
+          done
+        '';
+      };
     };
 
   flake.modules.nixos.ableton = _: {
