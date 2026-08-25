@@ -57,6 +57,9 @@
             };
           };
 
+          # Disable the top-left hot corner (overview trigger).
+          gestures.hot-corners.off = _: { };
+
           outputs = {
             # DP-2 is on the left, DP-1 is on the right
             # Logical size at scale 1.25: 3840/1.25 = 3072px wide each

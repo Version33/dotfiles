@@ -10,7 +10,8 @@
         package = pkgs.noctalia-shell.overrideAttrs (old: {
           postPatch = (old.postPatch or "") + ''
             substituteInPlace Modules/Panels/Launcher/Providers/SessionProvider.qml \
-              --replace-fail '"_score": score - 1,' '"_score": score + 1,'
+              --replace-fail '"_score": score - 1,' '"_score": score + 1,' \
+              --replace-fail '"keywords": ["hibernate", "disk"]' '"keywords": ["hibernate"]'
           '';
         });
       };
