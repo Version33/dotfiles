@@ -5,11 +5,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1787594864,
-        "narHash": "sha256-d3D18jfGnphkSBCaMmsjoq4InXIz1R/GsGlDrzpNYTY=",
+        "lastModified": 1787610592,
+        "narHash": "sha256-jUIOb/ldEDXNh/BhaOvZ7Qt/h3Ptz27W7XYPw88FtNc=",
         "owner": "shibco",
         "repo": "ableton-linux",
-        "rev": "c0f1b2fb7c43ba153bf3094ada1d4e712a070db2",
+        "rev": "787198cd774b88befc1e76bedb86ff7036a2b6d4",
         "type": "github"
       },
       "original": {
@@ -228,11 +228,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787604072,
-        "narHash": "sha256-vMDd2gFXU5KZ22SkqZsGEG39Osb5zXn0Bo7rFOmp/vU=",
+        "lastModified": 1787615251,
+        "narHash": "sha256-fMEaK6Gi+r1JuP46Bmz89QcX1+ZJ7Vl4uGtoo84KPlw=",
         "owner": "freenet",
         "repo": "freenet-core",
-        "rev": "eabd33f676a6100da7116ec51e9e77f8aa28f923",
+        "rev": "fc9bd228a96da662dc5d7755b6ac8fb354393645",
         "type": "github"
       },
       "original": {
