@@ -5,11 +5,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1787610592,
-        "narHash": "sha256-jUIOb/ldEDXNh/BhaOvZ7Qt/h3Ptz27W7XYPw88FtNc=",
+        "lastModified": 1787704008,
+        "narHash": "sha256-VkREYmOfzd2chbrg9I5/mfCL21bug0z8MT8rinu9vKo=",
         "owner": "shibco",
         "repo": "ableton-linux",
-        "rev": "787198cd774b88befc1e76bedb86ff7036a2b6d4",
+        "rev": "54933547bef023d937e3b5cb23d438afab7905bc",
         "type": "github"
       },
       "original": {
@@ -104,11 +104,11 @@
         "rust-analyzer-src": "rust-analyzer-src_2"
       },
       "locked": {
-        "lastModified": 1787640924,
-        "narHash": "sha256-5RH0X19vDtLjygX3vKEz9DcmCJ3iwnkMAg9ZNfvp31U=",
+        "lastModified": 1787682169,
+        "narHash": "sha256-3s2b41eIrdMgid6QRxvilq6Q5GiVb/FtAbqN5kmvyCA=",
         "owner": "nix-community",
         "repo": "fenix",
-        "rev": "7e9f5c4746d2d4973e393317c4557f614f1398b8",
+        "rev": "c7dbce2c0c935f3d5e33a2f4f74094640b74f9b7",
         "type": "github"
       },
       "original": {
@@ -228,11 +228,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787657399,
-        "narHash": "sha256-8FfjdnQV02vw5JLMnor4yu9wNgdGFt/hIbc8rYM9/hI=",
+        "lastModified": 1787676421,
+        "narHash": "sha256-FrE23W/+yVdYqeHXDCHEkULlGMMrZdIKVtQj78QUi64=",
         "owner": "freenet",
         "repo": "freenet-core",
-        "rev": "2480da316b5442ac0a784374eaafab56aeea63bb",
+        "rev": "651aec4080b12da18fe9b9d6d83524be829515a4",
         "type": "github"
       },
       "original": {
