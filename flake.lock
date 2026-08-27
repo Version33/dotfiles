@@ -72,6 +72,18 @@
         "type": "github"
       }
     },
+    "feedback-nightly": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-Bh3u9CCm7ifylQYPwHLcg7PLTwWkgVQztmrALHMjhqM=",
+        "type": "file",
+        "url": "https://github.com/got-feedback/feedBack-desktop/releases/download/nightly/feedback-0.3.0-x86_64.AppImage"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/got-feedback/feedBack-desktop/releases/download/nightly/feedback-0.3.0-x86_64.AppImage"
+      }
+    },
     "fenix": {
       "inputs": {
         "nixpkgs": [
@@ -458,6 +470,18 @@
         "type": "github"
       }
     },
+    "orca-nightly": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-4pEoHW9Sdl+jak++nzh8B8a3rP6iYZmTjDvtvumZ5/w=",
+        "type": "file",
+        "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage"
+      }
+    },
     "pre-commit": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -485,6 +509,7 @@
         "ableton-linux": "ableton-linux",
         "audio-nix": "audio-nix",
         "evo-control": "evo-control",
+        "feedback-nightly": "feedback-nightly",
         "fenix": "fenix_2",
         "flake-file": "flake-file",
         "flake-parts": "flake-parts",
@@ -495,6 +520,7 @@
         "nixmate": "nixmate",
         "nixpkgs": "nixpkgs_2",
         "nvf": "nvf",
+        "orca-nightly": "orca-nightly",
         "tobiifree": "tobiifree",
         "treefmt-nix": "treefmt-nix",
         "wrapper-modules": "wrapper-modules"
