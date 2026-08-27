@@ -91,6 +91,22 @@
       url = "github:briannadon/evo-control?rev=17043c73fa48378d130f9d85b14d687f886f2881";
       flake = false;
     };
+
+    # OrcaSlicer nightly AppImage (Bambu H2C support; not in a tagged release
+    # yet). Upstream overwrites this asset in place; the lock pins a snapshot.
+    # Bump with `nix flake update orca-nightly`.
+    orca-nightly = {
+      url = "file+https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage";
+      flake = false;
+    };
+
+    # fee[dB]ack nightly AppImage. `nightly` is a rolling tag — upstream
+    # re-uploads the same asset URL on every build; the lock pins a snapshot.
+    # Bump with `nix flake update feedback-nightly`.
+    feedback-nightly = {
+      url = "file+https://github.com/got-feedback/feedBack-desktop/releases/download/nightly/feedback-0.3.0-x86_64.AppImage";
+      flake = false;
+    };
   };
 
   # System architectures this flake supports

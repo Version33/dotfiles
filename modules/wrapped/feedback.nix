@@ -1,4 +1,5 @@
-_: {
+{ inputs, ... }:
+{
   perSystem =
     { lib, pkgs, ... }:
     let
@@ -8,27 +9,14 @@ _: {
       # Linux download button serves.
       #
       # `nightly` is a *rolling* tag: GitHub re-uploads the same asset URL on
-      # every nightly build, so this hash goes stale whenever upstream publishes.
-      # That fails loudly at fetch time (hash mismatch), never silently — re-pin
-      # by reading the asset's `digest` field from
-      #   https://api.github.com/repos/got-feedback/feedBack-desktop/releases
-      # which publishes the sha256 without downloading 552 MiB.
+      # every nightly build. The AppImage is a `file+https` flake input, so
+      # flake.lock pins a snapshot; bump with `nix flake update feedback-nightly`.
       #
-      # For a reproducible pin instead, swap to the tagged release:
-      #   version = "0.3.0-alpha.1";
-      #   tag     = "v${version}";
-      #   hash    = "sha256-vq8IqVE6uXr7SUMndAbxWEuGxq1PWnAsFkZxKmANX4M=";
-      version = "0.3.0-nightly.20260722";
-      tag = "nightly";
-      hash = "sha256-5VvadJ26XQa+MjgFW8tnmA4Bzjc6ScMUpL8uEeGW7/Y=";
+      # For a reproducible pin instead, swap to a tagged-release URL in the
+      # input definition (modules/flake.nix).
+      version = "0.3.0-nightly";
 
-      # artifactName in upstream's electron-builder config is
-      # `feedback-${version}-${arch}.${ext}`, where ${version} is the bare
-      # package version (0.3.0) — not the channel or prerelease tag.
-      src = pkgs.fetchurl {
-        url = "https://github.com/got-feedback/feedBack-desktop/releases/download/${tag}/feedback-0.3.0-x86_64.AppImage";
-        inherit hash;
-      };
+      src = "${inputs.feedback-nightly}";
 
       appimageContents = pkgs.appimageTools.extractType2 { inherit pname version src; };
     in

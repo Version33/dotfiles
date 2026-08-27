@@ -24,7 +24,7 @@
           proton-drive
           feedback
           godot
-          orca-slicer # nightly build for Bambu H2C support; bump via `nix run .#orca-nightly-update`
+          orca-slicer # nightly build for Bambu H2C support; bump via `nix flake update orca-nightly`
         ])
         ++ (with pkgs; [
           # Applications

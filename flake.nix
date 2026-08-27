@@ -13,6 +13,10 @@
       url = "github:briannadon/evo-control?rev=17043c73fa48378d130f9d85b14d687f886f2881";
       flake = false;
     };
+    feedback-nightly = {
+      url = "file+https://github.com/got-feedback/feedBack-desktop/releases/download/nightly/feedback-0.3.0-x86_64.AppImage";
+      flake = false;
+    };
     fenix = {
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -43,6 +47,10 @@
     nvf = {
       url = "github:NotAShelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    orca-nightly = {
+      url = "file+https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage";
+      flake = false;
     };
     tobiifree = {
       url = "github:Aetherall/tobiifree";

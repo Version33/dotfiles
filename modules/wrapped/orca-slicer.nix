@@ -1,20 +1,17 @@
-_: {
+{ inputs, ... }:
+{
   perSystem =
     { pkgs, ... }:
     let
       # Bambu H2C/A2L support (PR #14685) is merged to main but not in any
       # tagged release (latest: v2.4.2) — use the nightly AppImage until the
-      # next stable release ships. Bump with `nix run .#orca-nightly-update`.
-      # Upstream overwrites the nightly asset in place, so the hash pins a
-      # specific snapshot; the fetch only re-runs when the hash is bumped.
-      version = "nightly-2026-08-22";
-      hash = "sha256-q3DlRqaxOPe0cDL2W2kuQzkHQsTf9zOO1WEwYmDKzfw=";
+      # next stable release ships. The AppImage is a `file+https` flake input:
+      # upstream overwrites the asset in place, so flake.lock pins a snapshot.
+      # Bump with `nix flake update orca-nightly`.
+      version = "nightly";
 
       pname = "orca-slicer";
-      src = pkgs.fetchurl {
-        url = "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage";
-        inherit hash;
-      };
+      src = "${inputs.orca-nightly}";
 
       contents = pkgs.appimageTools.extract { inherit pname version src; };
     in
@@ -59,27 +56,5 @@ _: {
         };
       };
 
-      # Refreshes `hash` above to the current nightly AppImage snapshot.
-      packages.orca-nightly-update = pkgs.writeShellApplication {
-        name = "orca-nightly-update";
-        runtimeInputs = with pkgs; [
-          curl
-          jq
-          nix
-        ];
-        text = ''
-          asset=$(curl -fsSL https://api.github.com/repos/OrcaSlicer/OrcaSlicer/releases/tags/nightly-builds \
-            | jq -r '.assets[] | select(.name == "OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage")')
-          digest=$(jq -r '.digest' <<<"$asset" | cut -d: -f2)
-          date=$(jq -r '.updated_at' <<<"$asset" | cut -dT -f1)
-          sri=$(nix hash convert --hash-algo sha256 --to sri "$digest")
-          file=modules/wrapped/orca-slicer.nix
-          sed -i \
-            -e "s|version = \"nightly-.*\";|version = \"nightly-$date\";|" \
-            -e "s|hash = \"sha256-.*\";|hash = \"$sri\";|" \
-            "$file"
-          echo "orca-slicer nightly pinned to $date ($sri)"
-        '';
-      };
     };
 }
