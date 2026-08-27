@@ -38,7 +38,10 @@
               end
               fish_vi_key_bindings
 
-              # starship prompt (wrapped package carries STARSHIP_CONFIG)
+              # starship prompt. The init script embeds the UNWRAPPED binary
+              # path (current_exe), so the wrapper's env never reaches the
+              # per-prompt calls — export the wrapper's config path here.
+              set -gx STARSHIP_CONFIG ${starship.configFile}
               ${lib.getExe starship} init fish | source
 
               # direnv hook
