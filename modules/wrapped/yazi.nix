@@ -1,6 +1,6 @@
 let
   mkYazi =
-    pkgs:
+    pkgs: starship:
     pkgs.yazi.override {
       settings.theme = builtins.fromTOML (
         builtins.readFile (
@@ -16,7 +16,7 @@ let
         "full-border" = yaziPlugins.full-border;
       };
       extraPackages = with pkgs; [
-        starship # fancy shell prompt
+        starship # fancy shell prompt (wrapped, carries STARSHIP_CONFIG)
         sox # spectrogram previews
         ffmpeg # video thumbnails
         _7zz # archive extraction and preview
@@ -64,8 +64,8 @@ let
 in
 {
   perSystem =
-    { pkgs, ... }:
+    { pkgs, self', ... }:
     {
-      packages.yazi = mkYazi pkgs;
+      packages.yazi = mkYazi pkgs self'.packages.starship;
     };
 }

@@ -5,9 +5,9 @@
 }:
 {
   perSystem =
-    { pkgs, ... }:
+    { pkgs, self', ... }:
     let
-      starshipConf = ./starship.toml;
+      starship = self'.packages.starship;
       # Compact greeting: small distro logo, one-line separator, few modules.
       fastfetchConf = pkgs.writeText "fastfetch.jsonc" ''
         {
@@ -38,9 +38,8 @@
               end
               fish_vi_key_bindings
 
-              # starship prompt
-              set -gx STARSHIP_CONFIG ${starshipConf}
-              ${lib.getExe pkgs.starship} init fish | source
+              # starship prompt (wrapped package carries STARSHIP_CONFIG)
+              ${lib.getExe starship} init fish | source
 
               # direnv hook
               if type -q direnv
@@ -91,7 +90,7 @@
           inherit pkgs;
           package = pkgs.fish;
           runtimePkgs = [
-            pkgs.starship
+            starship
             pkgs.zoxide
             pkgs.eza
             pkgs.fastfetch
