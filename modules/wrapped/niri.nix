@@ -218,7 +218,10 @@
             "Mod+WheelScrollDown"."focus-workspace-down" = _: { };
             "Mod+WheelScrollUp"."focus-workspace-up" = _: { };
 
-            # Screenshots
+            # Screenshots & recording. Mod+Shift+S opens the capture menu
+            # (region/window/monitor shots, wl-screenrec video ± audio);
+            # the Print binds stay as direct shortcuts to niri's built-ins.
+            "Mod+Shift+S".spawn-sh = lib.getExe self'.packages.screenshot-menu;
             "Print".screenshot = _: { };
             "Ctrl+Print".screenshot-screen = _: { };
             "Alt+Print".screenshot-window = _: { };
