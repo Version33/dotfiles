@@ -1,7 +1,7 @@
 { inputs, lib, ... }:
 {
   perSystem =
-    { pkgs, self', ... }:
+    { pkgs, ... }:
     let
       settings = {
         font_family = "JetBrainsMono Nerd Font Mono";
@@ -15,8 +15,6 @@
         allow_remote_control = "socket-only";
         listen_on = "unix:@mykitty";
         shell_integration = "enabled";
-        shell = lib.getExe self'.packages.fish;
-
       };
 
       kittyKeyValueFormat = pkgs.formats.keyValue {
