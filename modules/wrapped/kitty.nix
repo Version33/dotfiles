@@ -1,7 +1,7 @@
 { inputs, lib, ... }:
 {
   perSystem =
-    { pkgs, ... }:
+    { pkgs, self', ... }:
     let
       settings = {
         font_family = "JetBrainsMono Nerd Font Mono";
@@ -15,21 +15,8 @@
         allow_remote_control = "socket-only";
         listen_on = "unix:@mykitty";
         shell_integration = "enabled";
+        shell = lib.getExe self'.packages.fish;
 
-        map = [
-          "alt+1 goto_tab 1"
-          "alt+2 goto_tab 2"
-          "alt+3 goto_tab 3"
-          "alt+4 goto_tab 4"
-          "alt+5 goto_tab 5"
-          "alt+6 goto_tab 6"
-          "alt+7 goto_tab 7"
-          "alt+8 goto_tab 8"
-          "alt+9 goto_tab 9"
-          "ctrl+shift+w close_tab"
-          "ctrl+t new_tab_with_cwd"
-          "ctrl+shift+t new_tab"
-        ];
       };
 
       kittyKeyValueFormat = pkgs.formats.keyValue {
