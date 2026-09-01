@@ -116,11 +116,11 @@
         "rust-analyzer-src": "rust-analyzer-src_2"
       },
       "locked": {
-        "lastModified": 1788193191,
-        "narHash": "sha256-ml05aPtgKYo2+XvL66tRmym5I2YK4UVjBpTGhkvOYew=",
+        "lastModified": 1788261902,
+        "narHash": "sha256-N7UHRZbJzgWaad+SOgl9QlWKiBulHan2/ezZhLfnjlo=",
         "owner": "nix-community",
         "repo": "fenix",
-        "rev": "c9d23506b787a5f5bad51b50231738127761f4c5",
+        "rev": "af85de9d317b402448a8ebb06bc16c7fd82f0375",
         "type": "github"
       },
       "original": {
@@ -240,11 +240,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788193918,
-        "narHash": "sha256-cJ1MagFCIZ25pSqvDM85zDS0AkPDghZwkS/HZqBDEMk=",
+        "lastModified": 1788223108,
+        "narHash": "sha256-KA+ae1rAomvjQvrncq4YkojOOOtwd+IpozZsrkRjU9Y=",
         "owner": "freenet",
         "repo": "freenet-core",
-        "rev": "0ca7e02bf3a5e659b2e607a4f26898a05fea831f",
+        "rev": "f7070844625f7a0368385c1921c6f35efaf1a29f",
         "type": "github"
       },
       "original": {
@@ -255,11 +255,11 @@
     },
     "import-tree": {
       "locked": {
-        "lastModified": 1784254960,
-        "narHash": "sha256-iI88R3wHz8wTKQb5orvpc51L/Xr64AJyxid/0MKa/b8=",
+        "lastModified": 1788275959,
+        "narHash": "sha256-doeyg/EY8joBaZhELfVrSGjAm6pFtp2p0UgQv/Wwgh0=",
         "owner": "vic",
         "repo": "import-tree",
-        "rev": "4ebb10ae17d5f1ad366e7aef5b92cb8eecf24f69",
+        "rev": "e9177dd0d600162a6410ea6019c796cff7a636c3",
         "type": "github"
       },
       "original": {
@@ -473,7 +473,7 @@
     "orca-nightly": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-Ds/U9SWBAgWeFO4ch4xSczQ2Fz/fgG99hzPih7lmcjM=",
+        "narHash": "sha256-zKQo46/P7/Y12XliiMSw+gFqRI/gdeOXz52jQtgUgzg=",
         "type": "file",
         "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage"
       },
@@ -546,11 +546,11 @@
     "rust-analyzer-src_2": {
       "flake": false,
       "locked": {
-        "lastModified": 1788115381,
-        "narHash": "sha256-GPVqyoKUynK85mtX7284ntBkNMd35A+BBqSfX/3cZ8g=",
+        "lastModified": 1788194240,
+        "narHash": "sha256-dehprdAEnE6veOVeKq1wbOKmwPPoNbVHwwBj3l8rOFY=",
         "owner": "rust-lang",
         "repo": "rust-analyzer",
-        "rev": "f8996691e991a4dc3c6f135e0fc04fc5561e4e9a",
+        "rev": "ce43a12d9fe4a24e5d6a86d29a57234efcc902b7",
         "type": "github"
       },
       "original": {
