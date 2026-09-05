@@ -1,6 +1,6 @@
 {
 
-  flake.modules.neovim.ui = {
+  flake.modules.neovim.ui = { lib, ... }: {
     config.vim = {
       # LazyVim: nvim-mini/mini.icons
       mini.icons.enable = true;
@@ -29,9 +29,9 @@
         # only way to change them is to restate the sections. These are those
         # defaults with the slants swapped for powerline arrows:  (U+E0B0)
         # pointing right on the left half,  (U+E0B2) pointing left on the right.
-        activeSection = {
-          a = [
-            ''
+        setupOpts.sections = {
+          lualine_a = [
+            (lib.mkLuaInline ''
               {
                 "mode",
                 icons_enabled = true,
@@ -40,41 +40,41 @@
                   right = ''
                 },
               }
-            ''
-            ''
+            '')
+            (lib.mkLuaInline ''
               {
                 "",
                 draw_empty = true,
                 separator = { left = '', right = '' }
               }
-            ''
+            '')
           ];
-          b = [
-            ''
+          lualine_b = [
+            (lib.mkLuaInline ''
               {
                 "filetype",
                 colored = true,
                 icon_only = true,
                 icon = { align = 'left' }
               }
-            ''
-            ''
+            '')
+            (lib.mkLuaInline ''
               {
                 "filename",
                 symbols = {modified = ' ', readonly = ' '},
                 separator = {right = ''}
               }
-            ''
-            ''
+            '')
+            (lib.mkLuaInline ''
               {
                 "",
                 draw_empty = true,
                 separator = { left = '', right = '' }
               }
-            ''
+            '')
           ];
-          c = [
-            ''
+          lualine_c = [
+            (lib.mkLuaInline ''
               {
                 "diff",
                 colored = false,
@@ -86,10 +86,10 @@
                 symbols = {added = '+', modified = '~', removed = '-'},
                 separator = {right = ''}
               }
-            ''
+            '')
           ];
-          x = [
-            ''
+          lualine_x = [
+            (lib.mkLuaInline ''
               {
                 function()
                   local clients = vim.lsp.get_clients({ bufnr = 0 })
@@ -101,8 +101,8 @@
                 icon = " ",
                 color = { fg = "#ffffff", gui = "bold" },
               }
-            ''
-            ''
+            '')
+            (lib.mkLuaInline ''
               {
                 "diagnostics",
                 sources = { "nvim_lsp", "nvim_diagnostic" },
@@ -111,50 +111,50 @@
                 update_in_insert = false,
                 always_visible = false,
               }
-            ''
+            '')
           ];
-          y = [
-            ''
+          lualine_y = [
+            (lib.mkLuaInline ''
               {
                 "",
                 draw_empty = true,
                 separator = { left = '', right = '' }
               }
-            ''
-            ''
+            '')
+            (lib.mkLuaInline ''
               {
                 'searchcount',
                 maxcount = 999,
                 timeout = 120,
                 separator = {left = ''}
               }
-            ''
-            ''
+            '')
+            (lib.mkLuaInline ''
               {
                 "branch",
                 icon = ' •',
                 separator = {left = ''}
               }
-            ''
+            '')
           ];
-          z = [
-            ''
+          lualine_z = [
+            (lib.mkLuaInline ''
               {
                 "",
                 draw_empty = true,
                 separator = { left = '', right = '' }
               }
-            ''
-            ''
+            '')
+            (lib.mkLuaInline ''
               {
                 "progress",
                 separator = {left = ''}
               }
-            ''
-            ''
+            '')
+            (lib.mkLuaInline ''
               {"location"}
-            ''
-            ''
+            '')
+            (lib.mkLuaInline ''
               {
                 "fileformat",
                 color = {fg='black'},
@@ -164,7 +164,7 @@
                   mac = '',
                 }
               }
-            ''
+            '')
           ];
         };
       };
