@@ -47,6 +47,7 @@
           # CLI tools
           p7zip
           ouch
+          openvpn
           fzf
           skim
           zoxide
