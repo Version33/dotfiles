@@ -240,17 +240,29 @@
         ]
       },
       "locked": {
-        "lastModified": 1788815229,
-        "narHash": "sha256-16GKFgxq7gr36ZtBoP0cMLyInwjY2gc4EvTS8dNaXsw=",
+        "lastModified": 1788828308,
+        "narHash": "sha256-yEtCqasIE7FUKROLaL9UUlnIQhSfptRPwuBUZXJpU1U=",
         "owner": "freenet",
         "repo": "freenet-core",
-        "rev": "68349dcdb07772a5cd5d01ac75e651b946a17347",
+        "rev": "4b0b87e0cb3af3e167c4b47c49701422677401d0",
         "type": "github"
       },
       "original": {
         "owner": "freenet",
         "repo": "freenet-core",
         "type": "github"
+      }
+    },
+    "hueforge-bin": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-EpqPQJf0DAZAS5HnI1wvwrrZmgNZbucWJNWK6pfMlUg=",
+        "type": "file",
+        "url": "file:///home/vee/Proprietary/hueforge/HueForge_Linux_v0.9.4.3.AppImage"
+      },
+      "original": {
+        "type": "file",
+        "url": "file:///home/vee/Proprietary/hueforge/HueForge_Linux_v0.9.4.3.AppImage"
       }
     },
     "import-tree": {
@@ -473,7 +485,7 @@
     "orca-nightly": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-PVh8/QGODQW2CBtvjfvagW6eYMtVLDA27EQt4avf+bU=",
+        "narHash": "sha256-mXZwcqeUS1MKSKLNAOt9YVVNS0UhKBku8O0a3Qy7Qc8=",
         "type": "file",
         "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage"
       },
@@ -514,6 +526,7 @@
         "flake-file": "flake-file",
         "flake-parts": "flake-parts",
         "freenet": "freenet",
+        "hueforge-bin": "hueforge-bin",
         "import-tree": "import-tree",
         "lanzaboote": "lanzaboote",
         "nix-auto-follow": "nix-auto-follow",
