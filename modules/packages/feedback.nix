@@ -18,7 +18,7 @@
 
       src = "${inputs.feedback-nightly}";
 
-      appimageContents = pkgs.appimageTools.extractType2 { inherit pname version src; };
+      appimageContents = pkgs.appimageTools.extract { inherit pname version src; };
     in
     {
       packages.feedback = pkgs.appimageTools.wrapType2 {

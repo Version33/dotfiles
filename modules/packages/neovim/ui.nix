@@ -21,8 +21,8 @@
         # "auto" lets catppuccin register its lualine theme after the colorscheme loads.
         # Setting "catppuccin" directly causes a LualineNotices warning because lualine
         # validates the theme name before catppuccin has had a chance to register it.
-        theme = "auto";
-        globalStatus = true;
+        setupOpts.options.theme = "auto";
+        setupOpts.options.globalstatus = true;
 
         # Separator style. nvf's default components hardcode powerline slants
         # (U+E0BA/U+E0BC on the left half, U+E0BE/U+E0B8 on the right), so the
