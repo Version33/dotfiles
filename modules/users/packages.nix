@@ -28,7 +28,7 @@
           feedback
           godot
           orca-slicer # nightly build for Bambu H2C support; bump via `nix flake update orca-nightly`
-          hueforge # proprietary; bump via new AppImage + version in modules/wrapped/hueforge.nix
+          hueforge # proprietary; bump via new AppImage + version in modules/packages/hueforge.nix
           osu-lazer-bin # override disables bwrap --die-with-parent so noctalia can launch it
         ])
         ++ (with pkgs; [
@@ -99,7 +99,7 @@
           # Media tools
           imagemagick
           imv
-          ffmpeg
+          ffmpeg-full # superset of `ffmpeg`; also pulled in by the screen recorders
           yt-dlp
           chafa
           viu
@@ -113,6 +113,25 @@
           gping
           rewrk
           sshfs
+        ])
+        ++ (with pkgs; [
+          # Wayland / desktop integration
+          at-spi2-atk # accessibility bus protocol + daemon
+          qt6.qtwayland
+          xdg-utils
+          playerctl # MPRIS media player control
+          psi-notify # resource-saturation alerts (unit enabled in services/services.nix)
+          grim # screenshot capture
+          slurp # region select
+          swappy # screenshot annotation
+          wl-screenrec # hardware-encoded screen recording
+          wl-clipboard
+          wl-clip-persist # keep clipboard after the source program exits
+          cliphist # clipboard history
+          wtype # xdotool type, for wayland
+          wlrctl # misc wlroots protocol control
+          gifsicle
+          psmisc # fuser, killall, pstree
         ])
         ++ (with pkgs; [
           # Wine

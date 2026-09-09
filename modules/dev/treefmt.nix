@@ -1,0 +1,17 @@
+{ inputs, ... }:
+{
+  imports = [
+    inputs.treefmt-nix.flakeModule
+  ];
+
+  perSystem =
+    { pkgs, ... }:
+    {
+      treefmt = {
+        projectRootFile = "flake.nix";
+        programs.nixfmt.enable = true;
+        programs.nixfmt.package = pkgs.nixfmt;
+        settings.excludes = [ "hardware-configuration.nix" ];
+      };
+    };
+}
