@@ -14,8 +14,7 @@
       clean = {
         enable = true;
         dates = "weekly";
-        # Mirror the previous policy: drop generations older than 14 days,
-        # but always keep the 3 most recent.
+        # always keep the 3 most recent builds
         extraArgs = "--keep-since 14d --keep 3";
       };
     };
