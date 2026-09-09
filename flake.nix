@@ -30,6 +30,10 @@
       url = "github:freenet/freenet-core";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hueforge-bin = {
+      url = "file+file:///home/vee/Proprietary/hueforge/HueForge_Linux_v0.9.4.3.AppImage";
+      flake = false;
+    };
     import-tree.url = "github:vic/import-tree";
     lanzaboote = {
       url = "github:nix-community/lanzaboote";

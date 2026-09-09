@@ -27,7 +27,7 @@
           holehe # check if an email is registered on sites
           socialscan # check username/email availability across platforms
           ghunt # OSINT for Google accounts and emails
-          maltego # link analysis and data mining for OSINT (GUI)
+          # maltego # link analysis and data mining for OSINT (GUI) # requires key
           waybackurls # fetch known URLs from the Wayback Machine
           gau # get all URLs from multiple sources (AlienVault, Wayback, etc.)
           hakrawler # simple web crawler for endpoint discovery

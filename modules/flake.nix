@@ -107,6 +107,16 @@
       url = "file+https://github.com/got-feedback/feedBack-desktop/releases/download/nightly/feedback-0.3.0-x86_64.AppImage";
       flake = false;
     };
+
+    # HueForge — proprietary, paid, account-gated download from
+    # shop.thehueforge.com. Not redistributable, so the AppImage stays outside
+    # git at a machine-local path and is pinned here as a local `file+file://`
+    # input. Bump the version by dropping the new AppImage in place, updating
+    # this URL, then `nix run .#write-flake && nix flake lock`.
+    hueforge-bin = {
+      url = "file+file:///home/vee/Proprietary/hueforge/HueForge_Linux_v0.9.4.3.AppImage";
+      flake = false;
+    };
   };
 
   # System architectures this flake supports
