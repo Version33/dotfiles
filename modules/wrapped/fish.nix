@@ -8,6 +8,7 @@
     { pkgs, self', ... }:
     let
       starship = self'.packages.starship;
+      atuin = self'.packages.atuin;
       # Compact greeting: small distro logo, one-line separator, few modules.
       fastfetchConf = pkgs.writeText "fastfetch.jsonc" ''
         {
@@ -51,6 +52,17 @@
 
               # zoxide
               ${lib.getExe pkgs.zoxide} init fish | source
+
+              # atuin — Ctrl-R search, session-scoped Up-arrow
+              ${lib.getExe atuin} init fish | source
+
+              # `spf` — superfile, cd'ing to the dir it was left in on quit.
+              function spf
+                set -l dir (command superfile --print-last-dir $argv)
+                if test -n "$dir" -a -d "$dir"
+                  cd "$dir"
+                end
+              end
 
               # aliases
               alias ls "eza --icons=auto --color=auto --group-directories-first"
@@ -97,6 +109,7 @@
             pkgs.zoxide
             pkgs.eza
             pkgs.fastfetch
+            atuin
           ];
           flags = {
             "-C" = "source ${fishConf}";

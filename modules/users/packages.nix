@@ -18,6 +18,9 @@
           lazygit
           herdr
           oh-my-pi
+          atuin
+          tealdeer
+          superfile
           bitwig-studio
           ableton-live
           goofcord
@@ -63,7 +66,7 @@
           progress
           lsof
           moreutils
-          tealdeer
+          cargo-seek
           macchina
           tokei
           claude-code

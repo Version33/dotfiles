@@ -52,6 +52,10 @@
       url = "github:NotAShelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    oh-my-pi = {
+      url = "github:can1357/oh-my-pi";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     orca-nightly = {
       url = "file+https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage";
       flake = false;

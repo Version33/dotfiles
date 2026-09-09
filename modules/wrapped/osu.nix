@@ -9,8 +9,7 @@
           wrapType2 =
             args:
             pkgs.appimageTools.wrapType2 (
-              finalAttrs:
-              (if lib.isFunction args then args finalAttrs else args) // { dieWithParent = false; }
+              finalAttrs: (if lib.isFunction args then args finalAttrs else args) // { dieWithParent = false; }
             );
         };
       };
