@@ -38,12 +38,7 @@
         ];
       };
 
-      # Garbage Collection
-      gc = {
-        automatic = true;
-        dates = "weekly";
-        options = "--delete-older-than 14d";
-      };
+      # Garbage collection is handled by `nh clean` (see modules/system/nh.nix).
 
       optimise = {
         automatic = true;

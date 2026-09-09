@@ -4,17 +4,21 @@
 default:
     @just --list
 
-# Build and switch to the new configuration (with nom for better output)
+# Build and switch to the new configuration (nh bundles nom output + nvd diff)
 switch:
-    nom build '.#nixosConfigurations.k0or.config.system.build.toplevel' && sudo nixos-rebuild switch --flake .#k0or
+    nh os switch .
 
 # Build and switch (plain output, fallback option)
 switch-plain:
     sudo nixos-rebuild switch --flake .#k0or
 
+# Build and set as boot default without activating now
+boot:
+    nh os boot .
+
 # Build without switching
 build:
-    nixos-rebuild build --flake .#k0or
+    nh os build .
 
 # Update flake inputs, switch to new config, and commit flake.lock
 update:
@@ -24,9 +28,9 @@ update:
 update-input INPUT:
     nix flake lock --update-input {{INPUT}}
 
-# Build and test the new configuration without making it default (with nom for better output)
+# Build and test the new configuration without making it default
 test:
-    nom build '.#nixosConfigurations.k0or.config.system.build.toplevel' && sudo nixos-rebuild test --flake .#k0or
+    nh os test .
 
 # Build and test (plain output, fallback option)
 test-plain:
@@ -58,12 +62,11 @@ flake-info:
 
 # Show what would be built/downloaded
 dry-run:
-    nixos-rebuild dry-build --flake .#k0or
+    nh os build --dry .
 
-# Clean up generations older than 30 days, then rebuild boot entries
+# Clean up old generations (keeps last 3 and anything newer than 14 days)
 clean:
-    sudo nix-collect-garbage --delete-older-than 30d
-    sudo nixos-rebuild switch --flake .#k0or
+    nh clean all --keep-since 14d --keep 3
 
 # List all generations
 generations:
@@ -80,7 +83,7 @@ optimize:
 
 # Show system configuration diff
 diff:
-    nixos-rebuild build --flake .#k0or
+    nh os build --out-link ./result .
     nix store diff-closures /run/current-system ./result
 
 # Git commit with conventional message
