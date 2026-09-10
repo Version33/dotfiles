@@ -133,10 +133,27 @@
 
     in
     {
-      environment.systemPackages = [ evo-control-pkg ];
+      environment = {
+        systemPackages = [ evo-control-pkg ];
+        etc = {
+          "wireplumber/wireplumber.conf.d/50-evo-routing.conf".source =
+            "${evo-wireplumber-config}/50-evo-routing.conf";
+          "evo-control/presets/main.toml".text = ''
+            schema = 1
+            output_volume_db = [-12.0, -96.0]
+            input_gain_db = [34.0, -8.0, -8.0, -8.0]
+            phantom = [true, false, false, false]
+            input_mute = [false, false, false, false]
+            output_mute = false
+            mixer = [[-34.0, -34.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-10.0, -128.0, -128.0, -128.0], [-128.0, -10.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0]]
+          '';
+        };
+      };
 
-      boot.extraModulePackages = [ evo-raw-kmod ];
-      boot.kernelModules = [ "evo_raw" ];
+      boot = {
+        extraModulePackages = [ evo-raw-kmod ];
+        kernelModules = [ "evo_raw" ];
+      };
 
       services.udev.extraRules = ''
         # evo-control: grant audio group access to /dev/evo8
@@ -165,18 +182,5 @@
           );
         };
       };
-
-      environment.etc."wireplumber/wireplumber.conf.d/50-evo-routing.conf".source =
-        "${evo-wireplumber-config}/50-evo-routing.conf";
-
-      environment.etc."evo-control/presets/main.toml".text = ''
-        schema = 1
-        output_volume_db = [-12.0, -96.0]
-        input_gain_db = [34.0, -8.0, -8.0, -8.0]
-        phantom = [true, false, false, false]
-        input_mute = [false, false, false, false]
-        output_mute = false
-        mixer = [[-34.0, -34.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-10.0, -128.0, -128.0, -128.0], [-128.0, -10.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0], [-128.0, -128.0, -128.0, -128.0]]
-      '';
     };
 }

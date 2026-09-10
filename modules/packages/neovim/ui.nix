@@ -21,151 +21,155 @@
         # "auto" lets catppuccin register its lualine theme after the colorscheme loads.
         # Setting "catppuccin" directly causes a LualineNotices warning because lualine
         # validates the theme name before catppuccin has had a chance to register it.
-        setupOpts.options.theme = "auto";
-        setupOpts.options.globalstatus = true;
+        setupOpts = {
+          options = {
+            theme = "auto";
+            globalstatus = true;
+          };
 
-        # Separator style. nvf's default components hardcode powerline slants
-        # (U+E0BA/U+E0BC on the left half, U+E0BE/U+E0B8 on the right), so the
-        # only way to change them is to restate the sections. These are those
-        # defaults with the slants swapped for powerline arrows:  (U+E0B0)
-        # pointing right on the left half,  (U+E0B2) pointing left on the right.
-        setupOpts.sections = {
-          lualine_a = [
-            (lib.mkLuaInline ''
-              {
-                "mode",
-                icons_enabled = true,
-                separator = {
-                  left = '▎',
-                  right = ''
-                },
-              }
-            '')
-            (lib.mkLuaInline ''
-              {
-                "",
-                draw_empty = true,
-                separator = { left = '', right = '' }
-              }
-            '')
-          ];
-          lualine_b = [
-            (lib.mkLuaInline ''
-              {
-                "filetype",
-                colored = true,
-                icon_only = true,
-                icon = { align = 'left' }
-              }
-            '')
-            (lib.mkLuaInline ''
-              {
-                "filename",
-                symbols = {modified = ' ', readonly = ' '},
-                separator = {right = ''}
-              }
-            '')
-            (lib.mkLuaInline ''
-              {
-                "",
-                draw_empty = true,
-                separator = { left = '', right = '' }
-              }
-            '')
-          ];
-          lualine_c = [
-            (lib.mkLuaInline ''
-              {
-                "diff",
-                colored = false,
-                diff_color = {
-                  added    = 'DiffAdd',
-                  modified = 'DiffChange',
-                  removed  = 'DiffDelete',
-                },
-                symbols = {added = '+', modified = '~', removed = '-'},
-                separator = {right = ''}
-              }
-            '')
-          ];
-          lualine_x = [
-            (lib.mkLuaInline ''
-              {
-                function()
-                  local clients = vim.lsp.get_clients({ bufnr = 0 })
-                  if vim.tbl_isempty(clients) then return "" end
-                  local names = {}
-                  for _, c in ipairs(clients) do table.insert(names, c.name) end
-                  return table.concat(names, ", ")
-                end,
-                icon = " ",
-                color = { fg = "#ffffff", gui = "bold" },
-              }
-            '')
-            (lib.mkLuaInline ''
-              {
-                "diagnostics",
-                sources = { "nvim_lsp", "nvim_diagnostic" },
-                symbols = { error = " ", warn = " ", info = " ", hint = " " },
-                colored = true,
-                update_in_insert = false,
-                always_visible = false,
-              }
-            '')
-          ];
-          lualine_y = [
-            (lib.mkLuaInline ''
-              {
-                "",
-                draw_empty = true,
-                separator = { left = '', right = '' }
-              }
-            '')
-            (lib.mkLuaInline ''
-              {
-                'searchcount',
-                maxcount = 999,
-                timeout = 120,
-                separator = {left = ''}
-              }
-            '')
-            (lib.mkLuaInline ''
-              {
-                "branch",
-                icon = ' •',
-                separator = {left = ''}
-              }
-            '')
-          ];
-          lualine_z = [
-            (lib.mkLuaInline ''
-              {
-                "",
-                draw_empty = true,
-                separator = { left = '', right = '' }
-              }
-            '')
-            (lib.mkLuaInline ''
-              {
-                "progress",
-                separator = {left = ''}
-              }
-            '')
-            (lib.mkLuaInline ''
-              {"location"}
-            '')
-            (lib.mkLuaInline ''
-              {
-                "fileformat",
-                color = {fg='black'},
-                symbols = {
-                  unix = '',
-                  dos = '',
-                  mac = '',
+          # Separator style. nvf's default components hardcode powerline slants
+          # (U+E0BA/U+E0BC on the left half, U+E0BE/U+E0B8 on the right), so the
+          # only way to change them is to restate the sections. These are those
+          # defaults with the slants swapped for powerline arrows:  (U+E0B0)
+          # pointing right on the left half,  (U+E0B2) pointing left on the right.
+          sections = {
+            lualine_a = [
+              (lib.mkLuaInline ''
+                {
+                  "mode",
+                  icons_enabled = true,
+                  separator = {
+                    left = '▎',
+                    right = ''
+                  },
                 }
-              }
-            '')
-          ];
+              '')
+              (lib.mkLuaInline ''
+                {
+                  "",
+                  draw_empty = true,
+                  separator = { left = '', right = '' }
+                }
+              '')
+            ];
+            lualine_b = [
+              (lib.mkLuaInline ''
+                {
+                  "filetype",
+                  colored = true,
+                  icon_only = true,
+                  icon = { align = 'left' }
+                }
+              '')
+              (lib.mkLuaInline ''
+                {
+                  "filename",
+                  symbols = {modified = ' ', readonly = ' '},
+                  separator = {right = ''}
+                }
+              '')
+              (lib.mkLuaInline ''
+                {
+                  "",
+                  draw_empty = true,
+                  separator = { left = '', right = '' }
+                }
+              '')
+            ];
+            lualine_c = [
+              (lib.mkLuaInline ''
+                {
+                  "diff",
+                  colored = false,
+                  diff_color = {
+                    added    = 'DiffAdd',
+                    modified = 'DiffChange',
+                    removed  = 'DiffDelete',
+                  },
+                  symbols = {added = '+', modified = '~', removed = '-'},
+                  separator = {right = ''}
+                }
+              '')
+            ];
+            lualine_x = [
+              (lib.mkLuaInline ''
+                {
+                  function()
+                    local clients = vim.lsp.get_clients({ bufnr = 0 })
+                    if vim.tbl_isempty(clients) then return "" end
+                    local names = {}
+                    for _, c in ipairs(clients) do table.insert(names, c.name) end
+                    return table.concat(names, ", ")
+                  end,
+                  icon = " ",
+                  color = { fg = "#ffffff", gui = "bold" },
+                }
+              '')
+              (lib.mkLuaInline ''
+                {
+                  "diagnostics",
+                  sources = { "nvim_lsp", "nvim_diagnostic" },
+                  symbols = { error = " ", warn = " ", info = " ", hint = " " },
+                  colored = true,
+                  update_in_insert = false,
+                  always_visible = false,
+                }
+              '')
+            ];
+            lualine_y = [
+              (lib.mkLuaInline ''
+                {
+                  "",
+                  draw_empty = true,
+                  separator = { left = '', right = '' }
+                }
+              '')
+              (lib.mkLuaInline ''
+                {
+                  'searchcount',
+                  maxcount = 999,
+                  timeout = 120,
+                  separator = {left = ''}
+                }
+              '')
+              (lib.mkLuaInline ''
+                {
+                  "branch",
+                  icon = ' •',
+                  separator = {left = ''}
+                }
+              '')
+            ];
+            lualine_z = [
+              (lib.mkLuaInline ''
+                {
+                  "",
+                  draw_empty = true,
+                  separator = { left = '', right = '' }
+                }
+              '')
+              (lib.mkLuaInline ''
+                {
+                  "progress",
+                  separator = {left = ''}
+                }
+              '')
+              (lib.mkLuaInline ''
+                {"location"}
+              '')
+              (lib.mkLuaInline ''
+                {
+                  "fileformat",
+                  color = {fg='black'},
+                  symbols = {
+                    unix = '',
+                    dos = '',
+                    mac = '',
+                  }
+                }
+              '')
+            ];
+          };
         };
       };
 

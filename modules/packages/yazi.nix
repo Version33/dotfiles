@@ -2,14 +2,44 @@ let
   mkYazi =
     pkgs: starship:
     pkgs.yazi.override {
-      settings.theme = builtins.fromTOML (
-        builtins.readFile (
-          builtins.fetchurl {
-            url = "https://raw.githubusercontent.com/catppuccin/yazi/baaf5d1c9427b836fbefd126aa855f9eab7a9d0d/themes/mocha/catppuccin-mocha-blue.toml";
-            sha256 = "137c4z3i27hrq5h3ff7cmnz4bkbxxrq9jixv2kl0c7b10cqmpibv";
+      settings = {
+        theme = builtins.fromTOML (
+          builtins.readFile (
+            builtins.fetchurl {
+              url = "https://raw.githubusercontent.com/catppuccin/yazi/baaf5d1c9427b836fbefd126aa855f9eab7a9d0d/themes/mocha/catppuccin-mocha-blue.toml";
+              sha256 = "137c4z3i27hrq5h3ff7cmnz4bkbxxrq9jixv2kl0c7b10cqmpibv";
+            }
+          )
+        );
+        yazi.opener.archive = [
+          {
+            run = "ouch list \"$1\"";
+            block = true;
+            desc = "List archive contents";
           }
-        )
-      );
+        ];
+        # Without this rule, yazi's `[open].rules` never selects the "archive"
+        # opener above for archive files — prepend so it wins over (and is
+        # offered alongside) the default extract/reveal rule for the same
+        # mime-types.
+        yazi.open.prepend_rules = [
+          {
+            mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}";
+            use = [
+              "archive"
+              "extract"
+              "reveal"
+            ];
+          }
+        ];
+        keymap.mgr.prepend_keymap = [
+          {
+            on = "<C-y>";
+            run = "plugin wl-clipboard";
+            desc = "Copy file(s) to system clipboard";
+          }
+        ];
+      };
       plugins = with pkgs; {
         "wl-clipboard" = yaziPlugins.wl-clipboard;
         "starship" = yaziPlugins.starship;
@@ -31,34 +61,6 @@ let
         imagemagick # font, HEIC, and JPEG XL preview
         chafa # image preview in terminal
         wl-clipboard # clipboard support on Wayland
-      ];
-      settings.yazi.opener.archive = [
-        {
-          run = "ouch list \"$1\"";
-          block = true;
-          desc = "List archive contents";
-        }
-      ];
-      # Without this rule, yazi's `[open].rules` never selects the "archive"
-      # opener above for archive files — prepend so it wins over (and is
-      # offered alongside) the default extract/reveal rule for the same
-      # mime-types.
-      settings.yazi.open.prepend_rules = [
-        {
-          mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}";
-          use = [
-            "archive"
-            "extract"
-            "reveal"
-          ];
-        }
-      ];
-      settings.keymap.mgr.prepend_keymap = [
-        {
-          on = "<C-y>";
-          run = "plugin wl-clipboard";
-          desc = "Copy file(s) to system clipboard";
-        }
       ];
     };
 in
