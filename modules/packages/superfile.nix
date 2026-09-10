@@ -18,6 +18,11 @@
 
         # size + modify-date columns
         file_panel_extra_columns = 2
+
+        # On quit, write `cd '<dir>'` to $XDG_STATE_HOME/superfile/lastdir;
+        # the `spf` fish function sources it. (`--print-last-dir` is unusable:
+        # the TUI itself renders to stdout, so capturing it hides the UI.)
+        cd_on_quit = true
       '';
     in
     {
@@ -26,7 +31,7 @@
           inherit pkgs;
           package = pkgs.superfile;
           runtimePkgs = [ pkgs.bat ]; # code_previewer = "bat"
-          # `--print-last-dir` stays in the `spf` fish function, not here.
+          # cd-on-quit lives in the `spf` fish function, not here.
           flags = {
             "-c" = "${configFile}";
           };
