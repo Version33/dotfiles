@@ -3,11 +3,9 @@
   perSystem =
     { pkgs, ... }:
     let
-      # Bambu H2C/A2L support (PR #14685) is merged to main but not in any
-      # tagged release (latest: v2.4.2) — use the nightly AppImage until the
-      # next stable release ships. The AppImage is a `file+https` flake input:
-      # upstream overwrites the asset in place, so flake.lock pins a snapshot.
-      # Bump with `nix flake update orca-nightly`.
+      # Bambu H2C/A2L support (PR #14685) merged to main but not yet in a
+      # tagged release (latest: v2.4.2); nightly AppImage until it ships.
+      # Upstream overwrites the asset in place — `nix flake update orca-nightly`.
       version = "nightly";
 
       pname = "orca-slicer";
@@ -19,9 +17,8 @@
       packages.orca-slicer = pkgs.appimageTools.wrapType2 {
         inherit pname version src;
 
-        # bwrap defaults to --die-with-parent, which kills the app the moment
-        # a launcher's short-lived spawn helper exits (niri/noctalia). The
-        # terminal case only worked because the shell stayed alive as parent.
+        # bwrap defaults to --die-with-parent, killing the app when the launcher's
+        # helper exits (niri/noctalia) — terminal launches "worked" only by accident.
         dieWithParent = false;
 
         extraPkgs =
@@ -43,8 +40,7 @@
           install -Dm444 ${contents}/OrcaSlicer.png \
             $out/share/icons/hicolor/256x256/apps/OrcaSlicer.png
 
-          # Orca probes the Fedora CA path (/etc/pki/...) and warns on NixOS;
-          # point it at the real system bundle instead.
+          # Orca probes the Fedora CA path (/etc/pki/...); point at the NixOS bundle instead.
           source ${pkgs.makeWrapper}/nix-support/setup-hook
           wrapProgram $out/bin/${pname} \
             --set-default SSL_CERT_FILE /etc/ssl/certs/ca-bundle.crt

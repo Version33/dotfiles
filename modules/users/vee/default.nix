@@ -16,7 +16,6 @@
           "wheel"
           "video"
           "audio"
-          "plugdev"
           "dialout"
         ];
         packages = with self.packages.${system}; [

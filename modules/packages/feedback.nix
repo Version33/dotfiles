@@ -5,15 +5,9 @@
     let
       pname = "feedback";
 
-      # Tracking upstream's `nightly` channel, which is what got-feedback.org's
-      # Linux download button serves.
-      #
-      # `nightly` is a *rolling* tag: GitHub re-uploads the same asset URL on
-      # every nightly build. The AppImage is a `file+https` flake input, so
-      # flake.lock pins a snapshot; bump with `nix flake update feedback-nightly`.
-      #
-      # For a reproducible pin instead, swap to a tagged-release URL in the
-      # input definition (modules/flake.nix).
+      # `nightly` is a rolling GitHub tag (same asset URL re-uploaded); the
+      # file+https input pins a snapshot in flake.lock. Bump with
+      # `nix flake update feedback-nightly`.
       version = "0.3.0-nightly";
 
       src = "${inputs.feedback-nightly}";
@@ -24,24 +18,16 @@
       packages.feedback = pkgs.appimageTools.wrapType2 {
         inherit pname version src;
 
-        # appimageTools' default FHS env already covers the Electron/Chromium
-        # set plus alsa-lib, libjack2, libpulseaudio, pipewire, wayland,
-        # libxkbcommon, vulkan-loader and udev — i.e. everything the JUCE audio
-        # engine and MIDI device enumeration need. Only the gaps are listed here.
+        # appimageTools' default FHS env already covers Electron + audio/MIDI libs.
         extraPkgs =
           p: with p; [
-            # libstdc++ for the bundled native .node addons, ONNX Runtime and
-            # the out-of-process `slopsmith-vst-host`.
+            # bundled native .node addons, ONNX Runtime, slopsmith-vst-host
             stdenv.cc.cc.lib
 
-            # Soundfont synthesis. Upstream bundles fluidsynth on Windows only
-            # (.build-config.json has no fluidsynth_linux), so Linux resolves it
-            # from the system.
+            # upstream bundles fluidsynth on Windows only
             fluidsynth
 
-            # The bundled CPython 3.12 tooling (stem separation, Retune's
-            # pitch-shift) shells out to ffmpeg; ffmpeg-full carries the
-            # librubberband filter that path wants.
+            # bundled Python tooling shells out to ffmpeg with librubberband filter
             ffmpeg-full
 
             # python-build-standalone's _crypt module links libcrypt.so.1.
@@ -52,9 +38,7 @@
           ];
 
         extraInstallCommands = ''
-          # electron-builder emits exactly one .desktop at the AppImage root,
-          # named after `executableName`. Glob it rather than hardcoding so an
-          # upstream rename surfaces as a build error, not a missing launcher.
+          # Glob the single electron-builder .desktop so a rename fails the build.
           install -Dm444 ${appimageContents}/*.desktop \
             $out/share/applications/${pname}.desktop
 

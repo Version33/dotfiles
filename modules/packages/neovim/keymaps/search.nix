@@ -30,7 +30,7 @@
         key = "<leader>fc";
         mode = "n";
         lua = true;
-        action = "function() require('fzf-lua').files({ cwd = vim.fs.normalize('~/nixos/modules/wrapped/neovim') }) end";
+        action = "function() require('fzf-lua').files({ cwd = vim.fs.normalize('~/nixos/modules/packages/neovim') }) end";
         silent = true;
         desc = "Find Config File";
       }

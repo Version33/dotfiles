@@ -2,8 +2,7 @@
   flake.modules.neovim.editor =
     { lib, pkgs, ... }:
     let
-      # IogaMaster/tuxedo.nvim — floating-window wrapper around the tuxedo
-      # todo.txt TUI. Not packaged in nixpkgs' vimPlugins, so build it here.
+      # Not packaged in nixpkgs' vimPlugins (IogaMaster/tuxedo.nvim), so build it here.
       tuxedo-nvim = pkgs.vimUtils.buildVimPlugin {
         pname = "tuxedo.nvim";
         version = "0-unstable-2026-06-11";
@@ -18,10 +17,9 @@
     in
     {
       config.vim = {
-        # LazyVim: folke/which-key.nvim
-        # Only set basic options here — spec is in luaConfigRC below because
-        # which-key v3 expects positional mixed-tables ({ lhs, group=, icon= })
-        # which toLuaObject cannot represent (it only produces pure dicts).
+        # Basic options only; which-key v3's spec format mixes positional and named
+        # keys ({ lhs, group=, icon= }) which toLuaObject can't emit, so the full
+        # spec lives in luaConfigRC below instead.
         binds.whichKey = {
           enable = true;
           setupOpts = {
@@ -42,22 +40,18 @@
           setupOpts.headerMaxWidth = 80;
         };
 
-        # which-key group spec with icons — must be Lua because the format
-        # { "<leader>s", group = "search", icon = "…" } is a mixed array/dict
-        # that Nix attrsets cannot produce via toLuaObject.
+        # Same toLuaObject limitation as above (mixed positional/dict tables) —
+        # the which-key icon spec needs real Lua, not a Nix attrset.
         luaConfigRC.whichkey-groups = lib.nvim.dag.entryAfter [ "pluginConfigs" ] (
           builtins.readFile ./lua/whichkey-groups.lua
         );
 
-        # webstonehq/tuxedo — the TUI the plugin drives. It calls a bare
-        # `tuxedo` through termopen, and nvf appends extraPackages to nvim's
-        # PATH, so this resolves without installing the binary system-wide.
+        # webstonehq/tuxedo TUI: it calls a bare `tuxedo` via termopen, so putting the
+        # package in extraPackages (added to nvim's PATH) is enough — no system install.
         extraPackages = [ pkgs.tuxedo ];
 
-        # :Tuxedo opens todo.txt in a centred float. No `setup` here: the
-        # plugin's own plugin/tuxedo.lua already calls setup() with the
-        # defaults (create_todo_file, 0.95 x 0.80) and nvf puts plugins
-        # straight on the rtp.
+        # :Tuxedo opens a centred float; no `setup` call needed here since the plugin's
+        # own plugin/tuxedo.lua already calls setup() with its defaults.
         extraPlugins.tuxedo-nvim.package = tuxedo-nvim;
       };
     };

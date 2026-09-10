@@ -39,9 +39,8 @@
               end
               fish_vi_key_bindings
 
-              # starship prompt. The init script embeds the UNWRAPPED binary
-              # path (current_exe), so the wrapper's env never reaches the
-              # per-prompt calls — export the wrapper's config path here.
+              # starship init embeds the unwrapped binary's current_exe(), bypassing
+              # the wrapper's env at each prompt call — export its config path here.
               set -gx STARSHIP_CONFIG ${starship.configFile}
               ${lib.getExe starship} init fish | source
 

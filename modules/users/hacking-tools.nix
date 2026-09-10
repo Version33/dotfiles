@@ -164,8 +164,8 @@
           ettercap # MITM attack suite
           bettercap # powerful MITM / swiss-army framework
           mitmproxy # interactive HTTPS proxy
-          # sslsplit omitted: links -levent_openssl, removed in libevent 2.1.13
-          # (upstream sslsplit 0.5.5 unmaintained); mitmproxy/bettercap cover this.
+          # sslsplit omitted: needs -levent_openssl, removed in libevent
+          # 2.1.13; upstream unmaintained. mitmproxy/bettercap cover this.
           sslstrip # strip HTTPS from connections
           macchanger # spoof MAC address
           netcat-openbsd # networking swiss-army knife (nc)

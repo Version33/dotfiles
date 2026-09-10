@@ -28,11 +28,8 @@
       '';
     in
     {
-      # Unified capture menu for niri: screenshots (region / window / monitor)
-      # through niri's native actions — same clipboard + file behaviour as the
-      # Print binds — and screen recording (region / monitor, optionally with
-      # system audio or microphone) through wl-screenrec's hardware encoder.
-      # Invoking the menu while a recording is running offers "Stop recording".
+      # Unified niri capture menu: screenshots via niri's native actions (same
+      # as the Print binds) plus wl-screenrec recording, with a stop toggle.
       packages.screenshot-menu = pkgs.writeShellApplication {
         name = "screenshot-menu";
         runtimeInputs = with pkgs; [

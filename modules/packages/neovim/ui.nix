@@ -18,20 +18,17 @@
       # LazyVim: nvim-lualine/lualine.nvim
       statusline.lualine = {
         enable = true;
-        # "auto" lets catppuccin register its lualine theme after the colorscheme loads.
-        # Setting "catppuccin" directly causes a LualineNotices warning because lualine
-        # validates the theme name before catppuccin has had a chance to register it.
+        # "auto", not "catppuccin": setting the theme directly races catppuccin's
+        # registration and trips a LualineNotices validation warning.
         setupOpts = {
           options = {
             theme = "auto";
             globalstatus = true;
           };
 
-          # Separator style. nvf's default components hardcode powerline slants
-          # (U+E0BA/U+E0BC on the left half, U+E0BE/U+E0B8 on the right), so the
-          # only way to change them is to restate the sections. These are those
-          # defaults with the slants swapped for powerline arrows:  (U+E0B0)
-          # pointing right on the left half,  (U+E0B2) pointing left on the right.
+          # nvf hardcodes powerline-slant separators per section (U+E0BA/BC left,
+          # U+E0BE/B8 right) with no standalone option, so overriding means restating
+          # every section. Below: same layout, slants swapped for arrows U+E0B0/U+E0B2.
           sections = {
             lualine_a = [
               (lib.mkLuaInline ''
@@ -206,8 +203,7 @@
       # LazyVim: folke/trouble.nvim
       lsp.trouble = {
         enable = true;
-        # keymaps/tools.nix defines the single LazyVim-style Trouble scheme;
-        # null nvf's defaults so there is only one scheme, not two.
+        # keymaps/tools.nix defines the Trouble keymap scheme; null nvf's so they don't duplicate.
         mappings = {
           workspaceDiagnostics = null;
           documentDiagnostics = null;
@@ -304,7 +300,7 @@
                   icon = " ";
                   key = "c";
                   desc = "Config";
-                  action = ":lua require('fzf-lua').files({ cwd = vim.fs.normalize('~/nixos/modules/wrapped/neovim') })";
+                  action = ":lua require('fzf-lua').files({ cwd = vim.fs.normalize('~/nixos/modules/packages/neovim') })";
                 }
                 {
                   icon = "󰦛 ";

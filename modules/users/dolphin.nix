@@ -1,6 +1,5 @@
-# Dolphin as the system file manager, themed Catppuccin Mocha Lavender.
-# Runs outside Plasma (niri), so theming is done via the KConfig cascade:
-# KDE apps read /etc/xdg/kdeglobals when no ~/.config/kdeglobals overrides it.
+# Dolphin themed Catppuccin Mocha Lavender. Runs outside Plasma (niri), so
+# theming goes through /etc/xdg/kdeglobals (KConfig cascade), not Plasma's UI.
 {
   flake.modules.nixos.users-dolphin =
     { pkgs, ... }:
@@ -29,17 +28,16 @@
         })
       ];
 
-      # plasma-integration platform theme makes Qt/KDE apps apply the palette
-      # from kdeglobals; Breeze draws the widgets with it. Without this, Qt
-      # falls back to its default (light) palette outside Plasma.
+      # plasma-integration lets Qt/KDE apps read kdeglobals outside Plasma;
+      # without it Qt falls back to its default light palette.
       qt = {
         enable = true;
         platformTheme = "kde";
         style = "breeze";
       };
 
-      # Inline the full color scheme so Dolphin gets the palette without Plasma
-      # applying it; the [Colors:*] groups are what Plasma would copy in.
+      # Inlined so Dolphin gets the palette without Plasma itself copying in
+      # the [Colors:*] groups.
       environment.etc."xdg/kdeglobals".text = ''
         [Icons]
         Theme=Papirus-Dark

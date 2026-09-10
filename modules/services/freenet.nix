@@ -1,20 +1,13 @@
 {
-  # Freenet (freenet.org) peer-to-peer node.
-  # Runs a local peer in the background; apps like River are served at
-  # http://127.0.0.1:7509/ (see https://freenet.org/quickstart/).
-  #
-  # Alpha note: the network evolves fast and old peers stop working over
-  # time. The binary is pinned by the flake input, so run
-  # `nix flake update freenet` periodically (the service exits with code 42
-  # when it wants a newer version).
+  # Local peer; UI (e.g. River) at http://127.0.0.1:7509/.
+  # Alpha network churns fast — old peers stop working. Binary is pinned;
+  # run `nix flake update freenet` periodically (exits 42 to request this).
   flake.modules.nixos.freenet =
     { inputs, pkgs, ... }:
     let
       freenet = inputs.freenet.packages.${pkgs.stdenv.hostPlatform.system}.freenet;
 
-      # git hosting on Freenet (github.com/freenet/freenet-git).
-      # Ships the `freenet-git` CLI plus the `git-remote-freenet` helper,
-      # so `git clone freenet::<key>/<name>` works against the local node.
+      # git-remote-freenet helper enables `git clone freenet::<key>/<name>`.
       # Not in nixpkgs; built from crates.io.
       freenet-git = pkgs.rustPlatform.buildRustPackage rec {
         pname = "freenet-git";
@@ -28,8 +21,7 @@
         nativeCheckInputs = [ pkgs.git ];
       };
 
-      # Ghost Key CLI (crates.io/crates/ghostkey): anonymous credentials for
-      # Freenet donors — verify/manage the certificate from ghostkey.net.
+      # Anonymous Freenet donor credentials; manage cert via ghostkey.net.
       ghostkey = pkgs.rustPlatform.buildRustPackage rec {
         pname = "ghostkey";
         version = "0.1.8";
@@ -49,9 +41,8 @@
         ghostkey
       ];
 
-      # Peer identity/state lives under the user's XDG dirs (~/.local/share/freenet).
-      # Remote access is via SSH tunnel (loopback source, always accepted
-      # by the node's API source filter) — no extra CIDR allowances needed.
+      # State lives under ~/.local/share/freenet. Remote access is via SSH
+      # tunnel (loopback source; no extra CIDR allowlisting needed).
       systemd.user.services.freenet = {
         description = "Freenet peer";
         documentation = [ "https://freenet.org/quickstart/" ];

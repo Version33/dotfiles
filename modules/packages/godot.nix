@@ -81,10 +81,8 @@
         };
       };
 
-      # Bumps `version`/`hash` above to the newest upstream -dev release.
-      # Runs as part of `nix run .#update`.
-      # The seds are anchored to the 6-space indent of the actual definition
-      # lines so they can never rewrite this script's own embedded patterns.
+      # Bumps version/hash above; runs via `nix run .#update`. Seds anchor on
+      # the 6-space indent of the definitions so they can't rewrite themselves.
       packages.godot-dev-update = pkgs.writeShellApplication {
         name = "godot-dev-update";
         runtimeInputs = with pkgs; [
@@ -94,10 +92,9 @@
           nix
         ];
         text = ''
-          file=modules/wrapped/godot.nix
+          file=modules/packages/godot.nix
           [ -f "$file" ] || { echo "run from the flake root" >&2; exit 1; }
-          # Authenticate when possible: the anonymous API quota is per-IP and
-          # easily exhausted (shared IPs, other flake-input update checks).
+          # Authenticate when possible; the anonymous API quota is per-IP and easily exhausted.
           auth=()
           if token=$(gh auth token 2>/dev/null); then
             auth=(-H "Authorization: Bearer $token")

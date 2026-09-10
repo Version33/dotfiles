@@ -15,28 +15,21 @@
         package = self.packages.${system}.niri;
       };
 
-      # Run noctalia under systemd so `nixos-rebuild switch` restarts it in
-      # lockstep with the niri.service config reload. Quickshell IPC targets
-      # instances by config store path; a daemon left over from an older
-      # generation is unreachable from the rebuilt Mod+S bind (launcher dead
-      # until relogin).
+      # Runs under systemd so `nixos-rebuild switch` restarts it with niri;
+      # a leftover daemon from an older generation is unreachable via IPC,
+      # leaving Mod+S dead until relogin.
       systemd.user.services.noctalia = {
         description = "Noctalia desktop shell";
         wantedBy = [ "graphical-session.target" ];
         partOf = [ "graphical-session.target" ];
         after = [ "graphical-session.target" ];
-        # spawn-at-startup inherited the full session PATH; systemd units get
-        # only the minimal default. Noctalia shells out at runtime (sh, magick,
-        # etc.) — without this the wallpaper pipeline silently dies.
+        # systemd units get a minimal PATH (unlike spawn-at-startup); Noctalia
+        # shells out at runtime (magick, etc.) and silently breaks without this.
         path = [ "/run/current-system/sw" ];
         serviceConfig = {
-          # Quickshell never GCs $XDG_RUNTIME_DIR/quickshell/by-id/* — every
-          # restart leaks a run dir, and a crash-looping instance leaks its
-          # log.log unbounded (a broken-PATH loop once filled the 6G tmpfs;
-          # the next instance then got ENOSPC on instance.lock, so `ipc call`
-          # found no instance and Mod+S went dead). Prune dead instances
-          # before each start. Live ones are identified via by-pid/<pid>
-          # symlinks against /proc; quickshell's comm is ".quickshell-wra*".
+          # Quickshell never GCs $XDG_RUNTIME_DIR/quickshell/by-id/*; a
+          # crash-loop once filled the tmpfs and broke IPC (ENOSPC). Prune
+          # dead instances (matched via by-pid/<pid> -> /proc) before start.
           ExecStartPre = pkgs.writeShellScript "quickshell-runtime-gc" ''
             base="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/quickshell"
             [ -d "$base" ] || exit 0
@@ -82,11 +75,9 @@
           NIXOS_OZONE_WL = "1";
         };
 
-        # GTK reads system settings.ini from $XDG_CONFIG_DIRS/gtk-{3,4}.0/,
-        # which starts with /etc/xdg — bare /etc is never on that path, so
-        # these must live under etc/xdg to actually be read. gtk.css is
-        # only ever read from $XDG_CONFIG_HOME (per-user), never from /etc,
-        # so there is no system-wide equivalent to ship here.
+        # GTK only reads settings.ini from $XDG_CONFIG_DIRS (starts at
+        # /etc/xdg, not bare /etc), hence etc/xdg here. gtk.css has no
+        # system-wide equivalent — only read from per-user $XDG_CONFIG_HOME.
         etc = {
           "xdg/gtk-3.0/settings.ini".text = ''
             [Settings]

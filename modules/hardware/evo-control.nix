@@ -105,11 +105,9 @@
         }
       ) { kernel = config.boot.kernelPackages.kernel; };
 
-      # NOTE: No device profile is forced here so you can toggle between
-      # stereo and pro-audio mode on the fly. To switch profiles:
-      #   pavucontrol → Configuration tab → pick a profile
-      #   or: pactl set-card-profile <card> output:analog-stereo
-      #   or: pactl set-card-profile <card> pro-audio
+      # No device profile is forced, so you can switch on the fly:
+      # pavucontrol -> Configuration tab, or
+      # pactl set-card-profile <card> output:analog-stereo|pro-audio
       evo-wireplumber-config = pkgs.writeTextDir "50-evo-routing.conf" ''
         monitor.alsa.rules = [
           {
@@ -160,9 +158,8 @@
         ACTION=="add", SUBSYSTEM=="misc", KERNEL=="evo8", MODE="0660", GROUP="audio", TAG+="systemd", ENV{SYSTEMD_USER_WANTS}="evo-control-preset.service"
       '';
 
-      # On first run (or if the user deletes their saved preset), seed from the
-      # system defaults. After that, the user's own "main" preset — saved via
-      # evo-control's GUI or `evo-control preset save main` — is left alone.
+      # Seeds from system defaults only if absent; a user-saved "main" preset
+      # (GUI or `evo-control preset save main`) is left alone after that.
       systemd.user.services.evo-control-preset = {
         description = "Load EVO 8 mixer preset on login";
         wantedBy = [ "default.target" ];

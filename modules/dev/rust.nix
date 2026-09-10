@@ -2,8 +2,6 @@
   perSystem =
     { pkgs, inputs', ... }:
     let
-      # Default clippy policy. Shared by scaffolded crates and `rust-init --lints`,
-      # so there is exactly one copy of this table in the config.
       lintsToml = pkgs.writeText "lints.toml" ''
         [lints.clippy]
         # UM, ACTUALLY
@@ -26,7 +24,6 @@
         as_conversions = "deny"
       '';
 
-      # `[lints.clippy]` is appended from lintsToml at scaffold time.
       cargoToml = pkgs.writeText "Cargo.toml" ''
         [package]
         name = "__CRATE_NAME__"
@@ -118,8 +115,6 @@
         }
       '';
 
-      # Benches are their own crates, so this one stays self-contained: it works
-      # for both the bin and the lib layout.
       benchRs = pkgs.writeText "bench.rs" ''
         //! Criterion benchmarks for __CRATE_NAME__.
         //!
@@ -168,9 +163,8 @@
         /target
       '';
 
-      # Test carve-out for the panic lints above. `cargo clippy --all-targets`
-      # compiles #[cfg(test)] code, so without this the deny list would also ban
-      # `.unwrap()` in unit tests — the one place the article says to prototype.
+      # `cargo clippy --all-targets` compiles #[cfg(test)] code too, so the deny
+      # list above would also ban `.unwrap()` in unit tests without this carve-out.
       clippyToml = pkgs.writeText "clippy.toml" ''
         allow-unwrap-in-tests = true
         allow-expect-in-tests = true
@@ -178,8 +172,6 @@
         allow-indexing-slicing-in-tests = true
       '';
 
-      # Only the default job is overridden here; check, test, nextest, doc, run
-      # and the rest come from bacon's built-in defaults.
       baconToml = pkgs.writeText "bacon.toml" ''
         #:schema https://dystroy.org/bacon/.bacon.schema.json
         # bacon configuration — https://dystroy.org/bacon/config/
@@ -191,8 +183,6 @@
     in
     {
       packages = {
-        # Scaffolds a crate that already carries the default clippy policy,
-        # dependency set and nextest configuration.
         rust-init = pkgs.writeShellApplication {
           name = "rust-init";
           runtimeInputs = with pkgs; [
@@ -301,8 +291,6 @@
           '';
         };
 
-        # The article's devenv `watcher` script, as a system command: rebuild and
-        # re-run on every .rs change with warnings muted, so only errors show up.
         rust-watch = pkgs.writeShellApplication {
           name = "rust-watch";
           runtimeInputs = [ pkgs.watchexec ];
@@ -313,32 +301,27 @@
             fi
 
             export RUSTFLAGS=-Awarnings
-            # Isolate from other cargo invocations (plain `cargo run`, clippy, bacon):
-            # RUSTFLAGS is part of cargo's fingerprint, so sharing target/ would force
-            # a full recompile every time you switch between rust-watch and those.
+            # RUSTFLAGS is part of cargo's fingerprint; isolate to target/watch so
+            # switching between rust-watch and plain cargo/clippy/bacon skips a full rebuild.
             export CARGO_TARGET_DIR=target/watch
             exec watchexec -r --clear=reset -e rs --wrap-process=none "$cmd"
           '';
         };
 
-        # One nightly toolchain, shared by the system and by neovim's
-        # rust-analyzer, so the editor can never drift off the compiler.
+        # Shared with neovim's rust-analyzer so the editor can't drift off the compiler.
         rust-toolchain =
           let
             fenix = inputs'.fenix.packages;
           in
           fenix.combine [
-            # Nightly, per the article. `latest` rather than `complete` is
-            # deliberate: `latest` is the only nightly profile fenix also
-            # publishes for cross targets, so rustc and the wasm rust-std below
-            # can never drift onto different nightly dates.
+            # `latest`, not `complete`: the only nightly profile fenix also builds for
+            # cross targets, keeping rustc and the wasm rust-std on the same date.
             fenix.latest.rustc
             fenix.latest.cargo
             fenix.latest.rustfmt
             fenix.latest.clippy
             # Matches the compiler's proc-macro ABI, unlike nixpkgs' stable build.
             fenix.latest.rust-analyzer
-            # Lets rust-analyzer resolve std sources.
             fenix.latest.rust-src
             fenix.targets.wasm32-unknown-unknown.latest.rust-std
           ];
@@ -393,8 +376,7 @@
         openssl
       ]);
 
-      # `cargo nt` runs nextest. `cargo test` is left alone because nextest
-      # does not run doctests.
+      # `cargo nt` runs nextest; `cargo test` stays too since nextest skips doctests.
       environment.variables.CARGO_ALIAS_NT = "nextest run";
     };
 }

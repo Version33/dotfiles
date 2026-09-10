@@ -20,9 +20,7 @@
         # If you want to use JACK applications, uncomment this
         jack.enable = true;
 
-        # Low-latency configuration for gaming
-        # This reduces audio stuttering in games like CS2
-        # With a high-end CPU, we can use very low buffer sizes
+        # Low-latency quantum (128-256) for gaming; needs a fast CPU to avoid xruns.
         extraConfig.pipewire."92-low-latency" = {
           "context.properties" = {
             "default.clock.quantum" = 128;
@@ -32,12 +30,9 @@
         };
       };
 
-      # WirePlumber sometimes finishes its ALSA probe with a card that enumerates
-      # zero profiles. pipewire-pulse then reports a NULL active profile for it,
-      # and Steam's bundled libaudio.so derefs that without a NULL check and
-      # segfaults on launch. Which card loses the race varies between boots, so
-      # re-probe once the session is up; a warm restart has always enumerated
-      # correctly.
+      # WirePlumber can finish ALSA probing with a card reporting zero profiles;
+      # pipewire-pulse then exposes a NULL active profile, which crashes Steam's
+      # bundled libaudio.so on launch. Restarting wireplumber re-probes correctly.
       systemd.user.services.wireplumber-reprobe = {
         description = "Re-probe ALSA cards that came up with no profiles";
         wantedBy = [ "graphical-session.target" ];
@@ -50,9 +45,7 @@
           Type = "oneshot";
           ExecStart = toString (
             pkgs.writeShellScript "wireplumber-reprobe" ''
-              # "broken" / "ok" / "" — an empty verdict means pw-dump or jq
-              # failed (PipeWire not up yet), which must retry rather than be
-              # mistaken for a healthy graph.
+              # Verdict: "broken"/"ok"/"" (empty = pw-dump/jq not ready, retry).
               verdict() {
                 ${config.services.pipewire.package}/bin/pw-dump 2>/dev/null \
                   | ${lib.getExe pkgs.jq} -r 'if any(.[];

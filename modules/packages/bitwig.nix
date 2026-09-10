@@ -3,10 +3,8 @@
   perSystem =
     { pkgs, system, ... }:
     let
-      # 6-latest tracks betas, which carry an expiry time bomb; use stable.
-      # audio-nix's stable is behind upstream (6.0.6), so bump the source to
-      # the current stable release and re-wrap with its bubblewrap wrapper.
-      # Drop this override once audio-nix catches up.
+      # audio-nix stable lags upstream (6.0.6) and 6-latest is a time-bombed
+      # beta; bump the source and re-wrap. Drop once audio-nix catches up.
       version = "6.0.11";
       unwrapped = inputs.audio-nix.packages.${system}.bitwig-studio6-0-unwrapped.overrideAttrs (old: {
         inherit version;
@@ -19,12 +17,8 @@
         bitwig-studio = unwrapped;
       };
 
-      # Third-party plugin binaries (e.g. Serum 2) are dlopen'd by Bitwig's
-      # plugin host and resolve their dependencies through the process's
-      # LD_LIBRARY_PATH. The audio-nix wrapper only provides Bitwig's own
-      # dependencies, so plugins needing anything beyond that fail with
-      # "libSM.so.6: cannot open shared object file". These are the libs
-      # Serum 2 links that Bitwig's wrapper doesn't already ship.
+      # Third-party plugins (Serum 2) are dlopen'd and resolve via the process
+      # LD_LIBRARY_PATH; audio-nix's wrapper only ships Bitwig's own deps.
       pluginLibs = with pkgs; [
         libsm
         libice
@@ -38,11 +32,8 @@
       ];
     in
     {
-      # The inner audio-nix wrapper uses `--suffix LD_LIBRARY_PATH`, so the
-      # env set here survives bubblewrap and ends up ahead of Bitwig's own
-      # paths; both come from the same nixpkgs, so ordering is harmless.
-      # The desktop entry launches plain `bitwig-studio` via PATH, so it
-      # picks up this wrapper too.
+      # The inner wrapper uses `--suffix LD_LIBRARY_PATH`, so this survives
+      # bubblewrap. The .desktop launches `bitwig-studio` via PATH.
       packages.bitwig-studio = pkgs.symlinkJoin {
         name = "bitwig-studio-${bitwig.version}";
         paths = [ bitwig ];

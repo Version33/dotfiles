@@ -14,7 +14,6 @@
           "input"
           "video"
           "audio"
-          "plugdev"
         ];
         packages = with self.packages.${system}; [
           git-angel

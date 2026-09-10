@@ -8,14 +8,10 @@
       ...
     }:
     let
-      # xwayland-satellite's X11 -> logical -> X11 popup coordinate
-      # round-trip truncates twice at fractional output scales; the
-      # resulting off-by-one ConfigureNotify makes strict clients (JUCE
-      # popup menus in wine/yabridge plugins, e.g. ShaperBox 3) dismiss
-      # instantly. The patch remembers the exact pixel values a popup
-      # requested and reuses them when the compositor echoes the request
-      # back unchanged. Verified against upstream's full test suite.
-      # Drop once merged upstream (see the issue draft in ~/Downloads).
+      # xwayland-satellite's X11->logical->X11 popup round-trip drops a pixel
+      # at fractional scale, making strict clients (JUCE popups in
+      # wine/yabridge, e.g. ShaperBox 3) dismiss instantly. Drop once merged
+      # upstream (draft issue in ~/Downloads).
       xwayland-satellite-patched = pkgs.xwayland-satellite.overrideAttrs (old: {
         patches = (old.patches or [ ]) ++ [ ./xwayland-satellite-popup-exact.patch ];
       });
@@ -30,8 +26,7 @@
 
           xwayland-satellite.path = lib.getExe xwayland-satellite-patched;
 
-          # Wait for Tidal's window before starting GoofCord so Tidal
-          # always ends up on the left.
+          # Wait for Tidal's window before GoofCord so Tidal ends up on the left.
           spawn-at-startup = [
             (toString (
               pkgs.writeShellScript "startup-apps" ''
@@ -64,8 +59,7 @@
           prefer-no-csd = _: { };
 
           outputs = {
-            # DP-2 is on the left, DP-1 is on the right
-            # Logical size at scale 1.25: 3840/1.25 = 3072px wide each
+            # DP-2 left, DP-1 right; at scale 1.25 each output is 3072px logical-wide.
             "DP-2" = {
               mode = "3840x2160@239.987";
               scale = 1.25;
@@ -107,8 +101,7 @@
             };
           };
 
-          # Steam notification toasts are XWayland windows that bypass
-          # D-Bus. Float them, anchor to bottom-right, never focus them.
+          # Steam toasts are XWayland windows that bypass D-Bus notifications.
           window-rules = [
             {
               geometry-corner-radius = 8;
@@ -218,9 +211,7 @@
             "Mod+WheelScrollDown"."focus-workspace-down" = _: { };
             "Mod+WheelScrollUp"."focus-workspace-up" = _: { };
 
-            # Screenshots & recording. Mod+Shift+S opens the capture menu
-            # (region/window/monitor shots, wl-screenrec video ± audio);
-            # the Print binds stay as direct shortcuts to niri's built-ins.
+            # Mod+Shift+S opens the capture menu; Print binds stay as niri's built-ins.
             "Mod+Shift+S".spawn-sh = lib.getExe self'.packages.screenshot-menu;
             "Print".screenshot = _: { };
             "Ctrl+Print".screenshot-screen = _: { };

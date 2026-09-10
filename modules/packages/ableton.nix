@@ -1,10 +1,6 @@
 { inputs, ... }:
 {
-  # github:shibco/ableton-linux — Ableton Live on Linux.
-  # The runtime bundles the patched Wine (D2D1/DCOMP + NSPA, ntsync),
-  # PipeASIO, the Link session anchor, and the `ableton-live` launcher.
-  # It reuses the existing Wine prefix from testing; nothing here touches it.
-  # Prefix maintenance stays on the flake apps, e.g.
+  # Wine prefix is managed by the upstream flake apps, e.g.
   # `nix run github:shibco/ableton-linux#setup-prefix`.
   perSystem =
     { pkgs, system, ... }:
@@ -12,11 +8,8 @@
       ableton-wine = inputs.ableton-linux.packages.${system}.ableton-wine;
     in
     {
-      # Upstream ships a generic "Ableton Live" menu entry for every edition;
-      # rebrand the visible one to the installed edition (Suite). The shipped
-      # live-suite icon is already the Suite artwork. NoDisplay MIME/protocol
-      # entries keep their generic name. StartupWMClass groups Live's Wine
-      # windows under this entry.
+      # Upstream ships one generic "Ableton Live" entry for every edition;
+      # rename the visible one to Suite and group its Wine windows under it.
       packages.ableton-live = pkgs.symlinkJoin {
         inherit (ableton-wine) name;
         paths = [ ableton-wine ];
@@ -33,11 +26,9 @@
     };
 
   flake.modules.nixos.ableton = _: {
-    # NTSync: the patched wineserver opens /dev/ntsync for its sync primitives.
-    # The module has no modalias, so nothing autoloads it; without it Wine
-    # falls back to the slow server-side path and Live's audio stutters.
+    # ntsync has no modalias, so nothing autoloads it; without it the patched
+    # wineserver falls back to the slow server-side path and audio stutters.
     boot.kernelModules = [ "ntsync" ];
-
     # Ableton Link peer discovery.
     # networking.firewall.allowedUDPPorts = [ 20808 ];
   };

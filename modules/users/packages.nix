@@ -160,10 +160,8 @@
         steam = {
           enable = true;
 
-          # nixpkgs runs Steam under `bwrap --die-with-parent`. niri's spawn
-          # double-forks and the intermediate exits immediately, so PDEATHSIG kills
-          # the sandbox before Steam starts. Dropping the flag fixes every launch
-          # path without a wrapper script or desktop-entry override.
+          # niri's spawn double-forks; the intermediate exits immediately so
+          # PDEATHSIG kills bwrap before Steam starts. Drop --die-with-parent.
           package = pkgs.steam.override {
             buildFHSEnv = args: pkgs.buildFHSEnv (args // { dieWithParent = false; });
           };

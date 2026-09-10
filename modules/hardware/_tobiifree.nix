@@ -22,12 +22,9 @@
       });
     in
     {
-      # USB permissions for the Tobii Eye Tracker 5. Shipped via
-      # services.udev.packages instead of extraRules: extraRules lands in
-      # 99-local.rules, which is read after 73-seat-late.rules where
-      # systemd's uaccess builtin runs, so a uaccess tag added there is
-      # recorded in the udev db but never actually grants an ACL. A rule
-      # file below 73 fixes that.
+      # extraRules lands in 99-local.rules, read after 73-seat-late.rules
+      # (where the uaccess builtin runs), so a uaccess tag added there never
+      # grants an ACL. Ship via services.udev.packages (numbered below 73) instead.
       services.udev.packages = [
         (pkgs.writeTextFile {
           name = "70-tobii-rules";
