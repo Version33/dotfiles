@@ -3,12 +3,7 @@
     { pkgs, ... }:
     let
       # Chromium's WebRtcAllowInputVolumeAdjustment feature lets the WebRTC AGC
-      # write the *system* source volume; against the EVO8 it ratchets the mic
-      # down (1.00 -> 0.56 in ~25s) and never recovers. Discord's own AGC toggle
-      # does not disable it. Cannot be a wrapper flag: GoofCord's startup calls
-      # appendSwitch("disable-features", ...) which replaces any argv value, so
-      # patch its list in app.asar. --replace-fail turns an upstream reshape of
-      # that call into a build error instead of a silent regression.
+      # write the *system* source volume. Disable that.
       goofcordDisabledFeatures = ''"MediaSessionService","HardwareMediaKeyHandling"'';
     in
     {
