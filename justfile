@@ -98,6 +98,10 @@ quick MESSAGE: switch (commit MESSAGE)
 tree:
     nix-tree /run/current-system
 
+# Mirror this repo to /etc/nixos (overwrites; deletes files no longer here)
+sync-etc:
+    sudo rsync -a --delete --exclude=.git --exclude=result {{justfile_directory()}}/ /etc/nixos/
+
 # Search for a package
 search PACKAGE:
     nix search nixpkgs {{PACKAGE}}
