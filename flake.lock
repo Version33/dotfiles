@@ -639,7 +639,7 @@
     "orca-nightly": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-7CbasH9P79rGn8Q83C2gdlMqr3w7741Y0XEoEgwMGNk=",
+        "narHash": "sha256-B4BMoKNLJdCS14AaMP1zEsHRozXOz+ru2prKVsaFcYc=",
         "type": "file",
         "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage"
       },
