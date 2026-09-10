@@ -156,25 +156,25 @@
           markdown-oxide
         ]);
 
-      programs.steam = {
-        enable = true;
+      programs = {
+        steam = {
+          enable = true;
 
-        # nixpkgs runs Steam under `bwrap --die-with-parent`. niri's spawn
-        # double-forks and the intermediate exits immediately, so PDEATHSIG kills
-        # the sandbox before Steam starts. Dropping the flag fixes every launch
-        # path without a wrapper script or desktop-entry override.
-        package = pkgs.steam.override {
-          buildFHSEnv = args: pkgs.buildFHSEnv (args // { dieWithParent = false; });
+          # nixpkgs runs Steam under `bwrap --die-with-parent`. niri's spawn
+          # double-forks and the intermediate exits immediately, so PDEATHSIG kills
+          # the sandbox before Steam starts. Dropping the flag fixes every launch
+          # path without a wrapper script or desktop-entry override.
+          package = pkgs.steam.override {
+            buildFHSEnv = args: pkgs.buildFHSEnv (args // { dieWithParent = false; });
+          };
         };
-      };
 
-      programs.gamescope.enable = true;
-
-      programs.gamemode = {
-        enable = true;
-        settings = {
-          general = {
-            renice = 10;
+        gamemode = {
+          enable = true;
+          settings = {
+            general = {
+              renice = 10;
+            };
           };
         };
       };
