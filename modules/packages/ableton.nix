@@ -18,7 +18,7 @@
       # entries keep their generic name. StartupWMClass groups Live's Wine
       # windows under this entry.
       packages.ableton-live = pkgs.symlinkJoin {
-        name = ableton-wine.name;
+        inherit (ableton-wine) name;
         paths = [ ableton-wine ];
         postBuild = ''
           entry=$out/share/applications
@@ -33,8 +33,12 @@
     };
 
   flake.modules.nixos.ableton = _: {
-    # Ableton Link peer discovery. Upstream's setup-link.sh only knows
-    # ufw/firewalld, so open the port declaratively instead.
-    networking.firewall.allowedUDPPorts = [ 20808 ];
+    # NTSync: the patched wineserver opens /dev/ntsync for its sync primitives.
+    # The module has no modalias, so nothing autoloads it; without it Wine
+    # falls back to the slow server-side path and Live's audio stutters.
+    boot.kernelModules = [ "ntsync" ];
+
+    # Ableton Link peer discovery.
+    # networking.firewall.allowedUDPPorts = [ 20808 ];
   };
 }
