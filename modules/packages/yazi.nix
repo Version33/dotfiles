@@ -6,8 +6,8 @@ let
         theme = builtins.fromTOML (
           builtins.readFile (
             builtins.fetchurl {
-              url = "https://raw.githubusercontent.com/catppuccin/yazi/baaf5d1c9427b836fbefd126aa855f9eab7a9d0d/themes/mocha/catppuccin-mocha-blue.toml";
-              sha256 = "137c4z3i27hrq5h3ff7cmnz4bkbxxrq9jixv2kl0c7b10cqmpibv";
+              url = "https://raw.githubusercontent.com/catppuccin/yazi/d62802be39210ea10e54b3e3b09735c6cb9e57c1/themes/mocha/catppuccin-mocha-blue.toml";
+              sha256 = "1s8qmcdn5h4ghgwhdhljv261mch5alg2rsqs3kp38s8mzw53h7qd";
             }
           )
         );

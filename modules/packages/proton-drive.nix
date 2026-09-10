@@ -2,7 +2,7 @@
   perSystem =
     { lib, pkgs, ... }:
     let
-      version = "0.7.0";
+      version = "0.8.0";
 
       # Prebuilt bun single-file executable: the JS payload is appended to the
       # ELF image, and `patchelf --set-rpath` shifts it enough to segfault the
@@ -11,7 +11,7 @@
       # into the browser that `auth login` spawns via xdg-open.
       proton-drive-bin = pkgs.fetchurl {
         url = "https://proton.me/download/drive/cli/${version}/linux-x64/proton-drive";
-        hash = "sha256-Tjx0p6JdoA16DKnuIjqbewsjjaNXq2/P7gSlwxPd9NE=";
+        hash = "sha256-lEPXcXGciSeQ2xfm8C7Nma18U1kzKfOmfHdnfc5XdzU=";
       };
 
       # DT_NEEDED is glibc only; libsecret (Secret Service session storage) and

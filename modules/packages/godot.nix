@@ -4,8 +4,8 @@
     let
       # Upstream dev prereleases aren't in nixpkgs; use the official binary.
       # Bump with `nix run .#godot-dev-update`.
-      version = "4.8-dev4";
-      hash = "sha256-uAXMeRjwm7QJ9ZbQEKdxqtLwPWabU28M2r7HOzFEZTg=";
+      version = "4.8-dev5";
+      hash = "sha256-W3ZYbs2uJr5keibcToAlkEVjiVPgPWKqCbCpjAsnmrM=";
 
       src = pkgs.fetchurl {
         url = "https://github.com/godotengine/godot-builds/releases/download/${version}/Godot_v${version}_linux.x86_64.zip";

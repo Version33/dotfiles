@@ -3,14 +3,15 @@
   perSystem =
     { pkgs, system, ... }:
     let
-      # audio-nix stable lags upstream (6.0.6) and 6-latest is a time-bombed
-      # beta; bump the source and re-wrap. Drop once audio-nix catches up.
-      version = "6.0.11";
-      unwrapped = inputs.audio-nix.packages.${system}.bitwig-studio6-0-unwrapped.overrideAttrs (old: {
+      # audio-nix lags upstream: its 6-0 attr is 6.0.6 and 6-1 is still the
+      # time-bombed 6.1-beta-1; bump the source to the 6.1 release and re-wrap.
+      # Drop once audio-nix catches up.
+      version = "6.1.1";
+      unwrapped = inputs.audio-nix.packages.${system}.bitwig-studio6-1-unwrapped.overrideAttrs (old: {
         inherit version;
         src = pkgs.fetchurl {
           url = "https://downloads-secure.bitwig.com/${version}/bitwig-studio-${version}.deb?source_url=/dl/Bitwig%20Studio/${version}/installer_linux/";
-          sha256 = "sha256-rnr/Z8y6klKrU2gT5/XT+sRryl/HZZZ04n565L0HPEw=";
+          sha256 = "sha256-FBe0R6YW4IS1OPvCwWseQvJnn7OrPn1uZ0v/GKRIIYE=";
         };
       });
       bitwig = pkgs.callPackage (inputs.audio-nix + "/bitwig/bitwig-bubblewrap.nix") {

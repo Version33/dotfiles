@@ -11,12 +11,12 @@
       # Not in nixpkgs; built from crates.io.
       freenet-git = pkgs.rustPlatform.buildRustPackage rec {
         pname = "freenet-git";
-        version = "0.1.24";
+        version = "0.1.27";
         src = pkgs.fetchCrate {
           inherit pname version;
-          hash = "sha256-yPQoPsAKG8QWkc4cfgIs3nLA9yfhfWOV1E+qj0Z/RIo=";
+          hash = "sha256-DE15vCrsf95ecVOGSHN1dn5eWMgQ7u0R1FvRv/fX3do=";
         };
-        cargoHash = "sha256-hupbPTQ9agtt8X3B4k9JcpWrOtN0KtSUshP6HieOQFw=";
+        cargoHash = "sha256-ijIs6w0z4a8ENkXdTUIlBYIonkwjbj469nC9gD35fmk=";
         # Tests spawn real `git` to build fixture repos.
         nativeCheckInputs = [ pkgs.git ];
       };

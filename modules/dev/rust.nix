@@ -32,21 +32,21 @@
 
         [dependencies]
         # COMMAND LINE PARSING
-        clap = { version = "4.5.53", features = ["derive"] }
+        clap = { version = "4.6.6", features = ["derive"] }
         # ERGONOMIC DATETIMES
-        chrono = "0.4.42"
+        chrono = "0.4.45"
         # SIMPLE PRETTY ERROR HANDLING
         color-eyre = "0.6.5"
         # SUPERPOWERED ITERATORS
-        itertools = "0.14.0"
+        itertools = "0.15.0"
         # PARALELL ITERATORS
-        rayon = "1.11.0"
+        rayon = "1.12.0"
         # SERIALISATION / DESERIALISATION
         serde = { version = "1.0", features = ["derive"] }
 
         [dev-dependencies]
         # BENCHMARKING
-        criterion = "0.8.1"
+        criterion = "0.8.2"
 
         [[bench]]
         name = "bench"
