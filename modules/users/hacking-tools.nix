@@ -146,7 +146,6 @@
           routersploit # router exploitation framework
           evil-winrm # Windows Remote Management shell
           kerbrute # Kerberos user enumeration/bruteforce
-          bloodhound # Active Directory privilege mapping
           netexec # network exploitation / lateral movement (formerly crackmapexec)
           responder # LLMNR/NBT-NS/mDNS poisoning
           mitm6 # IPv6 MITM / WPAD attack
