@@ -623,11 +623,11 @@
         "rust-overlay": "rust-overlay_4"
       },
       "locked": {
-        "lastModified": 1788978791,
-        "narHash": "sha256-EZlQG7t+nKXRwkmohQ6PPBjXtzmkQusAUEmO3YC+q9Y=",
+        "lastModified": 1788984804,
+        "narHash": "sha256-Vt1vP6LzkfkeiVq7RFxcoGGnQ7aBrUj/xMPN+OwIB/Y=",
         "owner": "can1357",
         "repo": "oh-my-pi",
-        "rev": "61b1b8aef634334eaf1412afd003a763e1d1b9c1",
+        "rev": "2e6b5b79a0c5b190797aace99f41fab6ae42e6c5",
         "type": "github"
       },
       "original": {
@@ -639,7 +639,7 @@
     "orca-nightly": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-dUn2o6j1usszUYSX5Oqk1/AUcfzyrMYdDd2YpdmJcs4=",
+        "narHash": "sha256-rgqUU1cl7/TuWyVxv8i8zM7/VLXaTgWfTj3jMmGOk8Y=",
         "type": "file",
         "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage"
       },
@@ -964,11 +964,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788891837,
-        "narHash": "sha256-3mM/4Nv4rKU17EiYOhRt0AWp0IbV5gFLlogh7yNZUwU=",
+        "lastModified": 1788981141,
+        "narHash": "sha256-7xWS16u13YGlRNKWaAPzRbEyh4OLOXJe31k7h4AnXNU=",
         "owner": "BirdeeHub",
         "repo": "nix-wrapper-modules",
-        "rev": "f57daa2c7c7e7af7382fbaab9a330bc39c6fd30c",
+        "rev": "1db3c116a6aa61823f8d8f3c47c306846428fc54",
         "type": "github"
       },
       "original": {
