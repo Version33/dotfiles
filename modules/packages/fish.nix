@@ -53,8 +53,8 @@
               # zoxide
               ${lib.getExe pkgs.zoxide} init fish | source
 
-              # atuin — Ctrl-R search, session-scoped Up-arrow
-              ${lib.getExe atuin} init fish | source
+              # atuin — Ctrl-R only; Up-arrow keeps fish's native history.
+              ${lib.getExe atuin} init fish --disable-up-arrow | source
 
               # `spf` — superfile, cd'ing to the dir it was left in on quit.
               function spf

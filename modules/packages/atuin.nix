@@ -18,9 +18,6 @@
         inline_height = 20
         show_preview = true
 
-        ## Up-arrow = this session; Ctrl-R searches everything.
-        filter_mode_shell_up_key_binding = "session"
-
         ## <Enter> puts the command on the prompt instead of running it.
         enter_accept = false
       '';
