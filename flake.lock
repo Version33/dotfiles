@@ -164,11 +164,11 @@
         "rust-analyzer-src": "rust-analyzer-src_2"
       },
       "locked": {
-        "lastModified": 1789208700,
-        "narHash": "sha256-bWOgADrzv4cPoKhdHZxxjEHxNWfdNJOKLy9DuMYDaUQ=",
+        "lastModified": 1789298866,
+        "narHash": "sha256-6eaV5+MdWy1tAlN4HAFr64pTnYc9jiKGXBsu18cyVjE=",
         "owner": "nix-community",
         "repo": "fenix",
-        "rev": "17757a67ed6621e70efc4271258825f34ee8409e",
+        "rev": "1fc6f36a23fa16e3740987957266f6e4b915c3cd",
         "type": "github"
       },
       "original": {
@@ -332,11 +332,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789112165,
-        "narHash": "sha256-o58jpIOdwYT9JE/Yd4CR1S1Mrhn+B1EjPkRqOndGi5E=",
+        "lastModified": 1789232906,
+        "narHash": "sha256-IuElj3igBet0eqrNxNF1x8rR3dsMFsiWx/fpUf3JZXE=",
         "owner": "freenet",
         "repo": "freenet-core",
-        "rev": "72432d528866537562ab0e21f15b25708c88448a",
+        "rev": "78c7beb2d539dc8cc8d5b389a019bd6aa72bae2e",
         "type": "github"
       },
       "original": {
@@ -575,11 +575,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1789006805,
-        "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
+        "lastModified": 1789149629,
+        "narHash": "sha256-H6GwaZzZf+4npqv0tph94w9tZddSjFjmQrVsW0z78uk=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
+        "rev": "eaad089433ca2bb662274377d33df3d0e51ef28b",
         "type": "github"
       },
       "original": {
@@ -623,11 +623,11 @@
         "rust-overlay": "rust-overlay_4"
       },
       "locked": {
-        "lastModified": 1789226209,
-        "narHash": "sha256-yFNef+piaCpXd9ICUm4yQp9jfxVG0EXTJaO8jcekKo8=",
+        "lastModified": 1789317837,
+        "narHash": "sha256-8//TevdVnAar/NNIxzjmgFSlJwPbHfyy8a3fgjy22JI=",
         "owner": "can1357",
         "repo": "oh-my-pi",
-        "rev": "5e0661cd9c98c791a440ab111f4123b45abc4bbb",
+        "rev": "d3606c36ec3e23d7b8dbd02bf1db50bd97a87cb6",
         "type": "github"
       },
       "original": {
@@ -639,7 +639,7 @@
     "orca-nightly": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-bHGlJONIZ5EwVeXiPzMW8ZBrx42WutGWsP1htIXMhrA=",
+        "narHash": "sha256-LtvuYcuXH7L0pkwaNy/pzwZYRp7JmQ0pwovTGFv4wWU=",
         "type": "file",
         "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage"
       },
