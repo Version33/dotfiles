@@ -332,11 +332,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789232906,
-        "narHash": "sha256-IuElj3igBet0eqrNxNF1x8rR3dsMFsiWx/fpUf3JZXE=",
+        "lastModified": 1789320841,
+        "narHash": "sha256-8IYvAEyBhm2NJRhaPabQ7URDHGQS8B6amU3vgwUzjeA=",
         "owner": "freenet",
         "repo": "freenet-core",
-        "rev": "78c7beb2d539dc8cc8d5b389a019bd6aa72bae2e",
+        "rev": "b7ca21a75022249f96a463c7c583091c64d5387c",
         "type": "github"
       },
       "original": {
@@ -623,11 +623,11 @@
         "rust-overlay": "rust-overlay_4"
       },
       "locked": {
-        "lastModified": 1789317837,
-        "narHash": "sha256-8//TevdVnAar/NNIxzjmgFSlJwPbHfyy8a3fgjy22JI=",
+        "lastModified": 1789321355,
+        "narHash": "sha256-j/6pnIvXau2OtCkoBWDjQoHXIpXTReds9XPQlLl64KY=",
         "owner": "can1357",
         "repo": "oh-my-pi",
-        "rev": "d3606c36ec3e23d7b8dbd02bf1db50bd97a87cb6",
+        "rev": "ee14f141547403503032322bc2b76a75d7685730",
         "type": "github"
       },
       "original": {
@@ -639,7 +639,7 @@
     "orca-nightly": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-LtvuYcuXH7L0pkwaNy/pzwZYRp7JmQ0pwovTGFv4wWU=",
+        "narHash": "sha256-7yaVpVYipvSYZgqrIQ59VaRxWZ/ql8YvvJKnEEmhRKE=",
         "type": "file",
         "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage"
       },
