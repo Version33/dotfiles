@@ -1,16 +1,14 @@
+{ inputs, ... }:
 let
   mkYazi =
-    pkgs: starship:
+    {
+      pkgs,
+      theme,
+      starship,
+    }:
     pkgs.yazi.override {
       settings = {
-        theme = builtins.fromTOML (
-          builtins.readFile (
-            builtins.fetchurl {
-              url = "https://raw.githubusercontent.com/catppuccin/yazi/d62802be39210ea10e54b3e3b09735c6cb9e57c1/themes/mocha/catppuccin-mocha-blue.toml";
-              sha256 = "1s8qmcdn5h4ghgwhdhljv261mch5alg2rsqs3kp38s8mzw53h7qd";
-            }
-          )
-        );
+        theme = builtins.fromTOML (builtins.readFile (theme.colors inputs.tinted-yazi));
         yazi.opener.archive = [
           {
             run = "ouch list \"$1\"";
@@ -66,8 +64,16 @@ let
 in
 {
   perSystem =
-    { pkgs, self', ... }:
     {
-      packages.yazi = mkYazi pkgs self'.packages.starship;
+      pkgs,
+      theme,
+      self',
+      ...
+    }:
+    {
+      packages.yazi = mkYazi {
+        inherit pkgs theme;
+        starship = self'.packages.starship;
+      };
     };
 }

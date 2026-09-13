@@ -5,10 +5,18 @@
 }:
 {
   perSystem =
-    { pkgs, self', ... }:
+    {
+      pkgs,
+      self',
+      theme,
+      ...
+    }:
     let
       starship = self'.packages.starship;
       atuin = self'.packages.atuin;
+      c = theme.colors;
+      ch = theme.colors.withHashtag;
+      accentH = "#${theme.accent}";
       # Compact greeting: small distro logo, one-line separator, few modules.
       fastfetchConf = pkgs.writeText "fastfetch.jsonc" ''
         {
@@ -32,6 +40,34 @@
 
             # The wrapper passes this file via -C for *every* fish invocation,
             # including scripts — keep prompt/alias setup interactive-only.
+
+            # `set -g`, not -U: universal vars persist in fish_variables and
+            # would shadow the theme after a scheme change.
+            set -g fish_color_normal ${c.base05}
+            set -g fish_color_command ${c.base0D}
+            set -g fish_color_keyword ${c.base0E}
+            set -g fish_color_quote ${c.base0B}
+            set -g fish_color_redirection ${c.base0C}
+            set -g fish_color_end ${c.base09}
+            set -g fish_color_error ${c.base08}
+            set -g fish_color_param ${c.base05}
+            set -g fish_color_option ${c.base0C}
+            set -g fish_color_comment ${c.base03}
+            set -g fish_color_selection --background=${c.base02}
+            set -g fish_color_search_match --background=${c.base02}
+            set -g fish_color_operator ${c.base0C}
+            set -g fish_color_escape ${c.base0E}
+            set -g fish_color_autosuggestion ${c.base03}
+            set -g fish_color_cancel ${c.base08}
+            set -g fish_color_valid_path --underline
+            set -g fish_pager_color_prefix ${c.base0D} --bold
+            set -g fish_pager_color_completion ${c.base05}
+            set -g fish_pager_color_description ${c.base03}
+            set -g fish_pager_color_progress ${c.base00} --background=${theme.accent}
+            set -g fish_pager_color_selected_background --background=${c.base02}
+
+            # Also picked up by yazi's fzf jump.
+            set -gx FZF_DEFAULT_OPTS "--color=bg+:${ch.base02},bg:${ch.base00},spinner:${accentH},hl:${ch.base08},fg:${ch.base05},header:${ch.base08},info:${ch.base0E},pointer:${accentH},marker:${ch.base0B},fg+:${ch.base05},prompt:${ch.base0E},hl+:${accentH},border:${ch.base03}"
             if status is-interactive
               # fastfetch greeting (function overrides the default $fish_greeting)
               function fish_greeting

@@ -1,8 +1,8 @@
 {
   perSystem =
-    { pkgs, ... }:
+    { pkgs, theme, ... }:
     let
-      # Matches noctalia (Noto Sans) and catppuccin mocha.
+      # Matches noctalia (Noto Sans) and the global theme.
       fuzzelConfig = pkgs.writeText "screenshot-menu-fuzzel.ini" ''
         [main]
         font=Noto Sans:size=13, JetBrainsMono Nerd Font Propo:size=13
@@ -12,15 +12,15 @@
         inner-pad=8
 
         [colors]
-        background=1e1e2ef2
-        text=cdd6f4ff
-        prompt=bac2deff
-        input=cdd6f4ff
-        match=cba6f7ff
-        selection=45475aff
-        selection-text=cdd6f4ff
-        selection-match=cba6f7ff
-        border=cba6f7ff
+        background=${theme.colors.base00}f2
+        text=${theme.colors.base05}ff
+        prompt=${theme.colors.base04}ff
+        input=${theme.colors.base05}ff
+        match=${theme.accent}ff
+        selection=${theme.colors.base02}ff
+        selection-text=${theme.colors.base05}ff
+        selection-match=${theme.accent}ff
+        border=${theme.accent}ff
 
         [border]
         width=2
