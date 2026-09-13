@@ -1,12 +1,50 @@
 {
   flake.modules.nixos.users-firefox =
-    { pkgs, ... }:
+    {
+      pkgs,
+      theme,
+      lib,
+      ...
+    }:
+    let
+      amo = id: file: {
+        inherit id;
+        url = "https://addons.mozilla.org/firefox/downloads/file/${file}";
+      };
+      # AMO static themes by scheme family (longest prefix wins). Catppuccin
+      # are the official builds: Mauve for mocha/latte, Lavender for
+      # frappe/macchiato (no official Mauve there). Gruvbox/Tokyo Night have no
+      # official theme; these are one community author's.
+      themes = {
+        catppuccin-mocha = amo "{76aabc99-c1a8-4c1e-832b-d4f2941d5a7a}" "3990325/catppuccin_mocha_mauve_git-2.0.xpi";
+        catppuccin-latte = amo "{c827c446-3d00-4160-a992-3ebcbe6d81a6}" "3990326/catppuccin_latte_mauve_git-2.0.xpi";
+        catppuccin-frappe = amo "{5ee380f7-abda-467c-ae9a-d30bf8f0d1d6}" "3990306/catppuccin_frappe_lavender-2.0.xpi";
+        catppuccin-macchiato = amo "{15cb5e64-94bd-41aa-91cf-751bb1a84972}" "3990308/catppuccin_macchiato_lavender2-2.0.xpi";
+        gruvbox =
+          if theme.dark then
+            amo "{fcf02b85-0a24-412a-a28f-5727fc00e72b}" "4848963/gruvbox_dark_theme_firefox-2.3.xpi"
+          else
+            amo "{4b0b1791-6b73-4d9b-b55b-150cc186665e}" "4852264/gruvbox_light_theme-1.5.xpi";
+        tokyo-night-storm = amo "{44459e6c-11be-47a6-9c6c-8db603d9105d}" "4847767/tokyo_night_storm_dark_theme-1.3.xpi";
+        tokyo-night = amo "{cebd391d-f568-473f-bb6e-698d08ec81ec}" "4846541/tokyo_night_dark_theme-3.0.xpi";
+      };
+      family = lib.findFirst (f: lib.hasPrefix f theme.scheme) null (
+        lib.sort (a: b: lib.stringLength a > lib.stringLength b) (lib.attrNames themes)
+      );
+      ffTheme = if family == null then null else themes.${family};
+    in
     {
       programs.firefox = {
         enable = true;
         preferences = {
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-          "extensions.activeThemeID" = "{76aabc99-c1a8-4c1e-832b-d4f2941d5a7a}";
+          "extensions.activeThemeID" =
+            if ffTheme != null then
+              ffTheme.id
+            else if theme.dark then
+              "firefox-compact-dark@mozilla.org"
+            else
+              "firefox-compact-light@mozilla.org";
         };
         # Preferences default to "locked" upstream, which silently reverts any
         # in-browser change (e.g. switching themes). Let them act as normal
@@ -15,10 +53,6 @@
 
         policies = {
           ExtensionSettings = {
-            "{76aabc99-c1a8-4c1e-832b-d4f2941d5a7a}" = {
-              installation_mode = "normal_installed";
-              install_url = "https://addons.mozilla.org/firefox/downloads/file/3990325/catppuccin_mocha_mauve_git-2.0.xpi";
-            };
             "addon@darkreader.org" = {
               installation_mode = "normal_installed";
               install_url = "https://addons.mozilla.org/firefox/downloads/file/4783321/darkreader-4.9.125.xpi";
@@ -126,6 +160,12 @@
             "materialdesignicons-picker@s-quent.in" = {
               installation_mode = "normal_installed";
               install_url = "https://addons.mozilla.org/firefox/downloads/file/4451171/materialdesignicons_picker-3.14.1.xpi";
+            };
+          }
+          // lib.optionalAttrs (ffTheme != null) {
+            ${ffTheme.id} = {
+              installation_mode = "normal_installed";
+              install_url = ffTheme.url;
             };
           };
         };

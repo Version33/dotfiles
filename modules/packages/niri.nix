@@ -5,6 +5,7 @@
       pkgs,
       lib,
       self',
+      theme,
       ...
     }:
     let
@@ -21,7 +22,7 @@
         inherit pkgs;
         settings = {
           environment = {
-            XCURSOR_PATH = "${pkgs.catppuccin-cursors.mochaDark}/share/icons";
+            XCURSOR_PATH = "${theme.cursor.package}/share/icons";
           };
 
           xwayland-satellite.path = lib.getExe xwayland-satellite-patched;
@@ -41,7 +42,7 @@
           ];
 
           cursor = {
-            xcursor-theme = "catppuccin-mocha-dark-cursors";
+            xcursor-theme = theme.cursor.name;
             xcursor-size = 24;
           };
 
@@ -96,8 +97,8 @@
             gaps = 10;
             focus-ring = {
               width = 4;
-              active-color = "#cba6f7";
-              inactive-color = "#45475a";
+              active-color = "#${theme.accent}";
+              inactive-color = "#${theme.colors.base03}";
             };
           };
 

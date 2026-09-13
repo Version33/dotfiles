@@ -2,11 +2,13 @@
 {
   # Standalone: nix run .#neovim
   perSystem =
-    { pkgs, ... }:
+    { pkgs, theme, ... }:
     {
       packages.neovim =
         (inputs.nvf.lib.neovimConfiguration {
           inherit pkgs;
+          # nvf has its own module system; `theme` doesn't reach it otherwise.
+          extraSpecialArgs = { inherit theme; };
           modules = builtins.attrValues self.modules.neovim;
         }).neovim;
     };
