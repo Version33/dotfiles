@@ -172,30 +172,27 @@ let
         base07
       ];
 
+      # Always Catppuccin cursors (the shape is the point); flavour/accent
+      # from a Catppuccin scheme, else mocha/latte by polarity.
       cursor =
-        if lib.hasPrefix "catppuccin-" slug then
-          let
-            # catppuccin-mocha -> mochaDark|mochaLight; catppuccin-mocha-lavender -> mochaLavender
-            parts = lib.splitString "-" (lib.removePrefix "catppuccin-" slug);
-            flavor = lib.head parts;
-            accent = lib.toSentenceCase (lib.elemAt parts 1);
-            variant =
-              if lib.length parts > 1 && pkgs.catppuccin-cursors ? "${flavor}${accent}" then
-                accent
-              else if polarity == "dark" then
-                "Dark"
-              else
-                "Light";
-          in
-          {
-            package = pkgs.catppuccin-cursors."${flavor}${variant}";
-            name = "catppuccin-${flavor}-${lib.toLower variant}-cursors";
-          }
-        else
-          {
-            package = pkgs.bibata-cursors;
-            name = if polarity == "dark" then "Bibata-Modern-Classic" else "Bibata-Modern-Ice";
-          };
+        let
+          parts = lib.optionals (lib.hasPrefix "catppuccin-" slug) (
+            lib.splitString "-" (lib.removePrefix "catppuccin-" slug)
+          );
+          flavor = if parts == [ ] then (if polarity == "dark" then "mocha" else "latte") else lib.head parts;
+          accent = lib.toSentenceCase (lib.elemAt parts 1);
+          variant =
+            if lib.length parts > 1 && pkgs.catppuccin-cursors ? "${flavor}${accent}" then
+              accent
+            else if polarity == "dark" then
+              "Dark"
+            else
+              "Light";
+        in
+        {
+          package = pkgs.catppuccin-cursors."${flavor}${variant}";
+          name = "catppuccin-${flavor}-${lib.toLower variant}-cursors";
+        };
     };
 in
 {
