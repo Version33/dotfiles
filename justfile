@@ -40,6 +40,16 @@ test-plain:
 fmt:
     nix fmt
 
+# List every value accepted by `theme.scheme` in modules/theme.nix
+themes:
+    #!/usr/bin/env bash
+    tt=$(nix eval --raw --impure --expr '(builtins.getFlake (toString ./.)).inputs.tt-schemes.outPath')
+    nc=$(nix eval --raw --impure --expr '(builtins.getFlake (toString ./.)).inputs.noctalia-colorschemes.outPath')
+    echo "# tinted-theming base24 (bright terminal colours)"; ls "$tt/base24" | sed 's/\.yaml$//' | column -c "${COLUMNS:-120}"
+    echo; echo "# tinted-theming base16"; ls "$tt/base16" | sed 's/\.yaml$//' | column -c "${COLUMNS:-120}"
+    echo; echo "# noctalia community (append -light for the light variant)"
+    find "$nc" -mindepth 1 -maxdepth 1 -type d ! -name '.*' -printf '%f\n' | tr 'A-Z ' 'a-z-' | sort | column -c "${COLUMNS:-120}"
+
 # Check for issues with statix
 check:
     statix check .
