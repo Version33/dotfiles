@@ -209,7 +209,7 @@ in
   };
 
   config = {
-    theme.scheme = "catppuccin-mocha-lavender";
+    theme.scheme = "tokyo-night-terminal-dark";
 
     flake-file.inputs = {
       base16.url = "github:SenchoPens/base16.nix";
