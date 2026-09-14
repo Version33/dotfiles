@@ -28,10 +28,7 @@
         tokyo-night-storm = amo "{44459e6c-11be-47a6-9c6c-8db603d9105d}" "4847767/tokyo_night_storm_dark_theme-1.3.xpi";
         tokyo-night = amo "{cebd391d-f568-473f-bb6e-698d08ec81ec}" "4846541/tokyo_night_dark_theme-3.0.xpi";
       };
-      family = lib.findFirst (f: lib.hasPrefix f theme.scheme) null (
-        lib.sort (a: b: lib.stringLength a > lib.stringLength b) (lib.attrNames themes)
-      );
-      ffTheme = if family == null then null else themes.${family};
+      ffTheme = theme.pick themes null;
     in
     {
       programs.firefox = {

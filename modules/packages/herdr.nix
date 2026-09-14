@@ -45,15 +45,14 @@
           "rose-pine-dawn"
         ];
       };
-      family = lib.findFirst (p: lib.hasPrefix p theme.scheme) "catppuccin" (lib.attrNames builtin);
-      name = lib.elemAt builtin.${family} (if theme.dark then 0 else 1);
+      name = lib.elemAt (theme.pick builtin builtin.catppuccin) (if theme.dark then 0 else 1);
 
       configFile = pkgs.writeText "herdr-config.toml" ''
         [theme]
         name = "${name}"
 
         [theme.custom]
-        accent = "#${theme.accent}"
+        accent = "${c.accent}"
         panel_bg = "${c.base00}"
         sidebar_bg = "${c.base01}"
         active_row_bg = "${c.base02}"

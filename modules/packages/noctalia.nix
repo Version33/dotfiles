@@ -21,14 +21,11 @@
         ayu = "Ayu";
         eldritch = "Eldritch";
       };
-      family = lib.findFirst (p: lib.hasPrefix p theme.scheme) null (lib.attrNames bundled);
       predefinedScheme =
         if theme.noctaliaScheme != null then
           theme.noctaliaScheme
-        else if family == null then
-          "Noctalia-default"
         else
-          bundled.${family};
+          theme.pick bundled "Noctalia-default";
     in
     {
       packages.noctalia = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {

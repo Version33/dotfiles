@@ -97,8 +97,8 @@
             gaps = 10;
             focus-ring = {
               width = 4;
-              active-color = "#${theme.accent}";
-              inactive-color = "#${theme.colors.base03}";
+              active-color = theme.colors.withHashtag.accent;
+              inactive-color = theme.colors.withHashtag.base03;
             };
           };
 

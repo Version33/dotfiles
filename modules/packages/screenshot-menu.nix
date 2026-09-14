@@ -16,11 +16,11 @@
         text=${theme.colors.base05}ff
         prompt=${theme.colors.base04}ff
         input=${theme.colors.base05}ff
-        match=${theme.accent}ff
+        match=${theme.colors.accent}ff
         selection=${theme.colors.base02}ff
         selection-text=${theme.colors.base05}ff
-        selection-match=${theme.accent}ff
-        border=${theme.accent}ff
+        selection-match=${theme.colors.accent}ff
+        border=${theme.colors.accent}ff
 
         [border]
         width=2

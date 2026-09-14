@@ -7,8 +7,15 @@ let
       starship,
     }:
     pkgs.yazi.override {
+      # Tinted template as a flavor dir (not parsed in Nix: that would be IFD).
+      flavors.${theme.scheme} = pkgs.linkFarm "yazi-flavor" {
+        "flavor.toml" = theme.colors inputs.tinted-yazi;
+      };
       settings = {
-        theme = builtins.fromTOML (builtins.readFile (theme.colors inputs.tinted-yazi));
+        theme.flavor = {
+          dark = theme.scheme;
+          light = theme.scheme;
+        };
         yazi.opener.archive = [
           {
             run = "ouch list \"$1\"";

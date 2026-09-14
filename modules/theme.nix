@@ -1,11 +1,10 @@
 # Global colour scheme: set `theme.scheme`, rebuild, everything follows.
 #
 # Slugs resolve against github:tinted-theming/schemes (base24/ then base16/,
-# e.g. catppuccin-mocha, gruvbox-dark-hard, tokyo-night-storm) and then
+# e.g. catppuccin-mocha, gruvbox-dark-hard, tokyo-night-storm), else
 # github:noctalia-dev/noctalia-colorschemes (<Name>/<Name>.json lowercased with
 # dashes, e.g. cyberpunk, ayu-blue; `-light` suffix picks the light variant).
-# A Noctalia accent variant of a tinted scheme (catppuccin-mocha-lavender) uses
-# the tinted palette and only takes the accent from Noctalia.
+# catppuccin-<flavor>-<accent> uses the tinted palette with Noctalia's accent.
 {
   inputs,
   config,
@@ -14,6 +13,7 @@
 }:
 let
   slug = config.theme.scheme;
+  parts = lib.splitString "-" slug;
 
   tintedFile =
     s:
@@ -21,15 +21,11 @@ let
       "${inputs.tt-schemes}/base24/${s}.yaml"
       "${inputs.tt-schemes}/base16/${s}.yaml"
     ];
-  # Exact slug first, then shorter prefixes for Noctalia accent variants.
-  tintedSlug =
-    let
-      parts = lib.splitString "-" slug;
-      prefixes = map (n: lib.concatStringsSep "-" (lib.take n parts)) (
-        lib.reverseList (lib.range 1 (lib.length parts))
-      );
-    in
-    lib.findFirst (p: tintedFile p != null) null prefixes;
+  # Only Catppuccin has Noctalia accent variants of a tinted palette.
+  tintedSlug = lib.findFirst (s: tintedFile s != null) null (
+    [ slug ]
+    ++ lib.optional (lib.hasPrefix "catppuccin-" slug) (lib.concatStringsSep "-" (lib.take 2 parts))
+  );
   tinted = if tintedSlug == null then null else tintedFile tintedSlug;
 
   yamlField =
@@ -47,113 +43,124 @@ let
   noctaliaLight = lib.hasSuffix "-light" slug;
   noctaliaName =
     let
-      wanted = lib.removeSuffix "-light" (lib.removeSuffix "-dark" slug);
-      dirs = lib.filterAttrs (_: t: t == "directory") (builtins.readDir inputs.noctalia-colorschemes);
+      dirs = lib.attrNames (
+        lib.filterAttrs (_: t: t == "directory") (builtins.readDir inputs.noctalia-colorschemes)
+      );
+      find =
+        wanted: lib.findFirst (n: lib.toLower (lib.replaceStrings [ " " ] [ "-" ] n) == wanted) null dirs;
+      exact = find slug;
     in
-    lib.findFirst (n: lib.toLower (lib.replaceStrings [ " " ] [ "-" ] n) == wanted) null (
-      lib.attrNames dirs
-    );
+    if exact != null then exact else find (lib.removeSuffix "-light" (lib.removeSuffix "-dark" slug));
   noctalia =
-    let
-      json = lib.importJSON "${inputs.noctalia-colorschemes}/${noctaliaName}/${noctaliaName}.json";
-      variant = if noctaliaLight then "light" else "dark";
-      v = json.${variant} or (throw "theme.scheme: '${noctaliaName}' has no ${variant} variant");
-      t = v.terminal or (throw "theme.scheme: '${noctaliaName}' has no terminal colours");
-      hex = lib.removePrefix "#";
-      # Per-channel average; Noctalia has no orange slot.
-      blend =
-        a: b:
-        lib.concatMapStrings
-          (
-            pos:
-            lib.toLower (
-              lib.fixedWidthString 2 "0" (
-                lib.toHexString (
-                  (lib.fromHexString (builtins.substring pos 2 a) + lib.fromHexString (builtins.substring pos 2 b))
-                  / 2
+    if noctaliaName == null then
+      throw "theme.scheme: '${slug}' is not a tinted-theming slug or Noctalia community scheme (see `just themes`)"
+    else
+      let
+        json = lib.importJSON "${inputs.noctalia-colorschemes}/${noctaliaName}/${noctaliaName}.json";
+        variant = if noctaliaLight then "light" else "dark";
+        v = json.${variant} or (throw "theme.scheme: '${noctaliaName}' has no ${variant} variant");
+        t = v.terminal or (throw "theme.scheme: '${noctaliaName}' has no terminal colours");
+        hex = lib.removePrefix "#";
+        # Per-channel average; Noctalia has no orange slot.
+        blend =
+          a: b:
+          lib.concatMapStrings
+            (
+              pos:
+              lib.toLower (
+                lib.fixedWidthString 2 "0" (
+                  lib.toHexString (
+                    (lib.fromHexString (builtins.substring pos 2 a) + lib.fromHexString (builtins.substring pos 2 b))
+                    / 2
+                  )
                 )
               )
             )
-          )
-          [
-            0
-            2
-            4
-          ];
-    in
-    {
-      inherit variant;
-      accent = hex v.mPrimary;
-      attrs = {
-        scheme = noctaliaName;
-        inherit slug;
-        author = "noctalia-dev/noctalia-colorschemes";
-        base00 = hex t.background;
-        base01 = hex v.mSurfaceVariant;
-        base02 = hex t.bright.black;
-        base03 = hex v.mOnSurfaceVariant;
-        base04 = hex t.normal.white;
-        base05 = hex t.foreground;
-        base06 = hex t.bright.white;
-        base07 = hex t.bright.white;
-        base08 = hex t.normal.red;
-        base09 = blend (hex t.normal.red) (hex t.normal.yellow);
-        base0A = hex t.normal.yellow;
-        base0B = hex t.normal.green;
-        base0C = hex t.normal.cyan;
-        base0D = hex t.normal.blue;
-        base0E = hex t.normal.magenta;
-        base0F = hex v.mError;
-        base10 = hex v.mSurface;
-        base11 = hex v.mShadow;
-        base12 = hex t.bright.red;
-        base13 = hex t.bright.yellow;
-        base14 = hex t.bright.green;
-        base15 = hex t.bright.cyan;
-        base16 = hex t.bright.blue;
-        base17 = hex t.bright.magenta;
+            [
+              0
+              2
+              4
+            ];
+      in
+      {
+        inherit variant;
+        accent = hex v.mPrimary;
+        attrs = {
+          scheme = noctaliaName;
+          inherit slug;
+          author = "noctalia-dev/noctalia-colorschemes";
+          base00 = hex t.background;
+          base01 = hex v.mSurfaceVariant;
+          base02 = hex t.bright.black;
+          base03 = hex v.mOnSurfaceVariant;
+          base04 = hex t.normal.white;
+          base05 = hex t.foreground;
+          base06 = hex t.bright.white;
+          base07 = hex t.bright.white;
+          base08 = hex t.normal.red;
+          base09 = blend (hex t.normal.red) (hex t.normal.yellow);
+          base0A = hex t.normal.yellow;
+          base0B = hex t.normal.green;
+          base0C = hex t.normal.cyan;
+          base0D = hex t.normal.blue;
+          base0E = hex t.normal.magenta;
+          base0F = hex v.mError;
+          base10 = hex v.mSurface;
+          base11 = hex v.mShadow;
+          base12 = hex t.bright.red;
+          base13 = hex t.bright.yellow;
+          base14 = hex t.bright.green;
+          base15 = hex t.bright.cyan;
+          base16 = hex t.bright.blue;
+          base17 = hex t.bright.magenta;
+        };
       };
-    };
 
-  fromNoctalia =
-    if tintedSlug == slug then
-      false
-    else if noctaliaName != null then
-      true
-    else
-      throw "theme.scheme: '${slug}' is neither a tinted-theming slug nor a noctalia community scheme";
+  polarity = if tinted != null then yamlField "variant" "dark" else noctalia.variant;
 
-  polarity = if fromNoctalia then noctalia.variant else yamlField "variant" "dark";
+  # Longest table key that prefixes the slug, else default; for per-app
+  # family tables ({ catppuccin = …; catppuccin-latte = …; }).
+  pick =
+    table: default:
+    let
+      keys = lib.filter (k: lib.hasPrefix k slug) (lib.attrNames table);
+      longest = lib.foldl' (a: b: if lib.stringLength b > lib.stringLength a then b else a) "" keys;
+    in
+    if keys == [ ] then default else table.${longest};
 
   # Needs pkgs for template rendering, so instantiated per consumer.
   mkTheme =
     pkgs:
     let
-      colors = (pkgs.callPackage inputs.base16.lib { }).mkSchemeAttrs (
+      base = (pkgs.callPackage inputs.base16.lib { }).mkSchemeAttrs (
         if tinted != null then tinted else noctalia.attrs
       );
+      # No accent slot in base16; base0D by convention, Noctalia names its own.
+      accent = lib.toLower (if tintedSlug == slug then base.base0D else noctalia.accent);
     in
     {
       scheme = slug;
-      inherit polarity;
+      inherit polarity pick;
       dark = polarity == "dark";
       system = if tinted != null then yamlField "system" "base16" else "base24";
 
-      # base16.nix scheme attrs: baseXX (no '#'), `withHashtag`, mnemonics
-      # (red, bright-blue, ...). Callable to render a tinted template:
+      # base16.nix scheme attrs plus `accent`: baseXX (no '#'), `withHashtag`,
+      # mnemonics (red, bright-blue, ...). Callable to render a tinted template:
       #   colors inputs.tinted-yazi
       #   colors { template = readFile ".../kitty-${system}.mustache"; extension = ".conf"; }
       # (tinted-terminal's config.yaml trips base16.nix's YAML parser, hence the second form.)
-      inherit colors;
+      colors = base // {
+        inherit accent;
+        withHashtag = base.withHashtag // {
+          accent = "#${accent}";
+        };
+      };
 
-      # No accent slot in base16; base0D by convention, Noctalia names its own.
-      accent = if fromNoctalia then noctalia.accent else colors.base0D;
-
-      # Exact Noctalia scheme name when the palette or accent came from there.
-      noctaliaScheme = if fromNoctalia then noctaliaName else null;
+      # Same-named Noctalia community scheme, if any.
+      noctaliaScheme = noctaliaName;
 
       # Terminal order (black..white, then bright), for console/fzf/fish.
-      ansi = with colors; [
+      ansi = with base; [
         base00
         red
         green

@@ -11,7 +11,7 @@
 
         [colors]
         Base = "${c.base05}"
-        Title = "#${theme.accent}"
+        Title = "${c.accent}"
         Annotation = "${c.base03}"
         Guidance = "${c.base0D}"
         Important = "${c.base0E}"

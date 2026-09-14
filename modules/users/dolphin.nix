@@ -38,8 +38,8 @@
           ForegroundNegative=${rgb c.base08}
           ForegroundNeutral=${rgb c.base09}
           ForegroundPositive=${rgb c.base0B}
-          DecorationFocus=${rgb theme.accent}
-          DecorationHover=${rgb theme.accent}
+          DecorationFocus=${rgb c.accent}
+          DecorationHover=${rgb c.accent}
         '';
     in
     {
@@ -88,7 +88,7 @@
         }}
         [Colors:Selection]
         ${colorGroup {
-          bg = theme.accent;
+          bg = c.accent;
           fg = c.base00;
         }}
         [Colors:Tooltip]

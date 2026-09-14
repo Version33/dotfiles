@@ -16,7 +16,6 @@
       atuin = self'.packages.atuin;
       c = theme.colors;
       ch = theme.colors.withHashtag;
-      accentH = "#${theme.accent}";
       # Compact greeting: small distro logo, one-line separator, few modules.
       fastfetchConf = pkgs.writeText "fastfetch.jsonc" ''
         {
@@ -63,11 +62,11 @@
             set -g fish_pager_color_prefix ${c.base0D} --bold
             set -g fish_pager_color_completion ${c.base05}
             set -g fish_pager_color_description ${c.base03}
-            set -g fish_pager_color_progress ${c.base00} --background=${theme.accent}
+            set -g fish_pager_color_progress ${c.base00} --background=${c.accent}
             set -g fish_pager_color_selected_background --background=${c.base02}
 
             # Also picked up by yazi's fzf jump.
-            set -gx FZF_DEFAULT_OPTS "--color=bg+:${ch.base02},bg:${ch.base00},spinner:${accentH},hl:${ch.base08},fg:${ch.base05},header:${ch.base08},info:${ch.base0E},pointer:${accentH},marker:${ch.base0B},fg+:${ch.base05},prompt:${ch.base0E},hl+:${accentH},border:${ch.base03}"
+            set -gx FZF_DEFAULT_OPTS "--color=bg+:${ch.base02},bg:${ch.base00},spinner:${ch.accent},hl:${ch.base08},fg:${ch.base05},header:${ch.base08},info:${ch.base0E},pointer:${ch.accent},marker:${ch.base0B},fg+:${ch.base05},prompt:${ch.base0E},hl+:${ch.accent},border:${ch.base03}"
             if status is-interactive
               # fastfetch greeting (function overrides the default $fish_greeting)
               function fish_greeting
