@@ -9,7 +9,10 @@
         isNormalUser = true;
         description = "vee";
         initialHashedPassword = "!";
-        openssh.authorizedKeys.keyFiles = [ ./keys/phone.pub ];
+        openssh.authorizedKeys.keyFiles = [
+          ./keys/phone.pub
+          ./keys/ipad.pub
+        ];
         shell = self.packages.${system}.fish;
         extraGroups = [
           "input"
