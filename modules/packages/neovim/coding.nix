@@ -7,8 +7,25 @@
         autocomplete.blink-cmp = {
           enable = true;
           friendly-snippets.enable = true;
+          # nvf binds `next`/`previous` to <Tab>/<S-Tab> by default; move those
+          # to the arrow keys and let <Tab> accept the highlighted item.
+          mappings = {
+            next = "<Down>";
+            previous = "<Up>";
+          };
           setupOpts = {
-            keymap.preset = "default";
+            keymap = {
+              preset = "default";
+              "<Tab>" = [
+                "select_and_accept"
+                "snippet_forward"
+                "fallback"
+              ];
+              "<S-Tab>" = [
+                "snippet_backward"
+                "fallback"
+              ];
+            };
             completion = {
               documentation.auto_show = true;
               documentation.auto_show_delay_ms = 200;

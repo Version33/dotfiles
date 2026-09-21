@@ -7,6 +7,7 @@ wk.add({
   { "<leader>bm",    group = "move",               icon = { icon = "󰆤 ", color = "blue"   } },
   { "<leader>bs",    group = "sort",               icon = { icon = "󰒺 ", color = "blue"   } },
   { "<leader>c",     group = "code",               icon = { icon = "󰅩 ", color = "orange" } },
+  { "<leader>d",     group = "debug",              icon = { icon = "\u{f03d0} ", color = "red"    } },
   { "<leader>f",     group = "file/find",          icon = { icon = "󰍉 ", color = "cyan"   } },
   { "<leader>g",     group = "git",                icon = { icon = "󰊢 ", color = "red"    } },
   { "<leader>gh",    group = "hunks",              icon = { icon = " ", color = "yellow" } },
