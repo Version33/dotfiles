@@ -742,6 +742,7 @@
         "nvf": "nvf",
         "oh-my-pi": "oh-my-pi",
         "orca-nightly": "orca-nightly",
+        "septabee-bin": "septabee-bin",
         "tinted-lazygit": "tinted-lazygit",
         "tinted-terminal": "tinted-terminal",
         "tinted-yazi": "tinted-yazi",
@@ -889,6 +890,18 @@
         "owner": "oxalica",
         "repo": "rust-overlay",
         "type": "github"
+      }
+    },
+    "septabee-bin": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-chHzOIFqPeM6W9ypt+3rwf2HhnyiSB7Wukv08oF7g8k=",
+        "type": "file",
+        "url": "file:///home/vee/Proprietary/septabee_linux_B_T14_offline.7z"
+      },
+      "original": {
+        "type": "file",
+        "url": "file:///home/vee/Proprietary/septabee_linux_B_T14_offline.7z"
       }
     },
     "systems": {

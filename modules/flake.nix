@@ -124,6 +124,15 @@
       url = "file+file:///home/vee/Proprietary/hueforge/HueForge_Linux_v0.9.4.3.AppImage";
       flake = false;
     };
+
+    # Septabee — proprietary offline build, manually downloaded. Same scheme as
+    # hueforge-bin: 7z stays outside git at a machine-local path. Bump by
+    # dropping the new archive in place, updating this URL and `version` in
+    # modules/packages/septabee.nix, then `nix run .#write-flake && nix flake lock`.
+    septabee-bin = {
+      url = "file+file:///home/vee/Proprietary/septabee_linux_B_T14_offline.7z";
+      flake = false;
+    };
   };
 
   # System architectures this flake supports

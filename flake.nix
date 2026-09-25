@@ -65,6 +65,10 @@
       url = "file+https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage";
       flake = false;
     };
+    septabee-bin = {
+      url = "file+file:///home/vee/Proprietary/septabee_linux_B_T14_offline.7z";
+      flake = false;
+    };
     tinted-lazygit = {
       url = "github:tinted-theming/tinted-lazygit";
       flake = false;
