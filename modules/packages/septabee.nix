@@ -31,12 +31,16 @@
         pipewire.jack # libjack
       ];
 
-      # The archive ships no .desktop or icon; StartupWMClass matches the
-      # app_id GLFW sets so the launcher groups its window.
+      # The archive ships no .desktop. On every launch the app itself writes
+      # ~/.local/share/applications/septabee.desktop with NoDisplay=true (plus
+      # a 128px icon under ~/.local/share/icons), and a user entry shadows a
+      # system one with the same ID — so ours must use a different file name.
+      # Icon=septabee resolves to the app-written icon after the first run.
       desktopItem = pkgs.makeDesktopItem {
-        name = pname;
+        name = "Septabee";
         desktopName = "Septabee";
         exec = pname;
+        icon = pname;
         terminal = false;
         categories = [
           "AudioVideo"
@@ -60,9 +64,13 @@
           stdenv.cc.cc.lib
         ];
 
+        # The flake input is a bare store path with no .7z suffix, so p7zip's
+        # setup hook can't detect it; unpack explicitly.
         unpackPhase = ''
+          runHook preUnpack
           7z x -y "$src" >/dev/null
           sourceRoot=linux
+          runHook postUnpack
         '';
 
         # The binary locates its data files, fonts, helper executables
@@ -78,8 +86,8 @@
                    $out/lib/${pname}/${pname}-watchdawg
           makeWrapper $out/lib/${pname}/${pname} $out/bin/${pname} \
             --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath runtimeLibs}
-          install -Dm444 ${desktopItem}/share/applications/${pname}.desktop \
-            $out/share/applications/${pname}.desktop
+          install -Dm444 ${desktopItem}/share/applications/Septabee.desktop \
+            $out/share/applications/Septabee.desktop
           runHook postInstall
         '';
 
