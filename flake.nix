@@ -44,10 +44,6 @@
       url = "github:fzakaria/nix-auto-follow";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixmate = {
-      url = "github:daskladas/nixmate";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     noctalia-colorschemes = {
       url = "github:noctalia-dev/noctalia-colorschemes";
