@@ -59,12 +59,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Tools
-    nixmate = {
-      url = "github:daskladas/nixmate";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # Eye tracking
     tobiifree = {
       url = "github:Aetherall/tobiifree";
