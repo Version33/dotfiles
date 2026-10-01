@@ -182,11 +182,11 @@
         "rust-analyzer-src": "rust-analyzer-src_2"
       },
       "locked": {
-        "lastModified": 1790684979,
-        "narHash": "sha256-vsUeGN4sI81IxNei+4uXatmkCDpMK3Q6l/rtxc1JeEU=",
+        "lastModified": 1790858958,
+        "narHash": "sha256-am3DS8g9vyeQLKk9QQvmJoZLHGBUB1rtd6zVaGeq2Mc=",
         "owner": "nix-community",
         "repo": "fenix",
-        "rev": "d30cd5c9c2d376fbecb7cabf999270b62b51dda3",
+        "rev": "025bf5b6b0293c5ee3a3506a7e43ba64bc8bb1b7",
         "type": "github"
       },
       "original": {
@@ -333,11 +333,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1790626880,
-        "narHash": "sha256-LtMDxK2Ssa6+rHhFFSc2RiEmp+epvglJvlqDeffECu8=",
+        "lastModified": 1790793108,
+        "narHash": "sha256-tOuLebtGDPFW0DnDZLFenNdVdKWCgRvsDNS4QA8lb6E=",
         "owner": "freenet",
         "repo": "freenet-core",
-        "rev": "1d13bf5d43453d8fa0e105928c9fc67a20a4f878",
+        "rev": "7b675c8ce53e465fd6601990c20cb272ba6c0229",
         "type": "github"
       },
       "original": {
@@ -399,11 +399,11 @@
         "rust-overlay": "rust-overlay_3"
       },
       "locked": {
-        "lastModified": 1790618618,
-        "narHash": "sha256-gQ7f//i11rRCQp2o5yZBKbwNBSm4hPTFQ7fXB1mIfAg=",
+        "lastModified": 1790853984,
+        "narHash": "sha256-v5+DBEGnMC6phAf+/Rt7EtxjIDzy+NMKdHJIFJGh5qc=",
         "owner": "nix-community",
         "repo": "lanzaboote",
-        "rev": "39367cd07a19945644cb4f0c07cf506d2e090fab",
+        "rev": "ba33415d747d8dedd2931af107521634f1f2e8a8",
         "type": "github"
       },
       "original": {
@@ -570,11 +570,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1790578696,
-        "narHash": "sha256-ZoxIApko70jCdbH3l20HWXOBaT2HZd87orzd2yJ9dVE=",
+        "lastModified": 1790822859,
+        "narHash": "sha256-69xHQhAeMAD2wDXO7T2pcOZIF9Sga2W+JkmY2a11Ops=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "7a0f122f5090cf4c2ade2a13a0e229d4e19ba71f",
+        "rev": "c59305bab2065cfecc4944690d9eedbb56f3a9fa",
         "type": "github"
       },
       "original": {
@@ -609,11 +609,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790221470,
-        "narHash": "sha256-TzyWd4i7YCpqoF9xB8mfgDJ2sviAZysKH9R8YbQGjqA=",
+        "lastModified": 1790797021,
+        "narHash": "sha256-H2vA5yUaS58Wtdp46piMbRqSQe3Qn716i/oZPYoyhp8=",
         "owner": "NotAShelf",
         "repo": "nvf",
-        "rev": "95afe7a794216f53e217c5148c6fbe0b668192cf",
+        "rev": "2477cb0a5f394df36ddc72867c2657225d93d157",
         "type": "github"
       },
       "original": {
@@ -634,11 +634,11 @@
         "rust-overlay": "rust-overlay_4"
       },
       "locked": {
-        "lastModified": 1790709775,
-        "narHash": "sha256-S8Oz/xYEJCIc36S9u2UWXqYYQhjFxKMMzgFiB9PRVcY=",
+        "lastModified": 1790869406,
+        "narHash": "sha256-oTRyloE/YhTOgjXCnGGGN+0bq6E1S1L/8rp6JJuzMzE=",
         "owner": "can1357",
         "repo": "oh-my-pi",
-        "rev": "8ac1309bd8adaddc891eeb389c545345073875be",
+        "rev": "05c7b556e5aaf05ec2f28e5ea90ba5f04c5a6c35",
         "type": "github"
       },
       "original": {
@@ -650,7 +650,7 @@
     "orca-nightly": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-1KeM1ZSjH8SsZ/6t091l+02EKjqDtXyoO2X+VVnuWpo=",
+        "narHash": "sha256-SzZTYdA8d85Q0Eyy/jaeCIxydAebKYoHicUjAdwpmV8=",
         "type": "file",
         "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage"
       },

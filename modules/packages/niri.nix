@@ -137,7 +137,7 @@
           binds = {
             # Apps
             "Mod+Return".spawn-sh = lib.getExe self'.packages.kitty;
-            "Mod+S".spawn-sh = "${lib.getExe self'.packages.noctalia} ipc call launcher toggle";
+            "Mod+S".spawn-sh = "${lib.getExe self'.packages.noctalia} msg panel-toggle launcher";
 
             # Window management
             "Mod+Q".close-window = _: { };

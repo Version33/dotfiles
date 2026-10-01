@@ -3,54 +3,63 @@
   perSystem =
     {
       pkgs,
-      lib,
       theme,
       ...
     }:
     let
-      # Noctalia only takes a scheme *name* (it regenerates colors.json from it
-      # on every start), so map tinted families onto its bundled schemes.
-      bundled = {
+      # Noctalia palettes compiled into the binary (see `[theme].builtin`),
+      # keyed by the tinted family prefix they correspond to.
+      builtin = {
         catppuccin = "Catppuccin";
         gruvbox = "Gruvbox";
         tokyo-night = "Tokyo-Night";
         nord = "Nord";
         dracula = "Dracula";
-        rose-pine = "Rosepine";
+        rose-pine = "Rosé Pine";
         kanagawa = "Kanagawa";
         ayu = "Ayu";
         eldritch = "Eldritch";
       };
-      predefinedScheme =
+      # Same-named community palette if there is one, else nearest builtin.
+      # Community palettes ship in the config dir as `custom` palettes so no
+      # network fetch (api.noctalia.dev) is needed at startup.
+      palette =
         if theme.noctaliaScheme != null then
-          theme.noctaliaScheme
+          {
+            source = "custom";
+            custom_palette = theme.noctaliaScheme;
+          }
         else
-          theme.pick bundled "Noctalia-default";
+          {
+            source = "builtin";
+            builtin = theme.pick builtin "Noctalia";
+          };
+      configToml = (pkgs.formats.toml { }).generate "noctalia-config.toml" {
+        theme = {
+          mode = if theme.dark then "dark" else "light";
+        }
+        // palette;
+      };
+      # v5 reads every *.toml under $NOCTALIA_CONFIG_HOME/noctalia/ (falls back
+      # to ~/.config). GUI changes land in ~/.local/state/noctalia/settings.toml
+      # and layer on top, so a read-only store dir is fine.
+      configHome = pkgs.runCommand "noctalia-config-home" { } ''
+        install -Dm444 ${configToml} $out/noctalia/config.toml
+        mkdir -p $out/noctalia/palettes
+        for d in ${inputs.noctalia-colorschemes}/*/; do
+          n=$(basename "$d")
+          install -m444 "$d/$n.json" "$out/noctalia/palettes/$n.json"
+        done
+      '';
     in
     {
-      packages.noctalia = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
-        inherit pkgs;
-        settings = lib.recursiveUpdate (builtins.fromJSON (builtins.readFile ./noctalia.json)).settings {
-          colorSchemes = {
-            inherit predefinedScheme;
-            darkMode = theme.dark;
-          };
-          wallpaper.solidColor = "#${theme.colors.base00}";
-        };
-        package = pkgs.noctalia-shell.overrideAttrs (old: {
-          postPatch = (old.postPatch or "") + ''
-            # Upstream demotes session actions below app results (`score - 1`)
-            substituteInPlace Modules/Panels/Launcher/Providers/SessionProvider.qml \
-              --replace-fail '"_score": score - 1,' '"_score": score + 1,' \
-              --replace-fail '"keywords": ["hibernate", "disk"]' '"keywords": ["hibernate"]'
-
-            # Ship the community schemes (Cyberpunk, Aura, ...) as built-ins
-            # instead of relying on the in-app downloader writing to ~/.config.
-            for d in ${inputs.noctalia-colorschemes}/*/; do
-              cp -R --no-preserve=mode "$d" Assets/ColorScheme/
-            done
-          '';
-        });
+      packages.noctalia = pkgs.symlinkJoin {
+        inherit (pkgs.noctalia) name meta;
+        paths = [ pkgs.noctalia ];
+        nativeBuildInputs = [ pkgs.makeWrapper ];
+        postBuild = ''
+          wrapProgram $out/bin/noctalia --set NOCTALIA_CONFIG_HOME ${configHome}
+        '';
       };
     };
 }

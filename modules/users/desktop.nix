@@ -19,48 +19,13 @@
 
       # Runs under systemd so `nixos-rebuild switch` restarts it with niri;
       # a leftover daemon from an older generation is unreachable via IPC,
-      # leaving Mod+S dead until relogin.
-      systemd.user.services.noctalia = {
-        description = "Noctalia desktop shell";
-        wantedBy = [ "graphical-session.target" ];
-        partOf = [ "graphical-session.target" ];
-        after = [ "graphical-session.target" ];
-        # systemd units get a minimal PATH (unlike spawn-at-startup); Noctalia
-        # shells out at runtime (magick, etc.) and silently breaks without this.
-        path = [ "/run/current-system/sw" ];
-        serviceConfig = {
-          # Quickshell never GCs $XDG_RUNTIME_DIR/quickshell/by-id/*; a
-          # crash-loop once filled the tmpfs and broke IPC (ENOSPC). Prune
-          # dead instances (matched via by-pid/<pid> -> /proc) before start.
-          ExecStartPre = pkgs.writeShellScript "quickshell-runtime-gc" ''
-            base="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/quickshell"
-            [ -d "$base" ] || exit 0
-            for link in "$base"/by-pid/*; do
-              [ -L "$link" ] || continue
-              pid="''${link##*/}"
-              target="$(readlink "$link")"
-              if ! grep -q quickshell "/proc/$pid/comm" 2>/dev/null; then
-                case "$target" in
-                  "$base"/by-id/*) rm -rf "$target" ;;
-                esac
-                rm -f "$link"
-              fi
-            done
-            for dir in "$base"/by-id/*; do
-              [ -d "$dir" ] || continue
-              live=0
-              for link in "$base"/by-pid/*; do
-                [ "$(readlink "$link" 2>/dev/null)" = "$dir" ] && live=1 && break
-              done
-              [ "$live" -eq 1 ] || rm -rf "$dir"
-            done
-            find "$base"/by-path "$base"/by-shell -xtype l -delete 2>/dev/null
-            exit 0
-          '';
-          ExecStart = lib.getExe self.packages.${system}.noctalia;
-          Restart = "on-failure";
-          RestartSec = 1;
-        };
+      # leaving Mod+S dead until relogin. The unit inherits the user manager's
+      # PATH (niri imports the session env), which Noctalia needs for the
+      # tools it shells out to.
+      programs.noctalia = {
+        enable = true;
+        package = self.packages.${system}.noctalia;
+        systemd.enable = true;
       };
 
       environment = {
