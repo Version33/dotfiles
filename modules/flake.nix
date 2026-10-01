@@ -121,8 +121,7 @@
 
     # Septabee DAW — packaged + nixosModule (cap_sys_nice wrappers) upstream.
     # Fetches the 7z from septabee.nekoweb.org, so nothing lives outside git.
-    # Upstream's versions.nix lags releases; newer builds are pinned by hash in
-    # modules/packages/septabee.nix. Bump with `nix flake update septabee`.
+    # Bump with `nix flake update septabee`.
     septabee = {
       url = "github:Ap6661/septabee-flake";
       inputs.nixpkgs.follows = "nixpkgs";
