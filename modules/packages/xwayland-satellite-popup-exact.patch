@@ -1,8 +1,8 @@
 diff --git a/src/server/event.rs b/src/server/event.rs
-index 3725178..69476ec 100644
+index acf51d9..9399072 100644
 --- a/src/server/event.rs
 +++ b/src/server/event.rs
-@@ -300,17 +300,37 @@ impl SurfaceEvents {
+@@ -300,28 +300,49 @@ impl SurfaceEvents {
              let (scale_factor, window, window_data, role) = query.get().unwrap();
  
              let window = *window;
@@ -13,46 +13,68 @@ index 3725178..69476ec 100644
 +
 +            // A configure exactly echoing a popup's positioner request resolves
 +            // from its exact X11 pixel values (see PopupData::requested).
-+            let exact = if let SurfaceRole::Popup(Some(p)) = &*role {
++            let exact = if let SurfaceRole::Popup(Some(p)) = role {
 +                p.requested.filter(|requested| requested.logical == pending)
              } else {
 -                window_data.attrs.dims.width
 +                None
              };
--            let mut height = if pending.height > 0 {
--                (pending.height as f64 * scale_factor.0) as u16
+-            let height = if pending.height > 0 {
+-                let mut logical_height = pending.height;
+-                if let SurfaceRole::Toplevel(Some(toplevel)) = role {
+-                    if let Some(d) = &toplevel.decoration.satellite {
+-                        let surface_width = (width as f64 / scale_factor.0).ceil() as i32;
+-                        if d.will_draw_decorations(surface_width) {
+-                            logical_height = (logical_height
+-                                - DecorationsDataSatellite::TITLEBAR_HEIGHT)
+-                                .max(DecorationsDataSatellite::TITLEBAR_HEIGHT);
 +
-+            let (x, y, width, mut height) = if let Some(requested) = exact {
++            let (x, y, width, height) = if let Some(requested) = exact {
 +                (
 +                    requested.native_offset.0 + window_data.output_offset.x,
 +                    requested.native_offset.1 + window_data.output_offset.y,
 +                    requested.native_size.0,
 +                    requested.native_size.1,
 +                )
-             } else {
++            } else {
++                let x = (pending.x.max(0) as f64 * scale_factor.0) as i32
++                    + window_data.output_offset.x;
++                let y = (pending.y.max(0) as f64 * scale_factor.0) as i32
++                    + window_data.output_offset.y;
++                let width = if pending.width > 0 {
++                    (pending.width as f64 * scale_factor.0) as u16
++                } else {
++                    window_data.attrs.dims.width
++                };
++                let height = if pending.height > 0 {
++                    let mut logical_height = pending.height;
++                    if let SurfaceRole::Toplevel(Some(toplevel)) = role {
++                        if let Some(d) = &toplevel.decoration.satellite {
++                            let surface_width = (width as f64 / scale_factor.0).ceil() as i32;
++                            if d.will_draw_decorations(surface_width) {
++                                logical_height = (logical_height
++                                    - DecorationsDataSatellite::TITLEBAR_HEIGHT)
++                                    .max(DecorationsDataSatellite::TITLEBAR_HEIGHT);
++                            }
+                         }
+                     }
+-                }
+-                (logical_height as f64 * scale_factor.0) as u16
+-            } else {
 -                window_data.attrs.dims.height
-+                (
-+                    (pending.x.max(0) as f64 * scale_factor.0) as i32 + window_data.output_offset.x,
-+                    (pending.y.max(0) as f64 * scale_factor.0) as i32 + window_data.output_offset.y,
-+                    if pending.width > 0 {
-+                        (pending.width as f64 * scale_factor.0) as u16
-+                    } else {
-+                        window_data.attrs.dims.width
-+                    },
-+                    if pending.height > 0 {
-+                        (pending.height as f64 * scale_factor.0) as u16
-+                    } else {
-+                        window_data.attrs.dims.height
-+                    },
-+                )
++                    (logical_height as f64 * scale_factor.0) as u16
++                } else {
++                    window_data.attrs.dims.height
++                };
++                (x, y, width, height)
              };
              debug!(
                  "configuring {} ({window:?}): {x}x{y}, {width}x{height}",
 diff --git a/src/server/mod.rs b/src/server/mod.rs
-index f62203b..f2206c0 100644
+index a436331..c539542 100644
 --- a/src/server/mod.rs
 +++ b/src/server/mod.rs
-@@ -245,6 +245,36 @@ struct PopupData {
+@@ -248,6 +248,36 @@ struct PopupData {
      popup: XdgPopup,
      positioner: XdgPositioner,
      xdg: XdgSurfaceData,
@@ -89,7 +111,7 @@ index f62203b..f2206c0 100644
  }
  
  trait Event {
-@@ -1115,14 +1145,16 @@ impl<S: X11Selection + 'static> InnerServerState<S> {
+@@ -1121,14 +1151,16 @@ impl<S: X11Selection + 'static> InnerServerState<S> {
  
          match role {
              SurfaceRole::Popup(Some(popup)) => {
@@ -113,7 +135,7 @@ index f62203b..f2206c0 100644
                  popup.popup.reposition(&popup.positioner, 0);
              }
              SurfaceRole::Toplevel(Some(_)) => {
-@@ -1603,13 +1635,15 @@ impl<S: X11Selection + 'static> InnerServerState<S> {
+@@ -1621,13 +1653,15 @@ impl<S: X11Selection + 'static> InnerServerState<S> {
          );
  
          let positioner = self.xdg_wm_base.create_positioner(&self.qh, ());
@@ -135,7 +157,7 @@ index f62203b..f2206c0 100644
          positioner.set_anchor(Anchor::TopLeft);
          positioner.set_gravity(Gravity::BottomRight);
          positioner.set_anchor_rect(
-@@ -1630,6 +1664,7 @@ impl<S: X11Selection + 'static> InnerServerState<S> {
+@@ -1648,6 +1682,7 @@ impl<S: X11Selection + 'static> InnerServerState<S> {
          PopupData {
              popup,
              positioner,
@@ -143,7 +165,7 @@ index f62203b..f2206c0 100644
              xdg: XdgSurfaceData {
                  surface: xdg,
                  configured: false,
-@@ -1639,7 +1674,7 @@ impl<S: X11Selection + 'static> InnerServerState<S> {
+@@ -1657,7 +1692,7 @@ impl<S: X11Selection + 'static> InnerServerState<S> {
      }
  }
  
@@ -153,10 +175,10 @@ index f62203b..f2206c0 100644
      pub x: i32,
      pub y: i32,
 diff --git a/src/server/tests.rs b/src/server/tests.rs
-index 3ad2b2d..2893ebb 100644
+index fa70c7d..fde4212 100644
 --- a/src/server/tests.rs
 +++ b/src/server/tests.rs
-@@ -2460,6 +2460,49 @@ fn fractional_scale_popup() {
+@@ -2500,6 +2500,49 @@ fn fractional_scale_popup() {
      );
  }
  
