@@ -701,7 +701,7 @@
         "nvf": "nvf",
         "oh-my-pi": "oh-my-pi",
         "orca-nightly": "orca-nightly",
-        "septabee-bin": "septabee-bin",
+        "septabee": "septabee",
         "tinted-lazygit": "tinted-lazygit",
         "tinted-terminal": "tinted-terminal",
         "tinted-yazi": "tinted-yazi",
@@ -830,16 +830,24 @@
         "type": "github"
       }
     },
-    "septabee-bin": {
-      "flake": false,
+    "septabee": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
       "locked": {
-        "narHash": "sha256-chHzOIFqPeM6W9ypt+3rwf2HhnyiSB7Wukv08oF7g8k=",
-        "type": "file",
-        "url": "file:///home/vee/Proprietary/septabee_linux_B_T14_offline.7z"
+        "lastModified": 1790358517,
+        "narHash": "sha256-+75LUB+6fpF5I9OGNZZRigxeHZGzZ0hoW6U9xJ5KBeU=",
+        "owner": "Ap6661",
+        "repo": "septabee-flake",
+        "rev": "59625c31deea34a289403eeb984af2696420edb9",
+        "type": "github"
       },
       "original": {
-        "type": "file",
-        "url": "file:///home/vee/Proprietary/septabee_linux_B_T14_offline.7z"
+        "owner": "Ap6661",
+        "repo": "septabee-flake",
+        "type": "github"
       }
     },
     "systems": {

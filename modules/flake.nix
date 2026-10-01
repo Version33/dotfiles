@@ -119,13 +119,13 @@
       flake = false;
     };
 
-    # Septabee — proprietary offline build, manually downloaded. Same scheme as
-    # hueforge-bin: 7z stays outside git at a machine-local path. Bump by
-    # dropping the new archive in place, updating this URL and `version` in
-    # modules/packages/septabee.nix, then `nix run .#write-flake && nix flake lock`.
-    septabee-bin = {
-      url = "file+file:///home/vee/Proprietary/septabee_linux_B_T14_offline.7z";
-      flake = false;
+    # Septabee DAW — packaged + nixosModule (cap_sys_nice wrappers) upstream.
+    # Fetches the 7z from septabee.nekoweb.org, so nothing lives outside git.
+    # Upstream's versions.nix lags releases; newer builds are pinned by hash in
+    # modules/packages/septabee.nix. Bump with `nix flake update septabee`.
+    septabee = {
+      url = "github:Ap6661/septabee-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
