@@ -1,21 +1,16 @@
-{ inputs, ... }:
 let
   mkYazi =
-    {
-      pkgs,
-      theme,
-      starship,
-    }:
+    pkgs: starship:
     pkgs.yazi.override {
-      # Tinted template as a flavor dir (not parsed in Nix: that would be IFD).
-      flavors.${theme.scheme} = pkgs.linkFarm "yazi-flavor" {
-        "flavor.toml" = theme.colors inputs.tinted-yazi;
-      };
       settings = {
-        theme.flavor = {
-          dark = theme.scheme;
-          light = theme.scheme;
-        };
+        theme = builtins.fromTOML (
+          builtins.readFile (
+            builtins.fetchurl {
+              url = "https://raw.githubusercontent.com/catppuccin/yazi/d62802be39210ea10e54b3e3b09735c6cb9e57c1/themes/mocha/catppuccin-mocha-blue.toml";
+              sha256 = "1s8qmcdn5h4ghgwhdhljv261mch5alg2rsqs3kp38s8mzw53h7qd";
+            }
+          )
+        );
         yazi.opener.archive = [
           {
             run = "ouch list \"$1\"";
@@ -71,16 +66,8 @@ let
 in
 {
   perSystem =
+    { pkgs, self', ... }:
     {
-      pkgs,
-      theme,
-      self',
-      ...
-    }:
-    {
-      packages.yazi = mkYazi {
-        inherit pkgs theme;
-        starship = self'.packages.starship;
-      };
+      packages.yazi = mkYazi pkgs self'.packages.starship;
     };
 }

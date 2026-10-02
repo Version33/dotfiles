@@ -9,7 +9,6 @@
       url = "github:polygon/audio.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    base16.url = "github:SenchoPens/base16.nix";
     evo-control = {
       url = "github:briannadon/evo-control?rev=17043c73fa48378d130f9d85b14d687f886f2881";
       flake = false;
@@ -45,10 +44,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    noctalia-colorschemes = {
-      url = "github:noctalia-dev/noctalia-colorschemes";
-      flake = false;
-    };
     nvf = {
       url = "github:NotAShelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -65,18 +60,6 @@
       url = "github:Ap6661/septabee-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    tinted-lazygit = {
-      url = "github:tinted-theming/tinted-lazygit";
-      flake = false;
-    };
-    tinted-terminal = {
-      url = "github:tinted-theming/tinted-terminal";
-      flake = false;
-    };
-    tinted-yazi = {
-      url = "github:tinted-theming/tinted-yazi";
-      flake = false;
-    };
     tobiifree = {
       url = "github:Aetherall/tobiifree";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -84,10 +67,6 @@
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    tt-schemes = {
-      url = "github:tinted-theming/schemes";
-      flake = false;
     };
     wrapper-modules = {
       url = "github:BirdeeHub/nix-wrapper-modules";

@@ -361,7 +361,10 @@
 
         # WASM tooling
         wasm-pack # Build Rust-generated WASM packages
-        trunk # Bundle Rust WASM web apps
+        # trunk (Rust WASM bundler) removed 2026-10-02: its vendored
+        # libdeflate-sys 1.23 uses `target("...,evex512")`, which gcc 16
+        # rejects, and cargoBuildHook hardcodes stdenv's cc so a stdenv
+        # override doesn't help. Re-add once nixpkgs bumps trunk's lockfile.
         binaryen # wasm-opt and other WASM tools
 
         # Cargo extensions

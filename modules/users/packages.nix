@@ -148,7 +148,6 @@
           lld
           lldb
           musl
-          trunk
           upx
         ])
         ++ (with pkgs; [

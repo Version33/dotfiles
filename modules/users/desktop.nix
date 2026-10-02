@@ -4,12 +4,10 @@
       self,
       pkgs,
       lib,
-      theme,
       ...
     }:
     let
       inherit (pkgs.stdenv.hostPlatform) system;
-      gtkTheme = if theme.dark then "adw-gtk3-dark" else "adw-gtk3";
     in
     {
       programs.niri = {
@@ -30,17 +28,16 @@
 
       environment = {
         systemPackages = with pkgs; [
-          theme.cursor.package
+          catppuccin-cursors.mochaDark
           adw-gtk3
         ];
 
         sessionVariables = {
-          XCURSOR_THEME = theme.cursor.name;
+          XCURSOR_THEME = "catppuccin-mocha-dark-cursors";
           XCURSOR_SIZE = "24";
-          XCURSOR_PATH = lib.mkForce "${theme.cursor.package}/share/icons:~/.icons:~/.local/share/icons";
-          GTK_THEME = gtkTheme;
+          XCURSOR_PATH = lib.mkForce "${pkgs.catppuccin-cursors.mochaDark}/share/icons:~/.icons:~/.local/share/icons";
+          GTK_THEME = "adw-gtk3-dark";
           NIXOS_OZONE_WL = "1";
-          BAT_THEME = "base16";
         };
 
         # GTK only reads settings.ini from $XDG_CONFIG_DIRS (starts at
@@ -49,19 +46,16 @@
         etc = {
           "xdg/gtk-3.0/settings.ini".text = ''
             [Settings]
-            gtk-theme-name=${gtkTheme}
-            gtk-application-prefer-dark-theme=${if theme.dark then "1" else "0"}
+            gtk-theme-name=adw-gtk3-dark
+            gtk-application-prefer-dark-theme=1
           '';
           "xdg/gtk-4.0/settings.ini".text = ''
             [Settings]
-            gtk-theme-name=${gtkTheme}
-            gtk-application-prefer-dark-theme=${if theme.dark then "1" else "0"}
+            gtk-theme-name=adw-gtk3-dark
+            gtk-application-prefer-dark-theme=1
           '';
         };
       };
-
-      # Also what tuigreet (greetd, below) renders with.
-      console.colors = theme.ansi;
 
       services.greetd = {
         enable = true;
