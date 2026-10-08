@@ -2,7 +2,7 @@
   perSystem =
     { pkgs, ... }:
     let
-      # Matches noctalia (Noto Sans) and catppuccin mocha.
+      # Catppuccin mocha, matching the shell (DMS).
       fuzzelConfig = pkgs.writeText "screenshot-menu-fuzzel.ini" ''
         [main]
         font=Noto Sans:size=13, JetBrainsMono Nerd Font Propo:size=13

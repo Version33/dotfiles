@@ -2,7 +2,7 @@
   perSystem =
     { lib, pkgs, ... }:
     {
-      # Disable bwrap --die-with-parent so noctalia's short-lived spawn helper
+      # Disable bwrap --die-with-parent so DMS's short-lived spawn helper
       # doesn't kill osu on exit (same fix as orca-slicer).
       packages.osu-lazer-bin = pkgs.osu-lazer-bin.override {
         appimageTools = pkgs.appimageTools // {

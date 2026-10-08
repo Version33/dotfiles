@@ -18,7 +18,7 @@
         inherit pname version src;
 
         # bwrap defaults to --die-with-parent, killing the app when the launcher's
-        # helper exits (niri/noctalia) — terminal launches "worked" only by accident.
+        # helper exits (niri/DMS) — terminal launches "worked" only by accident.
         dieWithParent = false;
 
         extraPkgs =

@@ -29,7 +29,7 @@
           godot
           orca-slicer # nightly build for Bambu H2C support; bump via `nix flake update orca-nightly`
           hueforge # proprietary; bump via new AppImage + version in modules/packages/hueforge.nix
-          osu-lazer-bin # override disables bwrap --die-with-parent so noctalia can launch it
+          osu-lazer-bin # override disables bwrap --die-with-parent so DMS can launch it
         ])
         ++ (with pkgs; [
           # Applications

@@ -15,17 +15,6 @@
         package = self.packages.${system}.niri;
       };
 
-      # Runs under systemd so `nixos-rebuild switch` restarts it with niri;
-      # a leftover daemon from an older generation is unreachable via IPC,
-      # leaving Mod+S dead until relogin. The unit inherits the user manager's
-      # PATH (niri imports the session env), which Noctalia needs for the
-      # tools it shells out to.
-      programs.noctalia = {
-        enable = true;
-        package = self.packages.${system}.noctalia;
-        systemd.enable = true;
-      };
-
       environment = {
         systemPackages = with pkgs; [
           catppuccin-cursors.mochaDark

@@ -19,7 +19,7 @@
         inherit pname version src;
 
         # bwrap defaults to --die-with-parent, killing the app when the launcher's
-        # short-lived spawn helper exits (niri/noctalia); same fix as orca-slicer.
+        # short-lived spawn helper exits (niri/DMS); same fix as orca-slicer.
         dieWithParent = false;
 
         # Qt's xcb plugin needs libxcb-cursor, which the default FHS env lacks.
