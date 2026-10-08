@@ -584,11 +584,11 @@
         "rust-overlay": "rust-overlay_4"
       },
       "locked": {
-        "lastModified": 1790970005,
-        "narHash": "sha256-2GkDfcugJ/xnxUZtkUH7w+zc96WlI+jHUfxzREwdRTU=",
+        "lastModified": 1790987717,
+        "narHash": "sha256-HtmYwyrx4U+cTNLJP4ODuBRVL250j69+D1BNG7n+R/I=",
         "owner": "can1357",
         "repo": "oh-my-pi",
-        "rev": "c4f539e444b8332082c7cc4a185359b16ba91065",
+        "rev": "21d8ffc1554a63993f568606d4cfa71ea283a0bf",
         "type": "github"
       },
       "original": {
@@ -600,7 +600,7 @@
     "orca-nightly": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-yq05CUZOrnIxCcr/P4WpQ1v1uu4aW5KVgQYPskI1st4=",
+        "narHash": "sha256-syiHV5gF1H/GvdiiyaWjlQAfhEo1FLaD2V1Q70/gw1s=",
         "type": "file",
         "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage"
       },
