@@ -28,14 +28,15 @@
       '';
     in
     {
-      # Unified niri capture menu: screenshots via niri's native actions (same
-      # as the Print binds) plus wl-screenrec recording, with a stop toggle.
+      # Unified niri capture menu: screenshots via `dms screenshot` (themed
+      # selector, saves + clipboard + notification) plus wl-screenrec
+      # recording with a stop toggle.
       packages.screenshot-menu = pkgs.writeShellApplication {
         name = "screenshot-menu";
         runtimeInputs = with pkgs; [
           coreutils
           fuzzel
-          grim
+          dms-shell
           jq
           libnotify
           niri # `niri msg` IPC client; protocol-compatible with the wrapped session binary
@@ -127,8 +128,7 @@
               stop_record
               ;;
             *"Screenshot region")
-              # niri's interactive screenshot UI (same as plain Print).
-              exec niri msg action screenshot
+              exec dms screenshot
               ;;
             *"Screenshot window")
               # Click any window; Escape cancels (pick-window returns null).
@@ -141,11 +141,7 @@
               ;;
             *"Screenshot monitor")
               output=$(pick_monitor) || exit 0
-              mkdir -p "$shots"
-              file="$shots/Screenshot from $(stamp).png"
-              grim -o "$output" "$file"
-              wl-copy <"$file"
-              shot_saved "$file"
+              exec dms screenshot output -o "$output"
               ;;
             *"Record region")
               geometry=$(slurp) || exit 0

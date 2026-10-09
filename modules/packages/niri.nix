@@ -230,11 +230,11 @@
               "Mod+WheelScrollDown"."focus-workspace-down" = _: { };
               "Mod+WheelScrollUp"."focus-workspace-up" = _: { };
 
-              # Mod+Shift+S opens the capture menu; Print binds stay as niri's built-ins.
+              # Mod+Shift+S opens the capture menu; Print binds go through dms screenshot.
               "Mod+Shift+S".spawn-sh = lib.getExe self'.packages.screenshot-menu;
-              "Print".screenshot = _: { };
-              "Ctrl+Print".screenshot-screen = _: { };
-              "Alt+Print".screenshot-window = _: { };
+              "Print".spawn-sh = "${lib.getExe pkgs.dms-shell} screenshot";
+              "Ctrl+Print".spawn-sh = "${lib.getExe pkgs.dms-shell} screenshot full";
+              "Alt+Print".spawn-sh = "${lib.getExe pkgs.dms-shell} screenshot window";
 
               # Media keys (audio via DMS so its OSD shows)
               "XF86AudioRaiseVolume".spawn-sh = dms "audio increment 5";
