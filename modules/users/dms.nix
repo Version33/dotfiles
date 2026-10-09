@@ -1,7 +1,12 @@
 {
   flake.modules.nixos.users-dms =
-    { pkgs, ... }:
+    {
+      self,
+      pkgs,
+      ...
+    }:
     let
+      inherit (pkgs.stdenv.hostPlatform) system;
       # Catppuccin from the DMS theme registry. Multi-variant theme; its dark
       # defaults are flavor=mocha, accent=mauve, so no variant selection is
       # needed. Bump rev+hash together.
@@ -21,12 +26,29 @@
         currentThemeCategory = "custom";
         currentThemeName = "custom";
         customThemeFile = themePath;
+        # Papirus from users-desktop. DMS propagates this into the user's
+        # gtk-3.0/4.0 settings.ini on apply, so it's the single source.
+        iconThemeDark = "Papirus-Dark";
       };
       seedSettings = pkgs.writeShellScript "dms-seed-settings" ''
         dir="''${XDG_CONFIG_HOME:-$HOME/.config}/DankMaterialShell"
         [ -e "$dir/settings.json" ] && exit 0
         ${pkgs.coreutils}/bin/mkdir -p "$dir"
         ${pkgs.coreutils}/bin/install -m644 ${settingsJson} "$dir/settings.json"
+      '';
+
+      # DMS's keybind cheatsheet (Mod+Shift+/) only parses
+      # ~/.config/niri/config.kdl; the wrapped niri runs off NIRI_CONFIG in the
+      # store instead. Bridge with a stable /etc path included from the user
+      # file. DMS also writes its own include lines into that file, so append
+      # rather than own it.
+      niriConfigInclude = "/etc/xdg/niri/config.kdl";
+      seedNiriInclude = pkgs.writeShellScript "dms-seed-niri-include" ''
+        f="''${XDG_CONFIG_HOME:-$HOME/.config}/niri/config.kdl"
+        line='include "${niriConfigInclude}"'
+        ${pkgs.coreutils}/bin/mkdir -p "$(${pkgs.coreutils}/bin/dirname "$f")"
+        [ -e "$f" ] && ${pkgs.gnugrep}/bin/grep -qxF "$line" "$f" && exit 0
+        echo "$line" >> "$f"
       '';
     in
     {
@@ -35,9 +57,17 @@
       # leaving Mod+S dead until relogin. The nixpkgs module clears the unit's
       # PATH so it inherits the user manager's (niri imports the session env),
       # which DMS needs for the tools it shells out to.
-      programs.dms-shell.enable = true;
+      programs.dms-shell = {
+        enable = true;
+        package = self.packages.${system}.dms-shell;
+      };
 
-      systemd.user.services.dms.serviceConfig.ExecStartPre = seedSettings;
+      systemd.user.services.dms.serviceConfig.ExecStartPre = [
+        seedSettings
+        seedNiriInclude
+      ];
+
+      environment.etc."xdg/niri/config.kdl".source = "${self.packages.${system}.niri}/niri-config.kdl";
 
       environment.etc."xdg/DankMaterialShell/themes/catppuccin/theme.json".source = catppuccinTheme;
     };
