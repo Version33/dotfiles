@@ -19,6 +19,10 @@
         systemPackages = with pkgs; [
           catppuccin-cursors.mochaDark
           adw-gtk3
+          # Papirus-Dark with Catppuccin mocha/mauve folders, matching the DMS
+          # theme. DMS's launcher resolves icons itself over $XDG_DATA_DIRS/icons
+          # and only sees hicolor without a real theme installed.
+          (catppuccin-papirus-folders.override { accent = "mauve"; })
         ];
 
         sessionVariables = {
@@ -36,11 +40,13 @@
           "xdg/gtk-3.0/settings.ini".text = ''
             [Settings]
             gtk-theme-name=adw-gtk3-dark
+            gtk-icon-theme-name=Papirus-Dark
             gtk-application-prefer-dark-theme=1
           '';
           "xdg/gtk-4.0/settings.ini".text = ''
             [Settings]
             gtk-theme-name=adw-gtk3-dark
+            gtk-icon-theme-name=Papirus-Dark
             gtk-application-prefer-dark-theme=1
           '';
         };
