@@ -15,10 +15,17 @@
       xwayland-satellite-patched = pkgs.xwayland-satellite.overrideAttrs (old: {
         patches = (old.patches or [ ]) ++ [ ./xwayland-satellite-popup-exact.patch ];
       });
+
+      # Mod+LMB drag on a fullscreen window only unfullscreens it (upstream
+      # design); refuse the move instead. Resize is already refused upstream.
+      niri-patched = pkgs.niri.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [ ./niri-no-fullscreen-move.patch ];
+      });
     in
     {
       packages.niri = inputs.wrapper-modules.wrappers.niri.wrap {
         inherit pkgs;
+        package = niri-patched;
         settings = {
           environment = {
             XCURSOR_PATH = "${pkgs.catppuccin-cursors.mochaDark}/share/icons";
