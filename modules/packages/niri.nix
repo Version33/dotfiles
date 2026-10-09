@@ -143,19 +143,26 @@
           binds =
             let
               dms = args: "${lib.getExe pkgs.dms-shell} ipc call ${args}";
+              # spawn-sh with a readable name in the Mod+Shift+/ overlay instead
+              # of the nix store path; `hidden` keeps the bind out of the overlay.
+              app = title: cmd: _: {
+                props.hotkey-overlay-title = title;
+                content.spawn-sh = cmd;
+              };
+              hidden = app null;
             in
             {
               # Apps
-              "Mod+Return".spawn-sh = lib.getExe self'.packages.kitty;
+              "Mod+Return" = app "Terminal" (lib.getExe self'.packages.kitty);
 
               # DMS shell
-              "Mod+S".spawn-sh = dms "spotlight toggle";
-              "Mod+X".spawn-sh = dms "powermenu toggle";
-              "Mod+N".spawn-sh = dms "notifications toggle";
-              "Mod+I".spawn-sh = dms "control-center toggle";
-              "Mod+Shift+V".spawn-sh = dms "clipboard toggle";
-              "Mod+Comma".spawn-sh = dms "settings open";
-              "Mod+Alt+L".spawn-sh = dms "lock lock";
+              "Mod+S" = app "App Launcher" (dms "spotlight toggle");
+              "Mod+X" = app "Power Menu" (dms "powermenu toggle");
+              "Mod+N" = app "Notifications" (dms "notifications toggle");
+              "Mod+I" = app "Control Center" (dms "control-center toggle");
+              "Mod+Shift+V" = app "Clipboard History" (dms "clipboard toggle");
+              "Mod+Comma" = app "Settings" (dms "settings open");
+              "Mod+Alt+L" = app "Lock Screen" (dms "lock lock");
 
               # Window management
               "Mod+Q".close-window = _: { };
@@ -231,20 +238,20 @@
               "Mod+WheelScrollUp"."focus-workspace-up" = _: { };
 
               # Mod+Shift+S opens the capture menu; Print binds go through dms screenshot.
-              "Mod+Shift+S".spawn-sh = lib.getExe self'.packages.screenshot-menu;
-              "Print".spawn-sh = "${lib.getExe pkgs.dms-shell} screenshot";
-              "Ctrl+Print".spawn-sh = "${lib.getExe pkgs.dms-shell} screenshot full";
-              "Alt+Print".spawn-sh = "${lib.getExe pkgs.dms-shell} screenshot window";
+              "Mod+Shift+S" = app "Screenshot Menu" (lib.getExe self'.packages.screenshot-menu);
+              "Print" = app "Screenshot (Region)" "${lib.getExe pkgs.dms-shell} screenshot";
+              "Ctrl+Print" = app "Screenshot (Full)" "${lib.getExe pkgs.dms-shell} screenshot full";
+              "Alt+Print" = app "Screenshot (Window)" "${lib.getExe pkgs.dms-shell} screenshot window";
 
-              # Media keys (audio via DMS so its OSD shows)
-              "XF86AudioRaiseVolume".spawn-sh = dms "audio increment 5";
-              "XF86AudioLowerVolume".spawn-sh = dms "audio decrement 5";
-              "XF86AudioMute".spawn-sh = dms "audio mute";
-              "XF86AudioMicMute".spawn-sh = dms "audio micmute";
-              "XF86AudioPlay".spawn-sh = "${lib.getExe pkgs.playerctl} play-pause";
-              "XF86AudioStop".spawn-sh = "${lib.getExe pkgs.playerctl} stop";
-              "XF86AudioNext".spawn-sh = "${lib.getExe pkgs.playerctl} next";
-              "XF86AudioPrev".spawn-sh = "${lib.getExe pkgs.playerctl} previous";
+              # Media keys (audio via DMS so its OSD shows); not listed in the overlay.
+              "XF86AudioRaiseVolume" = hidden (dms "audio increment 5");
+              "XF86AudioLowerVolume" = hidden (dms "audio decrement 5");
+              "XF86AudioMute" = hidden (dms "audio mute");
+              "XF86AudioMicMute" = hidden (dms "audio micmute");
+              "XF86AudioPlay" = hidden "${lib.getExe pkgs.playerctl} play-pause";
+              "XF86AudioStop" = hidden "${lib.getExe pkgs.playerctl} stop";
+              "XF86AudioNext" = hidden "${lib.getExe pkgs.playerctl} next";
+              "XF86AudioPrev" = hidden "${lib.getExe pkgs.playerctl} previous";
 
               # Misc
               "Mod+Shift+E".quit = _: { };
