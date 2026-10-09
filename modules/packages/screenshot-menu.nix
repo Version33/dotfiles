@@ -1,6 +1,6 @@
 {
   perSystem =
-    { pkgs, ... }:
+    { pkgs, self', ... }:
     let
       # Catppuccin mocha, matching the shell (DMS).
       fuzzelConfig = pkgs.writeText "screenshot-menu-fuzzel.ini" ''
@@ -36,7 +36,7 @@
         runtimeInputs = with pkgs; [
           coreutils
           fuzzel
-          dms-shell
+          self'.packages.dms-shell
           jq
           libnotify
           niri # `niri msg` IPC client; protocol-compatible with the wrapped session binary

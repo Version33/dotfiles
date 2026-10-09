@@ -142,13 +142,17 @@
 
           binds =
             let
-              dms = args: "${lib.getExe pkgs.dms-shell} ipc call ${args}";
-              # spawn-sh with a readable name in the Mod+Shift+/ overlay instead
-              # of the nix store path; `hidden` keeps the bind out of the overlay.
-              app = title: cmd: _: {
+              dms = args: "${lib.getExe self'.packages.dms-shell} ipc call ${args}";
+              # Every bind carries a hotkey-overlay-title: the DMS cheatsheet
+              # shows the raw action name otherwise (and niri's overlay would
+              # show the nix store path for spawns). `hidden` keeps a bind out
+              # of the cheatsheet.
+              bind = title: action: _: {
                 props.hotkey-overlay-title = title;
-                content.spawn-sh = cmd;
+                content = action;
               };
+              act = title: name: bind title { ${name} = _: { }; };
+              app = title: cmd: bind title { spawn-sh = cmd; };
               hidden = app null;
             in
             {
@@ -165,83 +169,83 @@
               "Mod+Alt+L" = app "Lock Screen" (dms "lock lock");
 
               # Window management
-              "Mod+Q".close-window = _: { };
-              "Mod+F".fullscreen-window = _: { };
-              "Mod+V".toggle-window-floating = _: { };
-              "Mod+C".center-column = _: { };
+              "Mod+Q" = act "Close Window" "close-window";
+              "Mod+F" = act "Toggle Fullscreen" "fullscreen-window";
+              "Mod+V" = act "Toggle Floating" "toggle-window-floating";
+              "Mod+C" = act "Center Column" "center-column";
 
               # Focus movement
-              "Mod+Left".focus-column-or-monitor-left = _: { };
-              "Mod+Right".focus-column-or-monitor-right = _: { };
-              "Mod+Up".focus-window-or-workspace-up = _: { };
-              "Mod+Down".focus-window-or-workspace-down = _: { };
-              "Mod+H".focus-column-or-monitor-left = _: { };
-              "Mod+L".focus-column-or-monitor-right = _: { };
-              "Mod+K".focus-window-or-workspace-up = _: { };
-              "Mod+J".focus-window-or-workspace-down = _: { };
+              "Mod+Left" = act "Focus Left" "focus-column-or-monitor-left";
+              "Mod+Right" = act "Focus Right" "focus-column-or-monitor-right";
+              "Mod+Up" = act "Focus Up" "focus-window-or-workspace-up";
+              "Mod+Down" = act "Focus Down" "focus-window-or-workspace-down";
+              "Mod+H" = act "Focus Left" "focus-column-or-monitor-left";
+              "Mod+L" = act "Focus Right" "focus-column-or-monitor-right";
+              "Mod+K" = act "Focus Up" "focus-window-or-workspace-up";
+              "Mod+J" = act "Focus Down" "focus-window-or-workspace-down";
 
               # Move windows
-              "Mod+Shift+Left".move-column-left = _: { };
-              "Mod+Shift+Right".move-column-right = _: { };
-              "Mod+Shift+Up".move-window-up = _: { };
-              "Mod+Shift+Down".move-window-down = _: { };
-              "Mod+Shift+H".move-column-left = _: { };
-              "Mod+Shift+L".move-column-right = _: { };
-              "Mod+Shift+K".move-window-up = _: { };
-              "Mod+Shift+J".move-window-down = _: { };
+              "Mod+Shift+Left" = act "Move Column Left" "move-column-left";
+              "Mod+Shift+Right" = act "Move Column Right" "move-column-right";
+              "Mod+Shift+Up" = act "Move Window Up" "move-window-up";
+              "Mod+Shift+Down" = act "Move Window Down" "move-window-down";
+              "Mod+Shift+H" = act "Move Column Left" "move-column-left";
+              "Mod+Shift+L" = act "Move Column Right" "move-column-right";
+              "Mod+Shift+K" = act "Move Window Up" "move-window-up";
+              "Mod+Shift+J" = act "Move Window Down" "move-window-down";
 
               # Column sizing
-              "Mod+R".switch-preset-column-width = _: { };
-              "Mod+Shift+R".reset-window-height = _: { };
-              "Mod+Minus".set-column-width = "-10%";
-              "Mod+Equal".set-column-width = "+10%";
-              "Mod+Shift+Minus".set-window-height = "-10%";
-              "Mod+Shift+Equal".set-window-height = "+10%";
+              "Mod+R" = act "Cycle Column Width" "switch-preset-column-width";
+              "Mod+Shift+R" = act "Reset Window Height" "reset-window-height";
+              "Mod+Minus" = bind "Shrink Column" { set-column-width = "-10%"; };
+              "Mod+Equal" = bind "Grow Column" { set-column-width = "+10%"; };
+              "Mod+Shift+Minus" = bind "Shrink Window Height" { set-window-height = "-10%"; };
+              "Mod+Shift+Equal" = bind "Grow Window Height" { set-window-height = "+10%"; };
 
               # Workspaces
-              "Mod+Ctrl+K".focus-workspace-up = _: { };
-              "Mod+Ctrl+J".focus-workspace-down = _: { };
-              "Mod+Ctrl+Up".focus-workspace-up = _: { };
-              "Mod+Ctrl+Down".focus-workspace-down = _: { };
-              "Mod+Ctrl+Shift+K".move-column-to-workspace-up = _: { };
-              "Mod+Ctrl+Shift+J".move-column-to-workspace-down = _: { };
-              "Mod+Ctrl+Shift+Up".move-column-to-workspace-up = _: { };
-              "Mod+Ctrl+Shift+Down".move-column-to-workspace-down = _: { };
+              "Mod+Ctrl+K" = act "Workspace Up" "focus-workspace-up";
+              "Mod+Ctrl+J" = act "Workspace Down" "focus-workspace-down";
+              "Mod+Ctrl+Up" = act "Workspace Up" "focus-workspace-up";
+              "Mod+Ctrl+Down" = act "Workspace Down" "focus-workspace-down";
+              "Mod+Ctrl+Shift+K" = act "Move Column to Workspace Up" "move-column-to-workspace-up";
+              "Mod+Ctrl+Shift+J" = act "Move Column to Workspace Down" "move-column-to-workspace-down";
+              "Mod+Ctrl+Shift+Up" = act "Move Column to Workspace Up" "move-column-to-workspace-up";
+              "Mod+Ctrl+Shift+Down" = act "Move Column to Workspace Down" "move-column-to-workspace-down";
 
               # Monitors
-              "Mod+Ctrl+H".focus-monitor-left = _: { };
-              "Mod+Ctrl+L".focus-monitor-right = _: { };
-              "Mod+Ctrl+Left".focus-monitor-left = _: { };
-              "Mod+Ctrl+Right".focus-monitor-right = _: { };
-              "Mod+Ctrl+Shift+H".move-column-to-monitor-left = _: { };
-              "Mod+Ctrl+Shift+L".move-column-to-monitor-right = _: { };
-              "Mod+Ctrl+Shift+Left".move-column-to-monitor-left = _: { };
-              "Mod+Ctrl+Shift+Right".move-column-to-monitor-right = _: { };
+              "Mod+Ctrl+H" = act "Focus Monitor Left" "focus-monitor-left";
+              "Mod+Ctrl+L" = act "Focus Monitor Right" "focus-monitor-right";
+              "Mod+Ctrl+Left" = act "Focus Monitor Left" "focus-monitor-left";
+              "Mod+Ctrl+Right" = act "Focus Monitor Right" "focus-monitor-right";
+              "Mod+Ctrl+Shift+H" = act "Move Column to Monitor Left" "move-column-to-monitor-left";
+              "Mod+Ctrl+Shift+L" = act "Move Column to Monitor Right" "move-column-to-monitor-right";
+              "Mod+Ctrl+Shift+Left" = act "Move Column to Monitor Left" "move-column-to-monitor-left";
+              "Mod+Ctrl+Shift+Right" = act "Move Column to Monitor Right" "move-column-to-monitor-right";
 
-              "Mod+1".focus-workspace = 1;
-              "Mod+2".focus-workspace = 2;
-              "Mod+3".focus-workspace = 3;
-              "Mod+4".focus-workspace = 4;
-              "Mod+5".focus-workspace = 5;
-              "Mod+Shift+1".move-column-to-workspace = 1;
-              "Mod+Shift+2".move-column-to-workspace = 2;
-              "Mod+Shift+3".move-column-to-workspace = 3;
-              "Mod+Shift+4".move-column-to-workspace = 4;
-              "Mod+Shift+5".move-column-to-workspace = 5;
-              "Mod+Page_Down".focus-workspace-down = _: { };
-              "Mod+Page_Up".focus-workspace-up = _: { };
-              "Mod+Shift+Page_Down".move-column-to-workspace-down = _: { };
-              "Mod+Shift+Page_Up".move-column-to-workspace-up = _: { };
+              "Mod+1" = bind "Workspace 1" { focus-workspace = 1; };
+              "Mod+2" = bind "Workspace 2" { focus-workspace = 2; };
+              "Mod+3" = bind "Workspace 3" { focus-workspace = 3; };
+              "Mod+4" = bind "Workspace 4" { focus-workspace = 4; };
+              "Mod+5" = bind "Workspace 5" { focus-workspace = 5; };
+              "Mod+Shift+1" = bind "Move Column to Workspace 1" { move-column-to-workspace = 1; };
+              "Mod+Shift+2" = bind "Move Column to Workspace 2" { move-column-to-workspace = 2; };
+              "Mod+Shift+3" = bind "Move Column to Workspace 3" { move-column-to-workspace = 3; };
+              "Mod+Shift+4" = bind "Move Column to Workspace 4" { move-column-to-workspace = 4; };
+              "Mod+Shift+5" = bind "Move Column to Workspace 5" { move-column-to-workspace = 5; };
+              "Mod+Page_Down" = act "Workspace Down" "focus-workspace-down";
+              "Mod+Page_Up" = act "Workspace Up" "focus-workspace-up";
+              "Mod+Shift+Page_Down" = act "Move Column to Workspace Down" "move-column-to-workspace-down";
+              "Mod+Shift+Page_Up" = act "Move Column to Workspace Up" "move-column-to-workspace-up";
 
               # Scroll to switch workspaces
-              "Mod+WheelScrollDown"."focus-workspace-down" = _: { };
-              "Mod+WheelScrollUp"."focus-workspace-up" = _: { };
+              "Mod+WheelScrollDown" = act "Workspace Down" "focus-workspace-down";
+              "Mod+WheelScrollUp" = act "Workspace Up" "focus-workspace-up";
 
               # Mod+Shift+S opens the capture menu; Print binds go through dms screenshot.
               "Mod+Shift+S" = app "Screenshot Menu" (lib.getExe self'.packages.screenshot-menu);
-              "Print" = app "Screenshot (Region)" "${lib.getExe pkgs.dms-shell} screenshot";
-              "Ctrl+Print" = app "Screenshot (Full)" "${lib.getExe pkgs.dms-shell} screenshot full";
-              "Alt+Print" = app "Screenshot (Window)" "${lib.getExe pkgs.dms-shell} screenshot window";
+              "Print" = app "Screenshot (Region)" "${lib.getExe self'.packages.dms-shell} screenshot";
+              "Ctrl+Print" = app "Screenshot (Full)" "${lib.getExe self'.packages.dms-shell} screenshot full";
+              "Alt+Print" = app "Screenshot (Window)" "${lib.getExe self'.packages.dms-shell} screenshot window";
 
               # Media keys (audio via DMS so its OSD shows); not listed in the overlay.
               "XF86AudioRaiseVolume" = hidden (dms "audio increment 5");
@@ -254,9 +258,12 @@
               "XF86AudioPrev" = hidden "${lib.getExe pkgs.playerctl} previous";
 
               # Misc
-              "Mod+Shift+E".quit = _: { };
-              "Mod+Shift+Slash".show-hotkey-overlay = _: { };
-              "Mod+Escape".toggle-keyboard-shortcuts-inhibit = _: { };
+              "Mod+Shift+E" = act "Quit niri" "quit";
+              # DMS's themed cheatsheet instead of niri's built-in overlay. It
+              # parses ~/.config/niri/config.kdl, which users-dms points at the
+              # generated config via /etc/xdg/niri/config.kdl.
+              "Mod+Shift+Slash" = app "Keybinds" (dms "keybinds toggle niri");
+              "Mod+Escape" = act "Toggle Shortcut Inhibit" "toggle-keyboard-shortcuts-inhibit";
             };
         };
       };
