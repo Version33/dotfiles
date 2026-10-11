@@ -164,11 +164,11 @@
         "rust-analyzer-src": "rust-analyzer-src_2"
       },
       "locked": {
-        "lastModified": 1791550487,
-        "narHash": "sha256-V2dYFoE5csclBwmaW2XQ5uZYDHgZQielsjDmVyuVlgM=",
+        "lastModified": 1791721616,
+        "narHash": "sha256-leWbPEBub+eRxEt/+6ukBxwQJuko5E3UzPkP7+Vn+Q0=",
         "owner": "nix-community",
         "repo": "fenix",
-        "rev": "03354d2e087aa40031614557db02e87a62ff1880",
+        "rev": "cf67babe5be61cdcd6d83b4ed5e12088146f3917",
         "type": "github"
       },
       "original": {
@@ -211,11 +211,11 @@
     },
     "flake-file": {
       "locked": {
-        "lastModified": 1791311177,
-        "narHash": "sha256-5ShQ10Jlfmge8emgwENj/1/2OXl8hN6mre05ZwxSkE8=",
+        "lastModified": 1791696462,
+        "narHash": "sha256-Iu862mflVRLHE3ivJD1ah5j/pprVyxnXMMUPMR9C1Wg=",
         "owner": "vic",
         "repo": "flake-file",
-        "rev": "ef875de213a2f093ecb351c1e764797baa98e044",
+        "rev": "4ccd0b92aee0943b94324ec4c39949df1769f123",
         "type": "github"
       },
       "original": {
@@ -315,11 +315,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1791562037,
-        "narHash": "sha256-KNguy5clDsP/+NHkMR4eXySg76PqT80x0L5ksgOdVwo=",
+        "lastModified": 1791732310,
+        "narHash": "sha256-SEdrozb9hWpAknCXlPSZ5Wy53FK7E+b1Qq1nDXcNQYE=",
         "owner": "freenet",
         "repo": "freenet-core",
-        "rev": "104fef9b501ca5ae2d8c45c31d92d002f23810bf",
+        "rev": "88c4559ccc9f7e670aa67834cc6aca4db57b00a1",
         "type": "github"
       },
       "original": {
@@ -536,11 +536,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1791456040,
-        "narHash": "sha256-H83yz/do+hjOO0uujHyH8RgtIQP2v7Mw+cLwcZK/xKc=",
+        "lastModified": 1791594108,
+        "narHash": "sha256-XK4KceonkwD8LuMAt/vNrz982mXJM5jeHAxMwsUXXAQ=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "e7439b6b14ad3cc35d05608ebca9bce01a25f5f8",
+        "rev": "6510408d147d8c5e6d76043e899e9251756f6a75",
         "type": "github"
       },
       "original": {
@@ -559,11 +559,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791488733,
-        "narHash": "sha256-9rIjqnq43mKaiUCv0DBe8H0HFZQue0fADosuJxemoaU=",
+        "lastModified": 1791651540,
+        "narHash": "sha256-cxmegj6Tg0xYk8A2icSl3v1+SeVDj+bESU2BnCqERPE=",
         "owner": "NotAShelf",
         "repo": "nvf",
-        "rev": "01d245e20e19c9e283fce3b0db8719c2a6bba5f5",
+        "rev": "19992540d372466340ededda0c065a3a0a962fd6",
         "type": "github"
       },
       "original": {
@@ -584,11 +584,11 @@
         "rust-overlay": "rust-overlay_4"
       },
       "locked": {
-        "lastModified": 1791562864,
-        "narHash": "sha256-E0Ql6MP9gAuFzHuz2sqj02HBwD6/GVWD9SDsBnPnKRQ=",
+        "lastModified": 1791739612,
+        "narHash": "sha256-TG0qsJazm14TqxfGpFuX/7aMXLYET3BtihFOoZRGZ04=",
         "owner": "can1357",
         "repo": "oh-my-pi",
-        "rev": "4cd31bd6d00bb7a161443d9a5f4bce4f564664f2",
+        "rev": "03929eb809b93997bb5ccb0ac042f5162a7ee2b6",
         "type": "github"
       },
       "original": {
@@ -600,7 +600,7 @@
     "orca-nightly": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-H5uNPS1IUSIpdqA52+1Ig+co9m1uiQ+0LqOI7Nw7s4I=",
+        "narHash": "sha256-EUqpHvlinoTvSTSH4DIBQwpoljdvdYw82G1gYQAqs3I=",
         "type": "file",
         "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage"
       },
@@ -675,11 +675,11 @@
     "rust-analyzer-src_2": {
       "flake": false,
       "locked": {
-        "lastModified": 1791485469,
-        "narHash": "sha256-DCIgcbCjTmvLA9RtpUXkwzUC4zX4ILOBFkrP9zzVcko=",
+        "lastModified": 1791661704,
+        "narHash": "sha256-1O6iYbegEi2KCMiDiVt6g2VdcnTKZE2dW27sQFpsKZw=",
         "owner": "rust-lang",
         "repo": "rust-analyzer",
-        "rev": "2f92bea4424c888957d76cad7d9e427930b00da8",
+        "rev": "be9f94256713d72d359b67317b751a58220e353f",
         "type": "github"
       },
       "original": {
@@ -781,11 +781,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791488179,
-        "narHash": "sha256-ZXK7f7Tc+PJNS6Q3rMdScCgba6FoaudxScCyIZJu+OM=",
+        "lastModified": 1791664608,
+        "narHash": "sha256-TE+C6obTyOsm8V6QIH0EHbPvOyR4mexarQuXy9iI1/c=",
         "owner": "Ap6661",
         "repo": "septabee-flake",
-        "rev": "2d495cb5f68fdd5b967c5a713f00041e180982d1",
+        "rev": "2ee9b6d3f2b6da47b3e7a11186fe928ac7fe8911",
         "type": "github"
       },
       "original": {
