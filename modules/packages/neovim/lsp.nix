@@ -6,6 +6,15 @@
       # The exact toolchain the system installs, so the editor's rust-analyzer
       # and the compiler that builds proc macros are always the same nightly.
       rust-toolchain = self.packages.${pkgs.stdenv.hostPlatform.system}.rust-toolchain;
+
+      # nixpkgs 7fd4004 ships a stale pnpmDeps hash for 6.0.2 (pnpm_12 bump
+      # changed the fetch output); the corrected hash is what Hydra built.
+      # Drop this once `nix flake update` moves past the upstream fix.
+      typescript-language-server = pkgs.typescript-language-server.overrideAttrs (old: {
+        pnpmDeps = old.pnpmDeps.overrideAttrs {
+          outputHash = "sha256-xR/EF60lVBsITKgH7wCM2wHM46PFQevD51KfCENSUH4=";
+        };
+      });
     in
     {
       config.vim = {
@@ -24,6 +33,11 @@
             # `check.allTargets` already defaults to true, so tests are linted too.
             settings.rust-analyzer.check.command = "clippy";
           };
+
+          servers.typescript-language-server.cmd = lib.mkForce [
+            "${lib.getExe typescript-language-server}"
+            "--stdio"
+          ];
 
           # Godot ships its own language server inside the editor; connect over
           # TCP instead of spawning a binary. Requires the Godot editor to be
