@@ -164,11 +164,11 @@
         "rust-analyzer-src": "rust-analyzer-src_2"
       },
       "locked": {
-        "lastModified": 1792148656,
-        "narHash": "sha256-bZlZdPkXbPdTz9gUJRyDanGuvXpxvE7hhJC+M1nOEn0=",
+        "lastModified": 1792232679,
+        "narHash": "sha256-qH046WSPn7A97UyNSZdiPobVf3E9Q9zPKdW8nYHHx+Q=",
         "owner": "nix-community",
         "repo": "fenix",
-        "rev": "cd2704cee3dc20ceb397562930e310af5f86aede",
+        "rev": "8926ac637672b2d2e9afde568b1448853e5bcbaf",
         "type": "github"
       },
       "original": {
@@ -315,11 +315,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1792147804,
-        "narHash": "sha256-R4CEGY1a2UNf95CAUR9Yu+HOu55r5mujOISNWK8CmsI=",
+        "lastModified": 1792265684,
+        "narHash": "sha256-FS1zuxvhfyLTK7eYp5uLi1PdTDPhV5vKRllAbFF4/pk=",
         "owner": "freenet",
         "repo": "freenet-core",
-        "rev": "12078842b07adba02d99a64ac3c2a3fcb73103f4",
+        "rev": "83ea83b37495b10307e97206f98735e2521347e2",
         "type": "github"
       },
       "original": {
@@ -564,11 +564,11 @@
         "rust-overlay": "rust-overlay_4"
       },
       "locked": {
-        "lastModified": 1792174286,
-        "narHash": "sha256-LgshhYiXvg0JXxEjFxmkjYwTC0tHrsCP/I1jE+FLQSQ=",
+        "lastModified": 1792265232,
+        "narHash": "sha256-EFDWvROFJ2y5DpUQYOeB0xCGqCC9/qxB20ejyocnMEM=",
         "owner": "can1357",
         "repo": "oh-my-pi",
-        "rev": "5c8587e1a739a7c78e2a5c9d321ba87d51d10569",
+        "rev": "59c801839065487b4497a5447876fed159de8815",
         "type": "github"
       },
       "original": {
@@ -654,11 +654,11 @@
     "rust-analyzer-src_2": {
       "flake": false,
       "locked": {
-        "lastModified": 1792086358,
-        "narHash": "sha256-OAXtlM95Nr/RKpqOgq4rhkxtQKt8yxgqbVRxZ2o/UHE=",
+        "lastModified": 1792141191,
+        "narHash": "sha256-H161gJK9JlpkP3bGnsbTdzzRcP51oiFYrHbCdsQH4kc=",
         "owner": "rust-lang",
         "repo": "rust-analyzer",
-        "rev": "71fbb7faf489656947a03566b32556d93c312c36",
+        "rev": "70e0c46be740a471bcc95f2be290f4bbfdcffd87",
         "type": "github"
       },
       "original": {
@@ -760,11 +760,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791995392,
-        "narHash": "sha256-dT3+4edfpAwQNTYSyPaQsPaxZ+EOaMt3SKPJ8dTAUMs=",
+        "lastModified": 1792203302,
+        "narHash": "sha256-xBoaPUalFhKmQPU25tzW0rRzrvLpEfgpofP4rjz842I=",
         "owner": "Ap6661",
         "repo": "septabee-flake",
-        "rev": "9acf2ad2710529aaac037a88773ce71a23ec2a3f",
+        "rev": "bf52b2e9587c2b211fdbf6ec78870e8559a2a1c3",
         "type": "github"
       },
       "original": {
