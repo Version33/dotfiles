@@ -3,13 +3,12 @@
   perSystem =
     { pkgs, ... }:
     let
-      # Bambu H2C/A2L support (PR #14685) merged to main but not yet in a
-      # tagged release (latest: v2.4.2); nightly AppImage until it ships.
-      # Upstream overwrites the asset in place — `nix flake update orca-nightly`.
-      version = "nightly";
+      # Tagged release AppImage (first release with Bambu H2C/A2L support).
+      # Bump: edit the URL in modules/flake.nix, then `nix flake update orca-slicer`.
+      version = "2.5.0-alpha";
 
       pname = "orca-slicer";
-      src = "${inputs.orca-nightly}";
+      src = "${inputs.orca-slicer}";
 
       contents = pkgs.appimageTools.extract { inherit pname version src; };
     in
@@ -25,6 +24,7 @@
           pkgs: with pkgs; [
             webkitgtk_4_1
             libsoup_3
+            glib-networking # GIO TLS backend; without it the WebKit login popup says "TLS support is not available"
             gst_all_1.gst-plugins-base
             gst_all_1.gst-plugins-good
             gst_all_1.gst-plugins-bad
@@ -41,12 +41,14 @@
             $out/share/icons/hicolor/256x256/apps/OrcaSlicer.png
 
           # Orca probes the Fedora CA path (/etc/pki/...); point at the NixOS bundle instead.
+          # GIO_EXTRA_MODULES: libsoup/WebKit only find the gnutls backend via this path.
           source ${pkgs.makeWrapper}/nix-support/setup-hook
           wrapProgram $out/bin/${pname} \
-            --set-default SSL_CERT_FILE /etc/ssl/certs/ca-bundle.crt
+            --set-default SSL_CERT_FILE /etc/ssl/certs/ca-bundle.crt \
+            --prefix GIO_EXTRA_MODULES : ${pkgs.glib-networking}/lib/gio/modules
         '';
         meta = {
-          description = "OrcaSlicer nightly (Bambu H2C support)";
+          description = "OrcaSlicer ${version} (Bambu H2C support)";
           homepage = "https://github.com/OrcaSlicer/OrcaSlicer";
           mainProgram = pname;
         };

@@ -25,16 +25,12 @@
 
     # Boilerplate reduction tools
     flake-file.url = "github:vic/flake-file"; # Generates flake.nix from modules
-    nix-auto-follow = {
-      url = "github:fzakaria/nix-auto-follow";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Security
+    # Security (used by modules/boot/_secure-boot.nix, currently disabled)
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -59,7 +55,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Eye tracking
+    # Eye tracking (used by modules/hardware/_tobiifree.nix, currently disabled)
     tobiifree = {
       url = "github:Aetherall/tobiifree";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -93,11 +89,10 @@
       flake = false;
     };
 
-    # OrcaSlicer nightly AppImage (Bambu H2C support; not in a tagged release
-    # yet). Upstream overwrites this asset in place; the lock pins a snapshot.
-    # Bump with `nix flake update orca-nightly`.
-    orca-nightly = {
-      url = "file+https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage";
+    # OrcaSlicer AppImage, pinned to a tagged release (Bambu H2C support).
+    # Bump by editing the version in the URL, then `nix flake update orca-slicer`.
+    orca-slicer = {
+      url = "file+https://github.com/OrcaSlicer/OrcaSlicer/releases/download/v2.5.0-alpha/OrcaSlicer_Linux_AppImage_Ubuntu2404_V2.5.0-alpha.AppImage";
       flake = false;
     };
 

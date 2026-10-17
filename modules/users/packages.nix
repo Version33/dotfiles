@@ -27,7 +27,7 @@
           proton-drive
           feedback
           godot
-          orca-slicer # nightly build for Bambu H2C support; bump via `nix flake update orca-nightly`
+          orca-slicer # pinned release AppImage; bump URL in modules/flake.nix then `nix flake update orca-slicer`
           hueforge # proprietary; bump via new AppImage + version in modules/packages/hueforge.nix
           osu-lazer-bin # override disables bwrap --die-with-parent so DMS can launch it
         ])

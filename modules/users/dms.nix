@@ -30,11 +30,24 @@
         # gtk-3.0/4.0 settings.ini on apply, so it's the single source.
         iconThemeDark = "Papirus-Dark";
       };
+      # Launcher calculator (`= 2+2` in Spotlight). DMS loads system plugins
+      # from /etc/xdg/quickshell/dms-plugins/<dir>/plugin.json, but every
+      # plugin starts disabled, so seed plugin_settings.json alongside.
+      # Bump rev+hash together.
+      calculatorPlugin = pkgs.fetchFromGitHub {
+        owner = "rochacbruno";
+        repo = "DankCalculator";
+        rev = "a27b80ad8c3dd42da11af83461674fb362817515";
+        hash = "sha256-fw5ySERKzK4iSzZhneIp06zFCP1FnxscbI/COzmPAGQ=";
+      };
+      pluginSettingsJson = (pkgs.formats.json { }).generate "dms-plugin-settings.json" {
+        calculator.enabled = true;
+      };
       seedSettings = pkgs.writeShellScript "dms-seed-settings" ''
         dir="''${XDG_CONFIG_HOME:-$HOME/.config}/DankMaterialShell"
-        [ -e "$dir/settings.json" ] && exit 0
         ${pkgs.coreutils}/bin/mkdir -p "$dir"
-        ${pkgs.coreutils}/bin/install -m644 ${settingsJson} "$dir/settings.json"
+        [ -e "$dir/settings.json" ] || ${pkgs.coreutils}/bin/install -m644 ${settingsJson} "$dir/settings.json"
+        [ -e "$dir/plugin_settings.json" ] || ${pkgs.coreutils}/bin/install -m644 ${pluginSettingsJson} "$dir/plugin_settings.json"
       '';
 
       # DMS's keybind cheatsheet (Mod+Shift+/) only parses
@@ -70,5 +83,7 @@
       environment.etc."xdg/niri/config.kdl".source = "${self.packages.${system}.niri}/niri-config.kdl";
 
       environment.etc."xdg/DankMaterialShell/themes/catppuccin/theme.json".source = catppuccinTheme;
+
+      environment.etc."xdg/quickshell/dms-plugins/calculator".source = calculatorPlugin;
     };
 }

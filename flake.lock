@@ -439,26 +439,6 @@
         "type": "github"
       }
     },
-    "nix-auto-follow": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1787959246,
-        "narHash": "sha256-BlHRSxL3VXZsYrnkSURfmxEwGOnH9pZJgnwv5twrGQ4=",
-        "owner": "fzakaria",
-        "repo": "nix-auto-follow",
-        "rev": "c223b752ce083e4597feeb3de4390728c03634c1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "fzakaria",
-        "repo": "nix-auto-follow",
-        "type": "github"
-      }
-    },
     "nix-buildproxy": {
       "inputs": {
         "nixpkgs": [
@@ -597,16 +577,16 @@
         "type": "github"
       }
     },
-    "orca-nightly": {
+    "orca-slicer": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-62AG96JiCEtvFQszNvgdmJ+m6rznq+/3fiEE52khDy0=",
+        "narHash": "sha256-YtQToH+yoy9EXY/Gt/+1IrZB+gYev6u7iQXkal+miFw=",
         "type": "file",
-        "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage"
+        "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/v2.5.0-alpha/OrcaSlicer_Linux_AppImage_Ubuntu2404_V2.5.0-alpha.AppImage"
       },
       "original": {
         "type": "file",
-        "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/nightly-builds/OrcaSlicer_Linux_AppImage_Ubuntu2404_nightly.AppImage"
+        "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/v2.5.0-alpha/OrcaSlicer_Linux_AppImage_Ubuntu2404_V2.5.0-alpha.AppImage"
       }
     },
     "pre-commit": {
@@ -644,11 +624,10 @@
         "hueforge-bin": "hueforge-bin",
         "import-tree": "import-tree",
         "lanzaboote": "lanzaboote",
-        "nix-auto-follow": "nix-auto-follow",
         "nixpkgs": "nixpkgs_2",
         "nvf": "nvf",
         "oh-my-pi": "oh-my-pi",
-        "orca-nightly": "orca-nightly",
+        "orca-slicer": "orca-slicer",
         "septabee": "septabee",
         "tobiifree": "tobiifree",
         "treefmt-nix": "treefmt-nix_3",
