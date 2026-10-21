@@ -85,25 +85,28 @@
       };
 
       evo-raw-kmod = pkgs.callPackage (
-        { stdenv, kernel }:
+        { stdenv, kernel, kernelModuleMakeFlags }:
         stdenv.mkDerivation {
           name = "evo_raw-${kernel.modDirVersion}";
           src = "${inputs.evo-control}/kmod";
           nativeBuildInputs = kernel.moduleBuildDependencies;
-          makeFlags = [
+          # kernelModuleMakeFlags overrides cmd_sign with kmodigest, which emits
+          # evo_raw.ko.cer on modules_install; the kernel-modules aggregator
+          # requires that file for every out-of-tree module.
+          makeFlags = kernelModuleMakeFlags ++ [
             "KDIR=${kernel.dev}/lib/modules/${kernel.modDirVersion}/build"
+            "INSTALL_MOD_PATH=$(out)"
           ];
           preBuild = ''
             # Fix: LLVM=0 is invalid for kernel >=6.x; only set LLVM when Clang kernel
             sed -i '/^LLVM/s/?=.*/?=/' Makefile
-          '';
-          installPhase = ''
-            mkdir -p $out/lib/modules/${kernel.modDirVersion}/kernel/drivers/usb/misc
-            cp evo_raw.ko $out/lib/modules/${kernel.modDirVersion}/kernel/drivers/usb/misc/
+            sed -i '/depmod/d' Makefile
           '';
           meta.platforms = lib.platforms.linux;
         }
-      ) { kernel = config.boot.kernelPackages.kernel; };
+      ) {
+        inherit (config.boot.kernelPackages) kernel kernelModuleMakeFlags;
+      };
 
       # No device profile is forced, so you can switch on the fly:
       # pavucontrol -> Configuration tab, or
