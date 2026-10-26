@@ -15,7 +15,6 @@
         timeout = 2;
       };
 
-      initrd.verbose = false;
       consoleLogLevel = 5;
     };
   };
