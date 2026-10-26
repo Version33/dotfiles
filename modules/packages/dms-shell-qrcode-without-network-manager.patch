@@ -1,14 +1,14 @@
 --- a/internal/server/router.go
 +++ b/internal/server/router.go
-@@ -32,7 +32,10 @@
+@@ -77,7 +77,10 @@
+ 	mux.Handle("clipboard.setConfig", requestHandler(handleClipboardSetConfig))
  
- func RouteRequest(conn *models.Conn, req models.Request) {
- 	if strings.HasPrefix(req.Method, "network.") {
+ 	mux.HandlePrefix("network.", requestHandler(func(conn *ipc.ConnWriter, req ipc.Request) {
 -		if networkManager == nil {
 +		// Text QR generation doesn't touch the backend; keep it usable on
 +		// hosts where no network manager could be initialized.
 +		qrOnly := req.Method == "network.generate-qrcode" || req.Method == "network.delete-qrcode"
 +		if networkManager == nil && !qrOnly {
- 			models.RespondError(conn, req.ID, "network manager not initialized")
+ 			conn.RespondError(req.ID, "network manager not initialized")
  			return
  		}

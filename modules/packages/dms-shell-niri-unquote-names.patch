@@ -1,6 +1,6 @@
---- a/internal/keybinds/providers/niri_parser.go	2026-10-09 12:59:03.915200285 -0400
-+++ b/internal/keybinds/providers/niri_parser.go	2026-10-09 12:59:03.916073331 -0400
-@@ -374,7 +374,7 @@
+--- a/internal/keybinds/providers/niri_parser.go	2026-10-26 16:17:03.073901167 -0400
++++ b/internal/keybinds/providers/niri_parser.go	2026-10-26 16:17:03.074754761 -0400
+@@ -375,7 +375,7 @@
  
  func (p *NiriParser) processNodes(nodes []*document.Node, section *NiriSection, baseDir string) {
  	for _, node := range nodes {
@@ -9,16 +9,16 @@
  
  		switch name {
  		case "include":
-@@ -391,7 +391,7 @@
- 
- func (p *NiriParser) handleInput(node *document.Node) {
- 	for _, child := range node.Children {
--		if child.Name.String() != "mod-key" || len(child.Arguments) == 0 {
-+		if child.Name.ValueString() != "mod-key" || len(child.Arguments) == 0 {
+@@ -399,7 +399,7 @@
+ 		if value == "" {
  			continue
  		}
- 
-@@ -444,7 +444,7 @@
+-		switch child.Name.String() {
++		switch child.Name.ValueString() {
+ 		case "mod-key":
+ 			p.modKey = value
+ 		case "mod-key-nested":
+@@ -446,7 +446,7 @@
  	}
  
  	for _, child := range node.Children {
@@ -27,7 +27,7 @@
  			continue
  		}
  		p.extractBinds(child, "Alt-Tab")
-@@ -466,7 +466,7 @@
+@@ -468,7 +468,7 @@
  }
  
  func (p *NiriParser) parseKeybindNode(node *document.Node, _ string) *NiriKeyBinding {
@@ -36,7 +36,7 @@
  	if keyCombo == "" {
  		return nil
  	}
-@@ -477,7 +477,7 @@
+@@ -479,7 +479,7 @@
  	var args []string
  	if len(node.Children) > 0 {
  		actionNode := node.Children[0]
