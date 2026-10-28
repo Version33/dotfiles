@@ -48,13 +48,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # AI coding agent (fork of Pi). Built from source via bun2nix upstream;
-    # bump with `nix flake update oh-my-pi`.
-    oh-my-pi = {
-      url = "github:can1357/oh-my-pi";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # Eye tracking (used by modules/hardware/_tobiifree.nix, currently disabled)
     tobiifree = {
       url = "github:Aetherall/tobiifree";
