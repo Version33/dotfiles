@@ -1,7 +1,21 @@
 {
   flake.modules.nixos.users-firefox =
-    { pkgs, ... }:
+    { pkgs, lib, ... }:
     {
+      # Default browser; otherwise Firefox nags on every start.
+      xdg.mime.defaultApplications = lib.genAttrs [
+        "x-scheme-handler/http"
+        "x-scheme-handler/https"
+        "x-scheme-handler/chrome"
+        "text/html"
+        "application/xhtml+xml"
+        "application/x-extension-htm"
+        "application/x-extension-html"
+        "application/x-extension-shtml"
+        "application/x-extension-xhtml"
+        "application/x-extension-xht"
+      ] (_: "firefox.desktop");
+
       programs.firefox = {
         enable = true;
         preferences = {
