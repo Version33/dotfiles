@@ -70,9 +70,9 @@
       # leaving Mod+S dead until relogin. The nixpkgs module clears the unit's
       # PATH so it inherits the user manager's (niri imports the session env),
       # which DMS needs for the tools it shells out to.
-      programs.dms-shell = {
+      programs.dux-shell = {
         enable = true;
-        package = self.packages.${system}.dms-shell;
+        package = self.packages.${system}.dux-shell;
       };
 
       systemd.user.services.dms.serviceConfig.ExecStartPre = [

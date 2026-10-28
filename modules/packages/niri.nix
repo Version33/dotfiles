@@ -142,7 +142,7 @@
 
           binds =
             let
-              dms = args: "${lib.getExe self'.packages.dms-shell} ipc call ${args}";
+              dms = args: "${lib.getExe self'.packages.dux-shell} ipc call ${args}";
               # Every bind carries a hotkey-overlay-title: the DMS cheatsheet
               # shows the raw action name otherwise (and niri's overlay would
               # show the nix store path for spawns). `hidden` keeps a bind out
@@ -243,9 +243,9 @@
 
               # Mod+Shift+S opens the capture menu; Print binds go through dms screenshot.
               "Mod+Shift+S" = app "Screenshot Menu" (lib.getExe self'.packages.screenshot-menu);
-              "Print" = app "Screenshot (Region)" "${lib.getExe self'.packages.dms-shell} screenshot";
-              "Ctrl+Print" = app "Screenshot (Full)" "${lib.getExe self'.packages.dms-shell} screenshot full";
-              "Alt+Print" = app "Screenshot (Window)" "${lib.getExe self'.packages.dms-shell} screenshot window";
+              "Print" = app "Screenshot (Region)" "${lib.getExe self'.packages.dux-shell} screenshot";
+              "Ctrl+Print" = app "Screenshot (Full)" "${lib.getExe self'.packages.dux-shell} screenshot full";
+              "Alt+Print" = app "Screenshot (Window)" "${lib.getExe self'.packages.dux-shell} screenshot window";
 
               # Media keys (audio via DMS so its OSD shows); not listed in the overlay.
               "XF86AudioRaiseVolume" = hidden (dms "audio increment 5");

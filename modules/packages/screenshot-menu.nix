@@ -36,7 +36,7 @@
         runtimeInputs = with pkgs; [
           coreutils
           fuzzel
-          self'.packages.dms-shell
+          self'.packages.dux-shell
           jq
           libnotify
           niri # `niri msg` IPC client; protocol-compatible with the wrapped session binary

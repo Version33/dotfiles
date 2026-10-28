@@ -11,10 +11,10 @@
       #   but the host has no WiFi device), which also killed the text QR
       #   generator that never touches the backend.
       # Drop each once upstreamed.
-      packages.dms-shell = pkgs.dms-shell.overrideAttrs (old: {
+      packages.dux-shell = pkgs.dux-shell.overrideAttrs (old: {
         patches = (old.patches or [ ]) ++ [
-          ./dms-shell-niri-unquote-names.patch
-          ./dms-shell-qrcode-without-network-manager.patch
+          ./dux-shell-niri-unquote-names.patch
+          ./dux-shell-qrcode-without-network-manager.patch
         ];
       });
     };
