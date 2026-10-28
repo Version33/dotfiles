@@ -44,6 +44,15 @@
         automatic = true;
         dates = [ "03:45" ];
       };
+
+      # `nix run nixpkgs#<unfree>` without NIXPKGS_ALLOW_UNFREE/--impure.
+      # Replaces the former ~/.config/nix/registry.json.
+      registry.nixpkgs.to = {
+        type = "github";
+        owner = "numtide";
+        repo = "nixpkgs-unfree";
+        ref = "nixos-unstable";
+      };
     };
   };
 
