@@ -4,8 +4,8 @@
     let
       # Upstream dev prereleases aren't in nixpkgs; use the official binary.
       # Bump with `nix run .#godot-dev-update`.
-      version = "4.8-dev5";
-      hash = "sha256-W3ZYbs2uJr5keibcToAlkEVjiVPgPWKqCbCpjAsnmrM=";
+      version = "4.8-beta2";
+      hash = "sha256-HtDdKhu0UdNbZMCs5VPARW3/96QYeQJ0yk0llwVzYbs=";
 
       src = pkgs.fetchurl {
         url = "https://github.com/godotengine/godot-builds/releases/download/${version}/Godot_v${version}_linux.x86_64.zip";
@@ -49,7 +49,12 @@
           autoPatchelfHook
           makeWrapper
         ];
-        buildInputs = [ pkgs.stdenv.cc.cc.lib ];
+        # 4.8-beta2+ links dbus/udev directly (DT_NEEDED); the rest are dlopened.
+        buildInputs = with pkgs; [
+          stdenv.cc.cc.lib
+          dbus
+          udev
+        ];
 
         installPhase = ''
           runHook preInstall
@@ -99,9 +104,13 @@
           if token=$(gh auth token 2>/dev/null); then
             auth=(-H "Authorization: Bearer $token")
           fi
+          # Prereleases (dev/beta/rc); API order interleaves older stable/rc
+          # lines, so rank by version, then stage (dev < beta < rc), then number.
           latest=$(curl -fsSL "''${auth[@]}" "https://api.github.com/repos/godotengine/godot-builds/releases?per_page=30" \
-            | jq -r '[.[].tag_name | select(test("-dev[0-9]+$"))] | first')
-          [ -n "$latest" ] && [ "$latest" != null ] || { echo "no dev release found" >&2; exit 1; }
+            | jq -r '[.[].tag_name | capture("^(?<v>[0-9.]+)-(?<stage>dev|beta|rc)(?<n>[0-9]+)$")]
+                | max_by([(.v | split(".") | map(tonumber)), {dev: 0, beta: 1, rc: 2}[.stage], (.n | tonumber)])
+                | "\(.v)-\(.stage)\(.n)"')
+          [ -n "$latest" ] && [ "$latest" != null ] || { echo "no prerelease found" >&2; exit 1; }
           current=$(sed -n 's/^      version = "\(.*\)";/\1/p' "$file")
           if [ "$latest" = "$current" ]; then
             echo "godot already at $current"
