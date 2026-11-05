@@ -223,11 +223,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1793797100,
-        "narHash": "sha256-sHTk1Htp1X5psrmNK1ptl6M465yTAEKG7WbdQ3H3sSQ=",
+        "lastModified": 1793914641,
+        "narHash": "sha256-qZOrzbZhJL6c4AvnDMDBvP1DlQg1F/pZg/cfeTwG36E=",
         "owner": "freenet",
         "repo": "freenet-core",
-        "rev": "5aa241a1bde09a3d209c9946e19f3de79830dd28",
+        "rev": "196263bac169c94929427d3ab1567b8b6afdb529",
         "type": "github"
       },
       "original": {
@@ -659,11 +659,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793683960,
-        "narHash": "sha256-0xLhR6xGbG2oC5RpJYf/o0Tl2nlUUh3H9pulE+ogK0k=",
+        "lastModified": 1793856116,
+        "narHash": "sha256-QUeRSbY+kr84e7b+zxIlyHMrHqr8SrMIeuAWNR3lMhY=",
         "owner": "BirdeeHub",
         "repo": "nix-wrapper-modules",
-        "rev": "eb41f7cdde918a6467715b189cdadb6d476456c8",
+        "rev": "fcac2fa0c16711ff7fd09176cb3842d0c0ca5183",
         "type": "github"
       },
       "original": {
