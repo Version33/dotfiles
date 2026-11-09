@@ -55,14 +55,11 @@
               # atuin — Ctrl-R only; Up-arrow keeps fish's native history.
               ${lib.getExe atuin} init fish --disable-up-arrow | source
 
-              # `spf` — superfile, cd'ing to the dir it was left in on quit
-              # (cd_on_quit = true writes `cd '<dir>'` to lastdir).
+              # `spf` — superfile, cd'ing to the dir it was left in on quit.
               function spf
-                set -l last_dir (command superfile path-list --lastdir-file)
-                command superfile $argv
-                if test -f "$last_dir"
-                  source "$last_dir"
-                  rm -f -- "$last_dir"
+                set -l dir (command superfile --print-last-dir $argv)
+                if test -n "$dir" -a -d "$dir"
+                  cd "$dir"
                 end
               end
 
