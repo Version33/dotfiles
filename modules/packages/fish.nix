@@ -9,6 +9,13 @@
     let
       starship = self'.packages.starship;
       atuin = self'.packages.atuin;
+      runtimePkgs = [
+        starship
+        pkgs.zoxide
+        pkgs.eza
+        pkgs.fastfetch
+        atuin
+      ];
       # Compact greeting: small distro logo, one-line separator, few modules.
       fastfetchConf = pkgs.writeText "fastfetch.jsonc" ''
         {
@@ -29,6 +36,14 @@
       fishConf =
         pkgs.writeText "config.fish" # fish
           ''
+
+            # The wrapper suffixes PATH with these, but NixOS' /etc/set-environment
+            # (sourced by /etc/fish/config.fish for login shells, e.g. ssh) does
+            # `export PATH=...` and wipes it before -C runs; the `* init fish`
+            # snippets below call their tools by bare name. Re-append, idempotent.
+            fish_add_path --global --path --append ${
+              lib.concatMapStringsSep " " (p: "${lib.getBin p}/bin") runtimePkgs
+            }
 
             # The wrapper passes this file via -C for *every* fish invocation,
             # including scripts — keep prompt/alias setup interactive-only.
@@ -103,13 +118,7 @@
         (inputs.wrapper-modules.lib.wrapPackage {
           inherit pkgs;
           package = pkgs.fish;
-          runtimePkgs = [
-            starship
-            pkgs.zoxide
-            pkgs.eza
-            pkgs.fastfetch
-            atuin
-          ];
+          inherit runtimePkgs;
           flags = {
             "-C" = "source ${fishConf}";
           };
