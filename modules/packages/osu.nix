@@ -3,7 +3,7 @@
     { lib, pkgs, ... }:
     {
       # Disable bwrap --die-with-parent so DMS's short-lived spawn helper
-      # doesn't kill osu on exit (same fix as orca-slicer).
+      # doesn't kill osu on exit.
       packages.osu-lazer-bin = pkgs.osu-lazer-bin.override {
         appimageTools = pkgs.appimageTools // {
           wrapType2 =
