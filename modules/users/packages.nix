@@ -35,7 +35,10 @@
           # Applications
           tidal-hifi
           prismlauncher
-          deadlock-mod-manager
+          # WORKAROUND(deadlock-awslc): cargo hook forces system aws-lc — see WORKAROUNDS.md
+          (deadlock-mod-manager.overrideAttrs (old: {
+            buildInputs = (old.buildInputs or [ ]) ++ [ aws-lc ];
+          }))
           obs-studio
           synthesia
           element-desktop

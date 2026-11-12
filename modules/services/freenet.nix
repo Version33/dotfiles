@@ -5,7 +5,14 @@
   flake.modules.nixos.freenet =
     { inputs, pkgs, ... }:
     let
-      freenet = inputs.freenet.packages.${pkgs.stdenv.hostPlatform.system}.freenet;
+      # WORKAROUND(freenet-syslibs): upstream package.nix lacks pkg-config/zstd/jemalloc — see WORKAROUNDS.md
+      freenet = inputs.freenet.packages.${pkgs.stdenv.hostPlatform.system}.freenet.overrideAttrs (old: {
+        nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.pkg-config ];
+        buildInputs = (old.buildInputs or [ ]) ++ [
+          pkgs.zstd
+          pkgs.rust-jemalloc-sys-unprefixed
+        ];
+      });
 
       # git-remote-freenet helper enables `git clone freenet::<key>/<name>`.
       # Not in nixpkgs; built from crates.io.
