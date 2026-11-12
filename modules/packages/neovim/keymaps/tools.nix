@@ -1,9 +1,9 @@
-{ self, ... }:
+{ ... }:
 {
   flake.modules.neovim.keymaps-tools =
-    { pkgs, ... }:
+    { pkgs, lib, ... }:
     let
-      omp = "${self.packages.${pkgs.stdenv.hostPlatform.system}.oh-my-pi}/bin/omp";
+      omp = lib.getExe pkgs.omp;
     in
     {
       config.vim.keymaps = [

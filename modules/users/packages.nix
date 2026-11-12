@@ -17,7 +17,6 @@
           btop
           lazygit
           herdr
-          oh-my-pi
           atuin
           tealdeer
           superfile
@@ -35,6 +34,7 @@
           # Applications
           tidal-hifi
           prismlauncher
+          omp # oh-my-pi agent CLI
           # WORKAROUND(deadlock-awslc): cargo hook forces system aws-lc — see WORKAROUNDS.md
           (deadlock-mod-manager.overrideAttrs (old: {
             buildInputs = (old.buildInputs or [ ]) ++ [ aws-lc ];

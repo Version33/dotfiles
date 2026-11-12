@@ -31,10 +31,6 @@ fail at build time. Master has already fixed the nixpkgs ones; the locked
 list `zstd` and `ca/cargo-outdated` lists `sqlite`. Delete `withLibs` and the
 three call sites.
 
-### omp-syslibs — `modules/packages/oh-my-pi.nix`
-Adds `oniguruma` + `zstd`.
-**Remove when** `pkgs/by-name/om/omp/package.nix` lists both.
-
 ### deadlock-awslc — `modules/users/packages.nix`
 Adds `aws-lc`.
 **Remove when** `pkgs/by-name/de/deadlock-mod-manager/package.nix` lists it.
