@@ -336,12 +336,6 @@
     }:
     let
       inherit (pkgs.stdenv.hostPlatform) system;
-      # WORKAROUND(rust-syslibs): cargo hook forces system zstd/sqlite; locked nixpkgs lacks buildInputs — see WORKAROUNDS.md
-      withLibs =
-        libs: pkg:
-        pkg.overrideAttrs (old: {
-          buildInputs = (old.buildInputs or [ ]) ++ libs;
-        });
     in
     {
       environment.systemPackages = [
@@ -359,14 +353,17 @@
         # Watch runner for the strict lints — `bacon`, `bacon nextest`
         bacon
 
-        (withLibs [ zstd ] dioxus-cli) # Dioxus (Rust UI framework)
+        # WORKAROUND(rust-syslibs): cargo hook forces system zstd; locked nixpkgs lacks buildInputs — see WORKAROUNDS.md
+        (dioxus-cli.overrideAttrs (old: {
+          buildInputs = (old.buildInputs or [ ]) ++ [ zstd ];
+        })) # Dioxus (Rust UI framework)
 
         # Task runner
         cargo-make
 
         # WASM tooling
         wasm-pack # Build Rust-generated WASM packages
-        (withLibs [ zstd ] trunk) # Rust WASM bundler
+        trunk # Rust WASM bundler
         binaryen # wasm-opt and other WASM tools
 
         # Cargo extensions
@@ -374,7 +371,7 @@
         cargo-audit # Audit Cargo.lock for security advisories
         cargo-watch # `cargo watch` — re-run on file changes
         cargo-nextest # Faster test runner with better output
-        (withLibs [ sqlite ] cargo-outdated) # Check for outdated dependencies
+        cargo-outdated # Check for outdated dependencies
 
         # Build dependencies
         pkg-config

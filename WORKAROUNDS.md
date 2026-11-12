@@ -4,16 +4,6 @@ Every site in `modules/` that papers over something broken or missing upstream
 carries a one-line `# WORKAROUND(<id>)` comment pointing here. Audit with
 `grep -rn 'WORKAROUND(' modules`. Last full check: 2026-11-12.
 
-## Removable now
-
-### lazygit-authorcolors — `modules/packages/lazygit.nix`
-lazygit moved `gui.authorColors` → `gui.theme.authorColors`; the pinned
-catppuccin theme rev predates that and lazygit can't write the migration into
-the store, so a `yq` step rewrites the key.
-**Fix landed**: catppuccin/lazygit main (`f50a7237`) already uses the new key.
-**Remove**: bump the URL rev + sha256, delete the `runCommand`, use
-`upstreamTheme` directly.
-
 ## Waiting on nixos-unstable to catch up with nixpkgs master
 
 nixpkgs' cargo setup hook now forces system libraries for several `*-sys`
@@ -25,11 +15,9 @@ fail at build time. Master has already fixed the nixpkgs ones; the locked
 `buildInputs` entries) once fixed, so removing them is cleanup, not urgency.
 
 ### rust-syslibs — `modules/dev/rust.nix`
-`withLibs` adds `zstd` to `dioxus-cli` and `trunk`, `sqlite` to
-`cargo-outdated`.
-**Remove when** the locked nixpkgs' `pkgs/by-name/{di/dioxus-cli,tr/trunk}`
-list `zstd` and `ca/cargo-outdated` lists `sqlite`. Delete `withLibs` and the
-three call sites.
+Adds `zstd` to `dioxus-cli`.
+**Remove when** the locked nixpkgs' `pkgs/by-name/di/dioxus-cli/package.nix`
+lists `zstd` (master already does, 2026-11-12).
 
 ### deadlock-awslc — `modules/users/packages.nix`
 Adds `aws-lc`.
