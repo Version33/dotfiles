@@ -2,9 +2,7 @@
   flake.modules.nixos.mouse =
     { pkgs, ... }:
     let
-      # libratbag 0.18 lacks G502 X Plus support entirely — the G502X_PLUS quirk
-      # (needed for profile layout and LEDs) was added post-release on master.
-      # Build from master commit that includes PR #1693 (wired) and #1728 (wireless).
+      # WORKAROUND(libratbag-g502xplus): 0.18 lacks G502 X Plus; master snapshot — see WORKAROUNDS.md
       libratbag-g502xplus = pkgs.libratbag.overrideAttrs (_old: {
         version = "0.18-unstable-2026-08-13";
         src = pkgs.fetchFromGitHub {
@@ -15,8 +13,7 @@
         };
       });
 
-      # piper 0.8 lacks the G502 X Plus SVG diagram and svg-lookup.ini entry.
-      # Both were added post-release on master (logitech-g502-x-plus.svg).
+      # WORKAROUND(piper-g502xplus): 0.8 lacks the G502 X Plus diagram; master snapshot — see WORKAROUNDS.md
       piper-g502xplus = pkgs.piper.overrideAttrs (_old: {
         version = "0.8-unstable-2026-08-12";
         src = pkgs.fetchFromGitHub {

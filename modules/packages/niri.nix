@@ -8,16 +8,12 @@
       ...
     }:
     let
-      # xwayland-satellite's X11->logical->X11 popup round-trip drops a pixel
-      # at fractional scale, making strict clients (JUCE popups in
-      # wine/yabridge, e.g. ShaperBox 3) dismiss instantly. Drop once merged
-      # upstream (draft issue in ~/Downloads).
+      # WORKAROUND(xwayland-satellite-popup): fractional-scale popup off-by-one, PR #458 — see WORKAROUNDS.md
       xwayland-satellite-patched = pkgs.xwayland-satellite.overrideAttrs (old: {
         patches = (old.patches or [ ]) ++ [ ./xwayland-satellite-popup-exact.patch ];
       });
 
-      # Mod+LMB drag on a fullscreen window only unfullscreens it (upstream
-      # design); refuse the move instead. Resize is already refused upstream.
+      # WORKAROUND(niri-no-fullscreen-move): preference patch, refuse Mod+LMB move on fullscreen — see WORKAROUNDS.md
       niri-patched = pkgs.niri.overrideAttrs (old: {
         patches = (old.patches or [ ]) ++ [ ./niri-no-fullscreen-move.patch ];
       });

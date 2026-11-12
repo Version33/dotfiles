@@ -8,6 +8,7 @@
       ...
     }:
     let
+      # WORKAROUND(tobiifree-zig): our nixpkgs zig is 0.16, driver needs 0.15 — see WORKAROUNDS.md
       tobiifreed = inputs.tobiifree.packages.x86_64-linux.tobiifreed.overrideAttrs (old: {
         nativeBuildInputs = [
           pkgs.zig_0_15
