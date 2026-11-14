@@ -426,13 +426,13 @@
     "orca-slicer": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-laUTSDlAvJ1FXcS18wTaLQiDccdTBNvaUkJwefDQAEs=",
+        "narHash": "sha256-KpBjSayiSfMfjPkrxhGB8OubUyDy78EBpnjomTdQdVI=",
         "type": "file",
-        "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/v2.5.0/OrcaSlicer_Linux_AppImage_Ubuntu2404_V2.5.0.AppImage"
+        "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/v2.5.1/OrcaSlicer_Linux_AppImage_Ubuntu2404_V2.5.1.AppImage"
       },
       "original": {
         "type": "file",
-        "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/v2.5.0/OrcaSlicer_Linux_AppImage_Ubuntu2404_V2.5.0.AppImage"
+        "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/v2.5.1/OrcaSlicer_Linux_AppImage_Ubuntu2404_V2.5.1.AppImage"
       }
     },
     "pre-commit": {

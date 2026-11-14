@@ -5,7 +5,7 @@
     let
       # Tagged release AppImage (first release with Bambu H2C/A2L support).
       # Bump: edit the URL in modules/flake.nix, then `nix flake update orca-slicer`.
-      version = "2.5.0-alpha";
+      version = "2.5.1";
 
       pname = "orca-slicer";
       src = "${inputs.orca-slicer}";
