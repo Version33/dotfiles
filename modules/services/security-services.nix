@@ -18,17 +18,17 @@
         fail2ban.enable = true;
         # open source antivirus https://www.clamav.net/
         clamav = {
-          daemon.enable = true;
+          daemon.enable = false;
           scanner = {
-            enable = true;
+            enable = false;
             interval = "Sat *-*-* 04:00:00";
           };
           fangfrisch = {
-            enable = true;
+            enable = false;
             interval = "daily";
           };
           updater = {
-            enable = true;
+            enable = false;
             interval = "daily"; # man systemd.time
             frequency = 12;
           };
