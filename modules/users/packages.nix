@@ -35,6 +35,7 @@
           tidal-hifi
           prismlauncher
           omp # oh-my-pi agent CLI
+          python3 # omp's `eval` py kernel needs a bare interpreter on PATH
           # WORKAROUND(deadlock-awslc): cargo hook forces system aws-lc — see WORKAROUNDS.md
           (deadlock-mod-manager.overrideAttrs (old: {
             buildInputs = (old.buildInputs or [ ]) ++ [ aws-lc ];
