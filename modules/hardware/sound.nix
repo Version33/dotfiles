@@ -17,8 +17,6 @@
         alsa.support32Bit = true;
         pulse.enable = true;
         wireplumber.enable = true;
-        # If you want to use JACK applications, uncomment this
-        jack.enable = true;
 
         # Low-latency quantum (128-256) for gaming; needs a fast CPU to avoid xruns.
         extraConfig.pipewire."92-low-latency" = {
@@ -70,6 +68,7 @@
       environment.systemPackages = with pkgs; [
         pamixer
         pavucontrol
+        pipewire.jack # `pw-jack <app>` for JACK-only clients
       ];
     };
 
