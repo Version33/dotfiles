@@ -223,11 +223,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1795102025,
-        "narHash": "sha256-V5FHYlnYwUOJKOiK7WLIQOzKYuynL1XAi+d/uh38/JU=",
+        "lastModified": 1795108593,
+        "narHash": "sha256-QwWDYQjbNVHpsS+SjhOaRZs067bv3OFHZpLgF5AkbeY=",
         "owner": "freenet",
         "repo": "freenet-core",
-        "rev": "6b11328db44e04238842dc9ae03494a80050dad3",
+        "rev": "48d67dfbddd5252df067b33a805d32bdf516c52f",
         "type": "github"
       },
       "original": {
