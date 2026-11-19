@@ -48,7 +48,7 @@ no newer upstream tags as of 2026-11-12.
 ## Waiting on project upstreams
 
 ### dux-shell-patches — `modules/packages/dux-shell.nix`
-Two source patches; **each breaks `patchPhase` when upstream touches the
+One source patch; **it breaks `patchPhase` when upstream touches the
 patched lines** (happened on the 2026-11-11 bump — regenerate with
 `sed 's/Name\.String()/Name.ValueString()/g'` + `diff -u` against the new
 source, or drop if obsolete).
@@ -56,11 +56,6 @@ source, or drop if obsolete).
   `Value.String()`, which keeps quotes, so wrapper-modules' `toKdl` output
   (`"binds"`, `"Mod+Q"`) never matches. Patch uses `ValueString()`.
   **Remove when** upstream no longer calls `Name.String()` there.
-- `qrcode-without-network-manager`: `router.go` rejects all `network.*` IPC
-  when the network backend failed to init (iwd without a WiFi device), which
-  also blocks the backend-free text QR generator.
-  **Remove when** `router.go` lets `network.generate-qrcode`/`delete-qrcode`
-  through with a nil `networkManager`.
 
 ### xwayland-satellite-popup — `modules/packages/niri.nix`
 Popup X11→logical→X11 round-trip drops a pixel at fractional scale; strict
@@ -77,15 +72,6 @@ is 0.16; the driver targets 0.15. We pin `zig_0_15`.
 `bwrap --die-with-parent` kills osu when DMS's short-lived spawn helper exits.
 **Remove when** DMS keeps the launcher alive, or nixpkgs `osu-lazer-bin`
 exposes `dieWithParent`.
-
-## Behavioural, no tracked fix
-
-### dhcpcd-noipv4ll — `modules/network/networking.nix`
-After resume the DHCP rebind times out, dhcpcd installs an IPv4LL address +
-default route, and when the real lease lands the kernel purges the fresh
-default route along with the 169.254 address → no IPv4 until replug.
-**Remove when** a resume without `noipv4ll` keeps IPv4 (retest after dhcpcd
-bumps).
 
 ## Deliberately not listed
 Pinned flake inputs in `modules/flake.nix` (evo-control rev, AppImage URLs,

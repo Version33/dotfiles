@@ -17,8 +17,6 @@
         kernelParams = [
           "quiet"
           # "usbcore.autosuspend=-1"
-          # Disable ASPM on r8169 to prevent RTL8126 NIC sleep/wake issues
-          "r8169.aspm=0"
         ];
       };
     };

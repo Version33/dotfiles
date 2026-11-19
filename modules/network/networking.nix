@@ -3,21 +3,17 @@
     networking = {
       hostName = "k0or";
 
+      # systemd-networkd owns L3 on every link (DHCP, RA, routes) through the
+      # stock 99-*-dhcp units; wired gets metric 1024, WiFi 1025. It is also
+      # the only non-NetworkManager source DMS reads wired state from.
+      useNetworkd = true;
+
+      # Association only; networkd does the rest. iwd needs the MT7925 driver
+      # loaded: DMS aborts its whole network backend (wired included) when
+      # iwd is on the bus without a device.
       wireless.iwd = {
         enable = true;
-        settings = {
-          General.EnableNetworkConfiguration = true;
-          Network.EnableIPv6 = true;
-          Scan.DisablePeriodicScan = true;
-        };
-      };
-
-      # iwd runs its own DHCP (EnableNetworkConfiguration); keep dhcpcd off wl*
-      # so the two clients don't race.
-      dhcpcd = {
-        denyInterfaces = [ "wl*" ];
-        # WORKAROUND(dhcpcd-noipv4ll): IPv4LL fallback after resume purges the real default route — see WORKAROUNDS.md
-        extraConfig = "noipv4ll";
+        settings.Scan.DisablePeriodicScan = true;
       };
     };
   };

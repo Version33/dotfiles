@@ -2,20 +2,15 @@
 
   flake.modules.nixos.dns = _: {
     # Enable Encrypted DNS
-    networking = {
-      dhcpcd.extraConfig = "nohook resolv.conf";
 
-      # If using NetworkManager:
-      networkmanager.dns = "none";
+    # If using systemd-networkd: it defaults resolved on, which would fight
+    # resolvconf below. Without resolved, networkd ignores DHCP-supplied DNS.
+    services.resolved.enable = false;
 
-      # If using resolvconf:
-      resolvconf = {
-        enable = true; # remember to delete /etc/resolv.conf if you disable `resolvconf`
-        useLocalResolver = true;
-      };
-
-      # If using iwd:
-      wireless.iwd.settings.Network.NameResolvingService = "none";
+    # Points /etc/resolv.conf at the local dnscrypt-proxy.
+    networking.resolvconf = {
+      enable = true; # remember to delete /etc/resolv.conf if you disable `resolvconf`
+      useLocalResolver = true;
     };
 
     services.dnscrypt-proxy = {
