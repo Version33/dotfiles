@@ -85,7 +85,7 @@
     # OrcaSlicer AppImage, pinned to a tagged release (Bambu H2C support).
     # Bump by editing the version in the URL, then `nix flake update orca-slicer`.
     orca-slicer = {
-      url = "file+https://github.com/OrcaSlicer/OrcaSlicer/releases/download/v2.5.1/OrcaSlicer_Linux_AppImage_Ubuntu2404_V2.5.1.AppImage";
+      url = "file+https://github.com/OrcaSlicer/OrcaSlicer/releases/download/v2.5.2/OrcaSlicer_Linux_AppImage_Ubuntu2404_V2.5.2.AppImage";
       flake = false;
     };
 
