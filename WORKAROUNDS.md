@@ -73,6 +73,13 @@ is 0.16; the driver targets 0.15. We pin `zig_0_15`.
 **Remove when** DMS keeps the launcher alive, or nixpkgs `osu-lazer-bin`
 exposes `dieWithParent`.
 
+### rtl8126-resume-retrain — `modules/network/networking.nix`
+After S3 resume the RTL8126 (r8169, 5 Gbps link) receives at ~40 Mbps while
+transmit is fine; physically re-plugging restores >900 Mbps. A oneshot on
+`suspend.target` waits for carrier, then runs `ethtool -r enp10s0`.
+Root cause not isolated (suspects: PHY retrain on resume, EEE at 5 Gbps).
+**Remove when** a wake with the unit disabled downloads at full speed.
+
 ## Deliberately not listed
 Pinned flake inputs in `modules/flake.nix` (evo-control rev, AppImage URLs,
 ableton-linux not following nixpkgs). Those are version pins with bump
