@@ -73,12 +73,16 @@ is 0.16; the driver targets 0.15. We pin `zig_0_15`.
 **Remove when** DMS keeps the launcher alive, or nixpkgs `osu-lazer-bin`
 exposes `dieWithParent`.
 
-### rtl8126-resume-retrain — `modules/network/networking.nix`
-After S3 resume the RTL8126 (r8169, 5 Gbps link) receives at ~40 Mbps while
-transmit is fine; physically re-plugging restores >900 Mbps. A oneshot on
-`suspend.target` waits for carrier, then runs `ethtool -r enp10s0`.
-Root cause not isolated (suspects: PHY retrain on resume, EEE at 5 Gbps).
-**Remove when** a wake with the unit disabled downloads at full speed.
+### rtl8126-forced-slave — `modules/network/networking.nix`
+On the 5 Gbps link to the BGW320-505 (fw 6.40.4) the RTL8126 (r8169) corrupts
+frames whenever it resolves as clock master: 66–72% ping loss, hardware
+`rx_errors` climbing; as slave the link is clean. Since 2026-11-16 the gateway
+no longer claims master, so every link training (resume, replug, `ethtool -r`)
+is a coin flip. A boot oneshot runs `ethtool -s enp10s0 master-slave
+forced-slave`. No link against a partner that also forces slave.
+**Remove when** `ethtool enp10s0` shows `master-slave status: slave` on ~10
+consecutive retrains with the unit disabled (gateway firmware change), or the
+NIC/gateway is replaced.
 
 ## Deliberately not listed
 Pinned flake inputs in `modules/flake.nix` (evo-control rev, AppImage URLs,

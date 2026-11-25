@@ -19,21 +19,23 @@
         };
       };
 
-      # WORKAROUND(rtl8126-resume-retrain): software re-plug of the wired link after resume — see WORKAROUNDS.md
-      systemd.services.rtl8126-resume-retrain = {
-        description = "Renegotiate the RTL8126 link after resume";
-        wantedBy = [ "suspend.target" ];
-        after = [ "suspend.target" ];
+      # WORKAROUND(rtl8126-forced-slave): link corrupts frames whenever the NIC resolves as clock master — see WORKAROUNDS.md
+      systemd.services.rtl8126-forced-slave = {
+        description = "Force the RTL8126 to clock slave";
+        wantedBy = [ "multi-user.target" ];
+        bindsTo = [ "sys-subsystem-net-devices-enp10s0.device" ];
+        after = [ "sys-subsystem-net-devices-enp10s0.device" ];
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = pkgs.writeShellScript "rtl8126-resume-retrain" ''
-            # Retrain only once the resume-time negotiation has finished;
-            # restarting it mid-flight is what resume already does.
-            for _ in $(${pkgs.coreutils}/bin/seq 20); do
-              [ "$(${pkgs.coreutils}/bin/cat /sys/class/net/enp10s0/carrier 2>/dev/null)" = 1 ] && break
+          RemainAfterExit = true;
+          ExecStart = pkgs.writeShellScript "rtl8126-forced-slave" ''
+            # The PHY only attaches once networkd brings the link up; until
+            # then the setting is rejected.
+            for _ in $(${pkgs.coreutils}/bin/seq 60); do
+              ${lib.getExe pkgs.ethtool} -s enp10s0 master-slave forced-slave 2>/dev/null && exit 0
               ${pkgs.coreutils}/bin/sleep 0.5
             done
-            exec ${lib.getExe pkgs.ethtool} -r enp10s0
+            exit 1
           '';
         };
       };
