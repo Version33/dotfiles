@@ -4,7 +4,7 @@
     { pkgs, ... }:
     let
       # Tagged release AppImage (first release with Bambu H2C/A2L support).
-      # Bump: edit the URL in modules/flake.nix, then `nix flake update orca-slicer`.
+      # Bump: edit the URL in .tack/pins.toml, then `tack update orca-slicer`.
       version = "2.5.2";
 
       pname = "orca-slicer";

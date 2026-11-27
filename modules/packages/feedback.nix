@@ -6,8 +6,8 @@
       pname = "feedback";
 
       # `nightly` is a rolling GitHub tag (same asset URL re-uploaded); the
-      # file+https input pins a snapshot in flake.lock. Bump with
-      # `nix flake update feedback-nightly`.
+      # fixed tack pin locks a snapshot by hash. Bump with
+      # `tack update --accept feedback-nightly`.
       version = "0.3.0-nightly";
 
       src = "${inputs.feedback-nightly}";

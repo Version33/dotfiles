@@ -1,0 +1,109 @@
+# tack pins. edit by hand or with tack add / rm
+# nix reads pins.lock.json; this file drives `tack update`
+#
+# The one input that is NOT here is hueforge-bin: a local single file can't be
+# a tack pin, so it stays a native flake input in flake.nix (locked in flake.lock).
+
+# Inputs with these names, at any depth, follow our pin of that name.
+[all_follow]
+nixpkgs           = ["nixpkgs-lib"]
+fenix             = "fenix"
+# No top-level pin for these two: `tack update` locks the newest copy found
+# among the pins' own lockfiles and shares it.
+rust-analyzer-src = "rust-analyzer"
+rust-overlay      = "rust-overlay"
+
+# Dev-only inputs of upstream flakes; never fetched, resolve to null.
+[omit_inputs]
+names = ["flake-compat", "pre-commit"]
+
+# --- Core ---
+
+# Core system packages
+[inputs.nixpkgs]
+url = "github:NixOS/nixpkgs/nixos-unstable"
+
+# Module system for flakes
+[inputs.flake-parts]
+url = "github:hercules-ci/flake-parts"
+
+# Automatic module discovery
+[inputs.import-tree]
+url = "github:vic/import-tree"
+
+# Program wrappers
+[inputs.wrapper-modules]
+url = "github:BirdeeHub/nix-wrapper-modules"
+
+[inputs.treefmt-nix]
+url = "github:numtide/treefmt-nix"
+
+# tack itself, following release tags. nixpkgs' copy lags behind and the CLI
+# must match the vendored resolver; after a bump run `tack init --resolver`.
+[inputs.tack]
+url = "github:manic-systems/tack"
+tag = "v{version}"
+
+# Security (used by modules/boot/_secure-boot.nix, currently disabled)
+[inputs.lanzaboote]
+url = "github:nix-community/lanzaboote"
+
+# --- Development ---
+
+[inputs.fenix]
+url = "github:nix-community/fenix"
+
+[inputs.nvf]
+url = "github:NotAShelf/nvf"
+
+# Eye tracking (used by modules/hardware/_tobiifree.nix, currently disabled)
+[inputs.tobiifree]
+url = "github:Aetherall/tobiifree"
+
+# Freenet peer (freenet.org). Follows our nixpkgs: our rustc (>=1.97) is newer
+# than what the build needs (>=1.94).
+[inputs.freenet]
+url = "github:freenet/freenet-core"
+
+# --- Audio ---
+
+[inputs.audio-nix]
+url = "github:polygon/audio.nix"
+
+# Ableton Live runtime (patched Wine + PipeASIO + Link). Tracks main.
+# Deliberately NOT following our nixpkgs: the input carries a heavy
+# patched-Wine build, so keep upstream's pinned nixpkgs and only rebuild
+# when the project itself updates.
+[inputs.ableton-linux]
+url            = "github:shibco/ableton-linux"
+exclude_follow = ["nixpkgs"]
+
+# EVO 8 audio interface control. Pinned to a specific rev: this builds an
+# out-of-tree kernel module (evo_raw) via a brittle Makefile patch. Bump
+# deliberately by editing the rev, then `tack update evo-control`.
+[inputs.evo-control]
+url  = "github:briannadon/evo-control?rev=17043c73fa48378d130f9d85b14d687f886f2881"
+type = "fetch"
+
+# Septabee DAW: packaged + nixosModule (cap_sys_nice wrappers) upstream.
+# Fetches the 7z from septabee.nekoweb.org, so nothing lives outside git.
+[inputs.septabee]
+url = "github:Ap6661/septabee-flake"
+
+# --- AppImages ---
+
+# OrcaSlicer AppImage, pinned to a tagged release (Bambu H2C support).
+# Bump by editing the version in the URL (and in modules/packages/orca-slicer.nix),
+# then `tack update orca-slicer`.
+[inputs.orca-slicer]
+url    = "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/v2.5.2/OrcaSlicer_Linux_AppImage_Ubuntu2404_V2.5.2.AppImage"
+type   = "fixed"
+unpack = "file"
+
+# fee[dB]ack nightly AppImage. `nightly` is a rolling tag: upstream re-uploads
+# the same asset URL on every build; the lock pins a snapshot by hash. A plain
+# `tack update` refuses to move it; bump with `tack update --accept feedback-nightly`.
+[inputs.feedback-nightly]
+url    = "https://github.com/got-feedback/feedBack-desktop/releases/download/nightly/feedback-0.3.0-x86_64.AppImage"
+type   = "fixed"
+unpack = "file"

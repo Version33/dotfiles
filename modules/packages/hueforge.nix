@@ -6,8 +6,9 @@
       pname = "hueforge";
 
       # Proprietary paid download (shop.thehueforge.com), not redistributable, so
-      # the AppImage lives outside git as a `file+file://` input. To update: replace
-      # it, bump version + URL in modules/flake.nix, then `nix run .#write-flake && nix flake lock`.
+      # the AppImage lives outside git as a native `file+file://` flake input. To
+      # update: replace it, bump version + URL in flake.nix, then
+      # `nix flake update hueforge-bin`.
       version = "0.9.4.3";
 
       src = "${inputs.hueforge-bin}";

@@ -20,13 +20,17 @@ boot:
 build:
     nh os build .
 
-# Update flake inputs, switch to new config, and commit flake.lock
+# Update tack pins, switch to new config, and commit the lock
 update:
-    nix flake update && if git diff --quiet flake.lock; then echo "No updates."; else just switch && git commit flake.lock -m "chore(lock): $(date -I) input bump"; fi
+    if t=$(gh auth token 2>/dev/null); then export GITHUB_TOKEN=$t; fi; tack update && if git diff --quiet .tack; then echo "No updates."; else just switch && git commit .tack -m "chore(lock): $(date -I) input bump"; fi
 
-# Update specific input (e.g., just update-input nixpkgs)
+# Update specific pin (e.g., just update-input nixpkgs)
 update-input INPUT:
-    nix flake lock --update-input {{INPUT}}
+    tack update {{INPUT}}
+
+# Show which pins have moved upstream, without touching the lock
+look:
+    tack look
 
 # Build and test the new configuration without making it default
 test:
@@ -56,9 +60,9 @@ flake-check:
 flake-check-plain:
     nix flake check
 
-# Show flake metadata
-flake-info:
-    nix flake metadata
+# Show locked pins and their transitive inputs
+pins:
+    tack tree
 
 # Show what would be built/downloaded
 dry-run:

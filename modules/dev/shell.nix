@@ -1,7 +1,7 @@
 {
   # `nix develop` — Nix authoring tools, not installed system-wide.
   perSystem =
-    { pkgs, ... }:
+    { pkgs, inputs', ... }:
     {
       devShells.default = pkgs.mkShell {
         packages = with pkgs; [
@@ -12,6 +12,7 @@
           nix-tree # Visualize dependency tree
           nix-output-monitor # Better build output (alias: nom)
           just # Command runner (for justfile)
+          inputs'.tack.packages.tack # Input pinning (.tack/); tracks upstream releases
         ];
       };
     };

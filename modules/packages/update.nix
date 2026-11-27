@@ -1,16 +1,24 @@
 {
-  # `nix flake update` has no hook mechanism
+  # `tack update` has no hook mechanism
   perSystem =
-    { pkgs, self', ... }:
+    {
+      pkgs,
+      self',
+      inputs',
+      ...
+    }:
     {
       packages.update = pkgs.writeShellApplication {
         name = "update";
-        runtimeInputs = [ pkgs.nix ];
+        runtimeInputs = [
+          pkgs.nix
+          inputs'.tack.packages.tack
+        ];
         text = ''
           if token=$(gh auth token 2>/dev/null); then
-            export NIX_CONFIG="access-tokens = github.com=$token"
+            export GITHUB_TOKEN="$token"
           fi
-          nix flake update
+          tack update
           ${self'.packages.godot-dev-update}/bin/godot-dev-update
         '';
       };

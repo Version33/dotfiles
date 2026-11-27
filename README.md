@@ -12,6 +12,6 @@ sudo nixos-rebuild switch --flake .#k0or
 # Build without switching (plain output)
 just build
 
-# Update flake inputs, switch to new config, and commit flake.lock
+# Update tack pins (.tack/), switch to new config, and commit the lock
 just update
 ```

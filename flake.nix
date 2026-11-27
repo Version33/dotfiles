@@ -1,68 +1,28 @@
-# DO-NOT-EDIT. This file was auto-generated using github:denful/flake-file.
-# Use `nix run .#write-flake` to regenerate it.
 {
-  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
-
-  inputs = {
-    ableton-linux.url = "github:shibco/ableton-linux";
-    audio-nix = {
-      url = "github:polygon/audio.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    evo-control = {
-      url = "github:briannadon/evo-control?rev=17043c73fa48378d130f9d85b14d687f886f2881";
-      flake = false;
-    };
-    feedback-nightly = {
-      url = "file+https://github.com/got-feedback/feedBack-desktop/releases/download/nightly/feedback-0.3.0-x86_64.AppImage";
-      flake = false;
-    };
-    fenix = {
-      url = "github:nix-community/fenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    flake-file.url = "github:vic/flake-file";
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs-lib.follows = "nixpkgs";
-    };
-    freenet = {
-      url = "github:freenet/freenet-core";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    hueforge-bin = {
-      url = "file+file:///home/vee/Proprietary/hueforge/HueForge_Linux_v0.9.4.3.AppImage";
-      flake = false;
-    };
-    import-tree.url = "github:vic/import-tree";
-    lanzaboote = {
-      url = "github:nix-community/lanzaboote";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nvf = {
-      url = "github:NotAShelf/nvf";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    orca-slicer = {
-      url = "file+https://github.com/OrcaSlicer/OrcaSlicer/releases/download/v2.5.2/OrcaSlicer_Linux_AppImage_Ubuntu2404_V2.5.2.AppImage";
-      flake = false;
-    };
-    septabee = {
-      url = "github:Ap6661/septabee-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    tobiifree = {
-      url = "github:Aetherall/tobiifree";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    treefmt-nix = {
-      url = "github:numtide/treefmt-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    wrapper-modules = {
-      url = "github:BirdeeHub/nix-wrapper-modules";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+  # Inputs are tack pins (.tack/pins.toml, locked in .tack/pins.lock.json);
+  # manage them with `tack`, not `nix flake update`.
+  #
+  # HueForge is the exception: proprietary, paid, account-gated download from
+  # shop.thehueforge.com. Not redistributable, so the AppImage stays outside git
+  # at a machine-local path. tack can't pin a local single file, so it remains
+  # a native flake input (locked in flake.lock). Bump by dropping the new
+  # AppImage in place, updating this URL, then `nix flake update hueforge-bin`.
+  inputs.hueforge-bin = {
+    url = "file+file:///home/vee/Proprietary/hueforge/HueForge_Linux_v0.9.4.3.AppImage";
+    flake = false;
   };
+
+  outputs =
+    { self, hueforge-bin, ... }:
+    let
+      inputs = import ./.tack // {
+        inherit hueforge-bin;
+        # flake-parts builds `inputs'` from `self.inputs`, which Nix only fills
+        # with native inputs.
+        self = self // {
+          inherit inputs;
+        };
+      };
+    in
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 }

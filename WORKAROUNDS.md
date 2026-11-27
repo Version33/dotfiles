@@ -28,7 +28,7 @@ freenet-core's own `package.nix` lacks `pkg-config`, `zstd` and jemalloc.
 Uses `rust-jemalloc-sys-unprefixed` because the workspace enables
 `unprefixed_malloc_on_supported_platforms` (prefixed → undefined `mallocx`).
 **Remove when** upstream `package.nix` declares these (check after
-`nix flake update freenet`). Not fixed upstream as of 2026-11-12.
+`tack update freenet`). Not fixed upstream as of 2026-11-12.
 
 ## Waiting on nixpkgs
 
@@ -85,7 +85,7 @@ consecutive retrains with the unit disabled (gateway firmware change), or the
 NIC/gateway is replaced.
 
 ## Deliberately not listed
-Pinned flake inputs in `modules/flake.nix` (evo-control rev, AppImage URLs,
+Pinned inputs in `.tack/pins.toml` (evo-control rev, AppImage URLs,
 ableton-linux not following nixpkgs). Those are version pins with bump
 instructions, not fixes for broken upstream.
 

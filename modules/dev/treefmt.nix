@@ -11,7 +11,10 @@
         projectRootFile = "flake.nix";
         programs.nixfmt.enable = true;
         programs.nixfmt.package = pkgs.nixfmt;
-        settings.excludes = [ "hardware-configuration.nix" ];
+        settings.excludes = [
+          "hardware-configuration.nix"
+          ".tack/default.nix" # tack-managed resolver; reformatting it blocks `tack init --resolver`
+        ];
       };
     };
 }
